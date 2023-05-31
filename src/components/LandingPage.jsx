@@ -163,7 +163,7 @@ const LandingPage = () => {
 
   return (
     <div className="flex flex-row h-screen w-screen bg-orange-300">
-      <div className="xl:w-1/2 flex flex-col justify-center px-8 pt-16 xl:pt-0 bg-blue-300">
+      <div className="xl:w-1/2 flex flex-col justify-center px-8 pt-16 xl:pt-0">
         <div>
           <h1 className="text-black text-bold text-4xl mb-8 font-Crimson leading-none uppercase items-center mt-20">
             World Wonders
@@ -184,7 +184,7 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-      <div className="h-screen xl:w-1/2 bg-red-300">
+      <div className="h-screen xl:w-1/2">
         <canvas ref={canvasContainerRef}></canvas>
       </div>
     </div>
