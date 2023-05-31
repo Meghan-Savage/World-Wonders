@@ -16,8 +16,8 @@ const LandingPage = () => {
   useEffect(() => {
     const canvas = canvasContainerRef.current;
     const sizes = {
-      width: window.innerWidth,
-      height: window.innerHeight,
+      width: canvas.clientWidth,
+      height: canvas.clientHeight,
     };
 
     // Scene
@@ -143,14 +143,14 @@ const LandingPage = () => {
 
     // Resize handler
     const handleResize = () => {
-      sizes.width = window.innerWidth;
+      sizes.width = window.innerWidth / 2;
       sizes.height = window.innerHeight;
 
       camera.aspect = sizes.width / sizes.height;
       camera.updateProjectionMatrix();
 
       renderer.setSize(sizes.width, sizes.height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setPixelRatio(window.devicePixelRatio);
     };
 
     window.addEventListener("resize", handleResize);
@@ -162,16 +162,31 @@ const LandingPage = () => {
   }, []);
 
   return (
-    <div className="flex flex-row">
-      <div>
-        <h1 className="title">World Wonders</h1>
-        <p className="text-black mb-8 font-Lato-400">
-          World Wonders presents a delightful fusion of exquisite products and
-          immersive cultural experiences, inviting you to embark on a
-          captivating voyage into the very essence of each civilization.
-        </p>
+    <div className="flex flex-row h-screen w-screen bg-orange-300">
+      <div className="xl:w-1/2 flex flex-col justify-center px-8 pt-16 xl:pt-0 bg-blue-300">
+        <div>
+          <h1 className="text-black text-bold text-4xl mb-8 font-Crimson leading-none uppercase items-center mt-20">
+            World Wonders
+          </h1>
+          <p className="text-black mb-8 font-Lato-400">
+            World Wonders presents a delightful fusion of exquisite products and
+            immersive cultural experiences, inviting you to embark on a
+            captivating voyage into the very essence of each civilization.
+          </p>
+
+          <div>
+            <a
+              href=""
+              className="text-white bg-blue-600 hover:text-black inline-block px-10 py-4 rounded-full text-xl font-Lato"
+            >
+              Learn More
+            </a>
+          </div>
+        </div>
       </div>
-      <canvas className="bg-orange-300" ref={canvasContainerRef}></canvas>
+      <div className="h-screen xl:w-1/2 bg-red-300">
+        <canvas ref={canvasContainerRef}></canvas>
+      </div>
     </div>
   );
 };
