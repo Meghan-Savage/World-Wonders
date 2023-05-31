@@ -184,8 +184,8 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-      <div className="h-screen xl:w-1/2">
-        <canvas ref={canvasContainerRef}></canvas>
+      <div className="h-full w-1/2">
+        <canvas className="h-full w-full" ref={canvasContainerRef}></canvas>
       </div>
     </div>
   );
