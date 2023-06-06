@@ -1,16 +1,10 @@
 import { defineConfig } from "vite";
-<<<<<<< HEAD
 import vitePluginString from "vite-plugin-string";
-=======
->>>>>>> firebase-cul-42
 import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-<<<<<<< HEAD
   plugins: [react(), vitePluginString()],
-=======
-  plugins: [react()],
   define: {
     "process.env.VITE_FIREBASE_API_KEY": JSON.stringify(
       process.env.VITE_FIREBASE_API_KEY
@@ -25,5 +19,4 @@ export default defineConfig({
       process.env.VITE_FIREBASE_AUTH_DOMAIN
     ),
   },
->>>>>>> firebase-cul-42
 });
