@@ -16,7 +16,7 @@ const Products = () => {
     <>
     <NavBar />
     <section className='py-16'>
-      <div className="container mx-auto">
+      <div className="container mx-auto bg-red-100">
         <div className='grid'>
           {filteredProducts.map(product => {
             return <div key={product.id}>{product.title}</div>  
