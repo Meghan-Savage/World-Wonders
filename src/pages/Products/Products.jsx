@@ -3,7 +3,8 @@ import { ProductContext } from '../../context/ProductContext/ProductContext.jsx'
 import { Outlet } from "react-router-dom";
 import Footer from "../../Components/footer/Footer.jsx"
 import NavBar from '../../Components/navBar/NavBar.jsx';
-import Profile from '../../Components/profile/profile.jsx';
+import Product from '../../Components/product/Product.jsx';
+//import Profile from '../../Components/profile/profile.jsx';
 
 const Products = () => {
   const {products} = useContext(ProductContext);
@@ -11,15 +12,16 @@ const Products = () => {
   const filteredProducts = products.filter(item => {
     return item.category === "men's clothing" || item.category === "women's clothing"
   })
+  console.log('filteredProducts', filteredProducts)
 
   return (
     <>
     <NavBar />
     <section className='py-16'>
-      <div className="container mx-auto bg-red-100">
-        <div className='grid'>
+      <div className="container mx-auto">
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-[30px] max-w-sm mx-auto md:max-w-none md:mx-0' >
           {filteredProducts.map(product => {
-            return <div key={product.id}>{product.title}</div>  
+            return <Product product={product} key={product.id} />  
           })}
         </div>
       </div>
