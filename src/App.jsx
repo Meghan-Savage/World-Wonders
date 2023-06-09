@@ -6,7 +6,6 @@ import Home from "./components/Home.jsx";
 import LandingPage from "./components/LandingPage.jsx";
 
 function App() {
- 
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
