@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import Products from './pages/Products/Products.jsx'
+import AllProducts from "./pages/allProducts/AllProducts.jsx"
 import App from './App.jsx'
 import './index.css'
 import ProductProvider from './context/ProductContext/ProductContext.jsx'
