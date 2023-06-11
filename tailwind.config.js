@@ -1,8 +1,18 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        scrollBanner: "scrollBanner 40s linear infinite",
+      },
+      keyframes: {
+        scrollBanner: {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+      },
+    },
   },
   plugins: [],
 };
