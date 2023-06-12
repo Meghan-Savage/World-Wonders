@@ -1,31 +1,39 @@
 import React from 'react'
-import images from "../images/globe.jpg"
+import { Link } from "react-router-dom";
 
 export default function RegistrationForm() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full">
-        <div className="hidden sm:block">
-           <img className="w=full h-full object-cover" src={images} alt=""/>
-        </div>
-
-        <div className="bg-gray-800 flex flex-col justify-center">
-            <form className="max-w-[400px] w-full mx-auto bg-gray-900 p-8 px-8 rounded-lg">
-                <h1 className="text-4xl text-white font-bold text-center" >SIGN IN</h1>
-                <div className="flex flex-col text-gray-400 py-2">
-                    <label>User Name</label>
-                    <input className="rounded-lg bg-gray-700 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 
-                    focus:outline-none"type="text"/>
-                </div>
-                <div className="flex flex-col text-gray-400 py-2">
-                    <label>Password</label>
-                    <input className= "rounded-lg bg-gray-700 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none"type="password"/>
-                </div>
-                <div>
-                    <button className="w-full my-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/80 hover:shadow-teal-500/40 text-white font-semibold rounded-lg">Sign In</button>
-                </div>
-            </form>
-
-        </div>
+    <div className="bg-slate-100 px-60 py-40 rounded-3xl border-2 border-gray-200">
+    <h1 className="text-6xl font-semibold">Create an Account.</h1>
+    <p className="font-bold text-lg text-gray-600 mt-4">Please enter your details.</p>
+    <div className="mt-8">
+      <div>
+          <label className="text-2xl font-medium font-bold">Full Name</label>
+          <input className="w-full border-2 border-gray-300 rounded-xl p-4 mt-2 bg-transparent" type="text" placeholder="Enter your Name"/>
+      </div>
     </div>
+
+    <div>
+          <label className="text-2xl font-medium font-bold">Email</label>
+          <input className="w-full border-2 border-gray-300 rounded-xl p-4 mt-2 bg-transparent" type="password" placeholder="Enter your email"/>
+      </div>
+      <div>
+          <label className="text-2xl font-medium font-bold">password</label>
+          <input className="w-full border-2 border-gray-300 rounded-xl p-4 mt-2 bg-transparent" type="password" placeholder="Enter your password!"/>
+      </div>
+      <div>
+          <label className="text-2xl font-medium font-bold">Confirm password</label>
+          <input className="w-full border-2 border-gray-300 rounded-xl p-4 mt-2 bg-transparent"  type="password" placeholder="Confirm password"/>
+      </div>
+
+      <div className="mt-8 flex flex-col gap-y-4">
+          <button className="active: scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl bg-blue-700 border-gray-400 big-violet-500 text-blue text-4xl font-bold">Submit</button>
+      </div>
+      <div className="mt-8 flex justify-center items-center">
+          <p className="font-bold text-1xl">Already have an account?</p>
+          <button className="text-violet-500 text-2xl font-bold ml-2"><Link to="/login/signin">Login!</Link></button>
+      </div>
+  </div>
   )
 }
+
