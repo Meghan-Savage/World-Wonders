@@ -14,16 +14,17 @@ const LandingPage = () => {
   const canvasContainerRef = useRef(null);
 
   useEffect(() => {
+    const raycaster = new THREE.Raycaster();
+
+    //const intersectedBoxes = [];
     const canvas = canvasContainerRef.current;
     const sizes = {
       width: canvas.clientWidth,
       height: canvas.clientHeight,
     };
 
-    // Scene
     const scene = new THREE.Scene();
 
-    // Camera
     const camera = new THREE.PerspectiveCamera(
       75,
       sizes.width / sizes.height,
@@ -67,12 +68,15 @@ const LandingPage = () => {
       blending: THREE.AdditiveBlending,
       side: THREE.BackSide,
     });
+
     const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
-    atmosphere.scale.set(1.1, 1.1, 1.1);
+    atmosphere.scale.set(0.1, 0.1, 0.1);
+
     scene.add(atmosphere);
 
     // Group
     const group = new THREE.Group();
+    group.add(sphere);
     scene.add(group);
 
     // Create box
@@ -103,6 +107,16 @@ const LandingPage = () => {
       box.geometry.applyMatrix4(
         new THREE.Matrix4().makeTranslation(0, 0, -0.4)
       );
+      group.add(box);
+      gsap.to(box.scale, {
+        z: 1.4,
+        duration: 1.5,
+        yoyo: true,
+        repeat: -1,
+        ease: "linear",
+
+        delay: Math.random(),
+      });
 
       // Tooltip
       const tooltipElement = document.createElement("div");
@@ -122,6 +136,102 @@ const LandingPage = () => {
       });
     }
 
+    function createBoxes(countries) {
+      countries.forEach((country) => {
+        const scale = country.population / 1000000000;
+        const lat = country.latlng[0];
+        const lng = country.latlng[1];
+        const zScale = 0.8 * scale;
+        const box = new THREE.Mesh(
+          new THREE.BoxGeometry(
+            Math.max(0.1, 0.1 * scale),
+            Math.max(0.1, 0.1 * scale),
+
+            Math.max(zScale, 0.4 * Math.random())
+          ),
+          new THREE.MeshBasicMaterial({
+            color: "#3BF7FF",
+            opacity: 0.4,
+            transparent: true,
+          })
+        );
+
+        //canada 56.1304° N, negative 106.3468° W
+        //africa mid point sudan 12.8628, 30.2176
+
+        //india 20.5937° N, 78.9629° E
+        //japan 36.2048° N, 138.2529° E
+
+        //southern hemisphere is always negative
+        const latitude = (lat / 180) * Math.PI;
+        const longitude = (lng / 180) * Math.PI;
+        const radius = 5;
+
+        const x = radius * Math.cos(latitude) * Math.sin(longitude);
+        const y = radius * Math.sin(latitude);
+        const z = radius * Math.cos(latitude) * Math.cos(longitude);
+
+        box.position.x = x;
+        box.position.y = y;
+        box.position.z = z;
+
+        box.lookAt(0, 0, 0);
+        box.geometry.applyMatrix4(
+          new THREE.Matrix4().makeTranslation(0, 0, -zScale / 2)
+        );
+
+        group.add(box);
+
+        gsap.to(box.scale, {
+          z: 1.4,
+          duration: 1.5,
+          yoyo: true,
+          repeat: -1,
+          ease: "linear",
+          delay: Math.random(),
+        });
+        box.country = country.name;
+        box.population = new Intl.NumberFormat().format(country.population);
+      });
+    }
+
+    createBoxes(countries);
+
+    createBox({
+      lat: 56.1304,
+      lng: -106.3468,
+      country: "Canada",
+      population: "39566248",
+      color: "#8512ed",
+    });
+    createBox({
+      lat: 12.8628,
+      lng: 30.2176,
+      country: "Africa",
+      population: "1433266542",
+      color: "#8512ed",
+    });
+
+    createBox({
+      lat: 36.2048,
+      lng: 138.2529,
+      country: "Japan",
+      population: "125361589",
+      color: "#8512ed",
+    });
+    sphere.rotation.y = -Math.PI / 2;
+    group.rotation.offset = {
+      x: 0,
+      y: 0,
+    };
+    const mouse = {
+      x: undefined,
+      y: undefined,
+      down: false,
+      xPrev: undefined,
+      yPrev: undefined,
+    };
+
     // Add boxes for countries
     countries.forEach((countryData) => {
       const { lat, lng, country, population, color } = countryData;
@@ -132,16 +242,49 @@ const LandingPage = () => {
     const animate = () => {
       requestAnimationFrame(animate);
 
-      // Update controls
-      controls.update();
+      raycaster.setFromCamera(mouse, camera);
+      renderer.render(scene, camera);
+      scene.rotation.y += 0.011;
 
-      // Render
+      const intersects = raycaster.intersectObjects(
+        group.children.filter((mesh) => {
+          return mesh.geometry.type === "BoxGeometry";
+        })
+      );
+
+      group.children.forEach((mesh) => {
+        mesh.material.opacity = 0.4;
+      });
+
+      intersects.forEach((intersect) => {
+        intersect.object.material.opacity = 1;
+      });
+
+      if (mouse.down) {
+        event.preventDefault();
+        const deltaX = mouse.clientX - mouse.xPrev;
+        const deltaY = mouse.clientY - mouse.yPrev;
+
+        group.rotation.offset.x += deltaY * 0.005;
+        group.rotation.offset.y += deltaX * 0.005;
+
+        gsap.to(group.rotation, {
+          y: group.rotation.offset.y,
+          x: group.rotation.offset.x,
+          duration: 2,
+        });
+
+        mouse.xPrev = mouse.clientX;
+        mouse.yPrev = mouse.clientY;
+      }
+
+      //controls.update();
+
       renderer.render(scene, camera);
     };
 
     animate();
 
-    // Resize handler
     const handleResize = () => {
       sizes.width = window.innerWidth / 2;
       sizes.height = window.innerHeight;
