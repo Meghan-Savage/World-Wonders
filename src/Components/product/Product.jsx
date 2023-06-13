@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { resizeFile } from 'react-image-file-resizer'; 
 import { BsPlus, BsEyeFill } from 'react-icons/bs';
 import './Product.css';
 
