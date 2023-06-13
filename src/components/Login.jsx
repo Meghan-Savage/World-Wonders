@@ -1,6 +1,6 @@
 import React from 'react'
 import { Outlet } from "react-router-dom";
-import images from "../images/globe.jpg"
+
 
 function Login() {
   return (
