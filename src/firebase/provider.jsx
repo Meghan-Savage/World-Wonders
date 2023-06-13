@@ -19,18 +19,10 @@ const firebaseConfig = {
   measurementId: "G-5VFSVY33LR",
 };
 
-console.log("firebaseConfig", firebaseConfig);
-
 const app = initializeApp(firebaseConfig);
-console.log("APP", app);
-
 const auth = getAuth(app);
-console.log("auth", auth);
-
-const db = getFirestore(app);
-console.log("db", db);
+export const db = getFirestore(app);
 const storage = getStorage(app);
-console.log("storage", storage);
 
 export const FirebaseContext = createContext();
 

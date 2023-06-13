@@ -1,15 +1,21 @@
 import React, {createContext, useEffect, useState} from 'react'
+import { db } from "../../firebase/provider.jsx"
+import { getDocs, collection } from "firebase/firestore";
 
 export const ProductContext = createContext();
 
 const ProductProvider = ({children}) => {
     const [products, setProducts] = useState([]);
+    const productsCollectionRef = collection(db, "products");
 
     useEffect (()=> {
         const fetchProducts = async ()=> {
-            const response = await fetch('https://fakestoreapi.com/products');
-            const data = await response.json();
-            setProducts(data);
+            try {
+                const data = await getDocs(productsCollectionRef);
+                console.log('data', data)
+            } catch (err) {
+                console.error(err);
+            }
         }
         fetchProducts();
     }, [])
