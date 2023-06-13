@@ -1,15 +1,22 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import AllProducts from "./pages/allProducts/AllProducts.jsx"
-import App from './App.jsx'
-import './index.css'
-import ProductProvider from './context/ProductContext/ProductContext.jsx'
+import React from "react";
+import FirebaseProvider from "./firebase/provider.jsx";
+import { AuthProvider } from "./firebase/authentication.jsx";
+import ProductProvider from "./context/ProductContext/ProductContext.jsx"
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App.jsx";
+import "./index.css";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <ProductProvider>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </ProductProvider>
-
-)
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <FirebaseProvider>
+      <AuthProvider>  
+        <ProductProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ProductProvider>
+      </AuthProvider>
+    </FirebaseProvider>
+  </React.StrictMode>
+);
