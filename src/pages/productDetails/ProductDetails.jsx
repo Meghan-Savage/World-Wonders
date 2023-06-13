@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { CartContext } from '../../context/CartContext/CartContext.jsx';
 import { ProductContext } from '../../context/ProductContext/ProductContext.jsx';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
@@ -9,6 +10,7 @@ function ProductDetails() {
   const { products } = useContext(ProductContext);
 
   const product = products.find((item) => item.id === id);
+  const {addToCart} = useContext(CartContext)
 
   if (!product) {
     return <section className='h-screen flex justify-center items-center'>Loading...</section>;
