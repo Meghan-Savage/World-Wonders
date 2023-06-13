@@ -8,32 +8,27 @@ function ProductDetails() {
   const { id } = useParams();
   const { products } = useContext(ProductContext);
 
-  const product = products.find((item) => item.id === parseInt(id));
+  const product = products.find((item) => item.id === id);
 
   if (!product) {
     return <section className='h-screen flex justify-center items-center'>Loading...</section>;
   }
 
-  const { title, price, description, image } = product;
+  const { title, price, description, image, image2, image3, image4, image5 } = product;
 
   const [carouselImages, setCarouselImages] = useState([]);
 
   useEffect(() => {
-    if (Array.isArray(image) && image.length > 0) {
-      const carouselImages = [image[0], image[0], image[0], image[0]];
-      if (image.length > 1) {
-        for (let i = 1; i < Math.min(image.length, 4); i++) {
-          carouselImages[i] = image[i];
-        }
-      }
-
-      setCarouselImages(carouselImages);
-    } else if (image) {
-      setCarouselImages([image, image, image, image]);
-    } else {
-      setCarouselImages([]);
-    }
-  }, [image]);
+    const carouselImages = [];
+    if (image) carouselImages.push(image);
+    if (image2) carouselImages.push(image2);
+    if (image3) carouselImages.push(image3);
+    if (image4) carouselImages.push(image4);
+    if (image5) carouselImages.push(image5);
+  
+    setCarouselImages(carouselImages);
+  }, [image,image2, image3, image4, image5]);
+  
 
   return (
     <section className='pt-32 pb-12 lg:py-32 h-screen flex items-center'>
