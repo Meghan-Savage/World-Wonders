@@ -2,14 +2,12 @@ import {useState} from "react";
 import LoginForm from "./components/LoginForm";
 import RegistrationForm from "./components/RegistrationForm";
 import Login from "./components/Login";
+import { createBrowserRouter, RouterProvider, } from "react-router-dom";
 
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword, 
   onAuthStateChanged,  signOut,}  from "firebase/auth";
 import { auth } from "./firebase-config";
  
-
-
-import { createBrowserRouter, RouterProvider, } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +24,7 @@ const router = createBrowserRouter([
       
       }]
   },
+  
  
 ]);
 
@@ -37,7 +36,7 @@ function App() {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({});
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
