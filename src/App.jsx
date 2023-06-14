@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home.jsx";
 import LandingPage from "./components/LandingPage.jsx";
 import CreateProductForm from "./components/CreateProductForm";
+import AdminShowProducts from "./components/AdminShowProducts";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/home" element={<Home />} />
       <Route path="/add-product" element={<CreateProductForm />} />
+      <Route path="/admin-products" element={<AdminShowProducts />} />
     </Routes>
   );
 }

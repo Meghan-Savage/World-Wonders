@@ -1,15 +1,21 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { FirebaseContext } from "../firebase/provider";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { addDoc, collection } from "firebase/firestore";
+import countryList from "country-list";
 
 const CreateProductForm = (props) => {
   const { storage, db } = useContext(FirebaseContext);
+  const formRef = useRef(null);
+  const [showAdditionalImages, setShowAdditionalImages] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [additionalImageFields, setAdditionalImageFields] = useState([]);
+  const [uploading, setUploading] = useState(false);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    const form = event.target;
+    const form = formRef.current;
 
     const storeId = form.elements.storeId.value;
     const country = form.elements.country.value;
@@ -25,7 +31,8 @@ const CreateProductForm = (props) => {
     const videoFile = form.elements.video.files[0];
 
     try {
-      // Upload image file
+      setUploading(true);
+
       const imageRef = ref(storage, `images/${imageFile.name}`);
       const imageRef2 = ref(storage, `images/${imageFile2.name}`);
       const imageRef3 = ref(storage, `images/${imageFile3.name}`);
@@ -37,21 +44,16 @@ const CreateProductForm = (props) => {
       await uploadBytes(imageRef4, imageFile4);
       await uploadBytes(imageRef5, imageFile5);
 
-      // Get image download URL
       const imageUrl = await getDownloadURL(imageRef);
       const imageUrl2 = await getDownloadURL(imageRef2);
       const imageUrl3 = await getDownloadURL(imageRef3);
       const imageUrl4 = await getDownloadURL(imageRef4);
       const imageUrl5 = await getDownloadURL(imageRef5);
 
-      // Upload video file
       const videoRef = ref(storage, `videos/${videoFile.name}`);
       await uploadBytes(videoRef, videoFile);
-
-      // Get video download URL
       const videoUrl = await getDownloadURL(videoRef);
 
-      // Create a new document in Firestore
       const productData = {
         storeId,
         country,
@@ -59,11 +61,7 @@ const CreateProductForm = (props) => {
         price,
         quantity,
         description,
-        image: imageUrl,
-        image2: imageUrl2,
-        image3: imageUrl3,
-        image4: imageUrl4,
-        image5: imageUrl5,
+        images: [imageUrl, imageUrl2, imageUrl3, imageUrl4, imageUrl5],
         video: videoUrl,
       };
 
@@ -71,13 +69,29 @@ const CreateProductForm = (props) => {
       console.log("Product added with ID: ", productRef.id);
 
       form.reset();
+      setShowAdditionalImages(false);
+      setAdditionalImageFields([]);
+      setUploading(false);
     } catch (error) {
       console.log("Error uploading files:", error);
+      setUploading(false);
     }
+  };
+
+  const handleAddImage = () => {
+    setShowAdditionalImages(true);
+    setAdditionalImageFields(["image2", "image3", "image4", "image5"]);
+  };
+
+  const countries = countryList.getNames();
+
+  const handleCountryChange = (event) => {
+    setSelectedCountry(event.target.value);
   };
 
   return (
     <form
+      ref={formRef}
       className="max-w-md mx-auto p-4 bg-white rounded shadow"
       onSubmit={handleFormSubmit}
     >
@@ -92,111 +106,131 @@ const CreateProductForm = (props) => {
           id="storeId"
         />
       </div>
-      <div className="mb-4">
-        <label className="text-gray-700" htmlFor="country">
-          Product Country
-        </label>
-        <input
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-          type="text"
-          name="country"
-          id="country"
-        />
+      <div className="mb-4 flex">
+        <div className="w-1/2 mr-2">
+          <label className="text-gray-700" htmlFor="country">
+            Product Country
+          </label>
+          <select
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+            name="country"
+            id="country"
+            value={selectedCountry}
+            onChange={handleCountryChange}
+          >
+            <option value="">Select Country</option>
+            {countries.map((country) => (
+              <option key={country} value={country}>
+                {country}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="w-1/2 ml-2">
+          <label className="text-gray-700" htmlFor="product">
+            Product Name
+          </label>
+          <input
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+            type="text"
+            name="product"
+            id="product"
+          />
+        </div>
       </div>
-      <div className="mb-4">
-        <label className="text-gray-700" htmlFor="product">
-          Product Name
-        </label>
-        <input
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-          type="text"
-          name="product"
-          id="product"
-        />
-      </div>
-      <div className="mb-4">
-        <label className="text-gray-700" htmlFor="price">
-          Product Price
-        </label>
-        <input
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-          type="number"
-          name="price"
-          id="price"
-        />
-      </div>
-      <div className="mb-4">
-        <label className="text-gray-700" htmlFor="quantity">
-          Product Quantity
-        </label>
-        <input
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-          type="number"
-          name="quantity"
-          id="quantity"
-        />
+      <div className="mb-4 flex">
+        <div className="w-1/2 mr-2">
+          <label className="text-gray-700" htmlFor="price">
+            Price
+          </label>
+          <input
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+            type="number"
+            name="price"
+            step="0.01"
+            id="price"
+          />
+        </div>
+        <div className="w-1/2 ml-2">
+          <label className="text-gray-700" htmlFor="quantity">
+            Quantity
+          </label>
+          <input
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+            type="number"
+            name="quantity"
+            step="1"
+            id="quantity"
+          />
+        </div>
       </div>
       <div className="mb-4">
         <label className="text-gray-700" htmlFor="description">
-          Product Description
+          Description
         </label>
         <textarea
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
           name="description"
           id="description"
+          rows="4"
         ></textarea>
       </div>
       <div className="mb-4">
         <label className="text-gray-700" htmlFor="image">
-          Product Image
+          Main Image
         </label>
         <input
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
           type="file"
           name="image"
           id="image"
-        />
-        <input
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-          type="file"
-          name="image2"
-          id="image2"
-        />
-        <input
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-          type="file"
-          name="image3"
-          id="image3"
-        />
-        <input
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-          type="file"
-          name="image4"
-          id="image4"
-        />
-        <input
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-          type="file"
-          name="image5"
-          id="image5"
+          accept="image/*"
         />
       </div>
+      {showAdditionalImages && (
+        <>
+          {additionalImageFields.map((field, index) => (
+            <div className="mb-4" key={field}>
+              <label className="text-gray-700" htmlFor={field}>
+                Additional Image {index + 2}
+              </label>
+              <input
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                type="file"
+                name={"image" + (index + 2)}
+                id={"image" + (index + 2)}
+                accept="image/*"
+              />
+            </div>
+          ))}
+        </>
+      )}
+      {!showAdditionalImages && (
+        <button
+          className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700"
+          onClick={handleAddImage}
+        >
+          Add Additional Images
+        </button>
+      )}
       <div className="mb-4">
         <label className="text-gray-700" htmlFor="video">
-          Product Video
+          Video
         </label>
         <input
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
           type="file"
           name="video"
           id="video"
+          accept="video/*"
         />
       </div>
       <button
-        className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
+        className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700"
         type="submit"
+        disabled={uploading}
       >
-        Add Product
+        {uploading ? "Uploading..." : "Create Product"}{" "}
       </button>
     </form>
   );
