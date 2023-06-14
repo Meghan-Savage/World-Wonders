@@ -12,16 +12,20 @@ export default function RegistrationForm() {
 
     <div>
           <label className="text-2xl font-medium font-bold">Email</label>
-          <input className="w-full border-2 border-gray-400 rounded-xl p-4 mt-2 bg-transparent" type="password" placeholder="Enter your email"/>
+          <input className="w-full border-2 border-gray-400 rounded-xl p-4 mt-2 bg-transparent" type="password" placeholder="Enter your email" onChange={(event) => {
+            setRegisterEmail(event.target.value);
+          }}/>
       </div>
       <div>
           <label className="text-2xl font-medium font-bold">password</label>
-          <input className="w-full border-2 border-gray-400 rounded-xl p-4 mt-2 bg-transparent" type="password" placeholder="Enter your password!"/>
+          <input className="w-full border-2 border-gray-400 rounded-xl p-4 mt-2 bg-transparent" type="password" placeholder="Enter your password!" onChange={(event) => {
+            setRegisterPassword(event.target.value);
+          }}/>
       </div>
       
 
       <div className="mt-8 flex flex-col gap-y-4">
-          <button className="active: scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl bg-blue-700 border-gray-400 big-violet-500 text-blue text-4xl font-bold">Submit</button>
+          <button className="active: scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl bg-blue-700 border-gray-400 big-violet-500 text-blue text-4xl font-bold" onClick={register}>Submit</button>
       </div>
       <div className="mt-8 flex justify-center items-center">
           <p className="font-bold text-1xl">Already have an account?</p>
