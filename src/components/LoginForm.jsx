@@ -1,6 +1,6 @@
 import React from "react"
 import icon from '../images/icon.png';
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 
 export default function LoginForm() {
 
@@ -15,24 +15,20 @@ export default function LoginForm() {
       <div>
           <label className="text-4xl font-medium font-bold">Email</label>
           <input className="w-full border-2 border-gray-400 rounded-xl p-4 mt-2 bg-transparent" 
-          type="text" placeholder="Enter your email"  onChange={(event) => {
-            setLoginEmail(event.target.value);
-          }}/>
+          type="text" placeholder="Enter your email"/>
       </div>
     </div>
 
     <div>
           <label className="text-3xl font-medium">Password</label>
           <input className="w-full border-2 border-gray-400 rounded-xl p-4 mt-2 bg-transparent" 
-          type="password" placeholder="Enter your password"  onChange={(event) => {
-            setLoginPassword(event.target.value);
-          }}/>
+          type="password" placeholder="Enter your password"/>
       </div>
       
       <div className="mt-4 flex flex-col gap-y-4">
           <button className=
           "hover: active: scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl bg-blue-700 border-gray-400 big-violet-500 text-blue text-4xl font-bold" 
-          type="submit" onClick={login}>Sign in</button>
+          type="submit">Sign in</button>
 
           <div className="mt-2 grid grid-cols-3 items-center text-red-900">
               <hr className="border-gray-800" />
@@ -49,8 +45,7 @@ export default function LoginForm() {
       </div>
       <div className="mt-4 flex justify-center items-center">
           <p className="font-bold text-1xl">Don't have an account?</p>
-          <button className="text-violet-500 text-2xl font-bold ml-2">
-            <Link to="/login/signup">Sign up!</Link></button>
+          <button className="text-violet-500 text-2xl font-bold ml-2"></button>
       </div>
   </div>
     
