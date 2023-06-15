@@ -7,6 +7,7 @@ import Products from "./pages/allProducts/AllProducts.jsx";
 import LoginForm from "./components/LoginForm";
 import RegistrationForm from "./components/RegistrationForm"
 
+
 function App() {
   return (
     <Routes>
