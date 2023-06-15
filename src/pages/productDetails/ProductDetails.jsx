@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { CartContext } from '../../context/CartContext/CartContext.jsx';
-import { ProductContext } from '../../context/ProductContext/ProductContext.jsx';
-import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import NavBar from '../../Components/navBar/NavBar.jsx';
+import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { CartContext } from "../../context/CartContext/CartContext.jsx";
+import { ProductContext } from "../../context/ProductContext/ProductContext.jsx";
+import Carousel from "../../Components/carousel/Carousel.jsx";
+import NavBar from "../../Components/navBar/NavBar.jsx";
 
 function ProductDetails() {
   const { id } = useParams();
@@ -14,48 +13,63 @@ function ProductDetails() {
   const product = products.find((item) => item.id === id);
 
   if (!product) {
-    return <section className='h-screen flex justify-center items-center'>Loading...</section>;
+    return (
+      <section className="h-screen flex justify-center items-center">
+        Loading...
+      </section>
+    );
   }
 
-  const { title, price, description, image, image2, image3, image4, image5 } = product;
+  const { title, price, description, images } = product;
 
   const [carouselImages, setCarouselImages] = useState([]);
 
   useEffect(() => {
-    const carouselImages = [];
-    if (image) carouselImages.push(image);
-    if (image2) carouselImages.push(image2);
-    if (image3) carouselImages.push(image3);
-    if (image4) carouselImages.push(image4);
-    if (image5) carouselImages.push(image5);
+    setCarouselImages(images);
+  }, [images]);
 
-    setCarouselImages(carouselImages);
-  }, [image, image2, image3, image4, image5]);
+  useEffect(() => {
+    console.log("carouselImages", carouselImages);
+  }, [carouselImages]);
 
   return (
     <div>
       <NavBar />
-      <section className='pt-32 pb-12 lg:py-32 h-screen flex items-center'>
-        <div className='container mx-auto'>
-          <div className='flex flex-col lg:flex-row items-center'>
+      <section className="pt-32 pb-12 lg:py-32 h-screen flex items-center">
+        <div className="container mx-auto">
+          <div className="flex flex-col lg:flex-row items-center">
             {carouselImages.length >= 4 && (
-              <div className='flex flex-1 justify-center items-center mb-8 lg:mb-0'>
-                <Carousel vertical={true}>
+              <div className="flex flex-1 justify-center items-center mb-8 lg:mb-0">
+                <Carousel
+                  infiniteLoop
+                  emulateTouch
+                  axis="vertical"
+                  image={carouselImages[0]}
+                  images={carouselImages}
+                >
                   {carouselImages.map((image, index) => (
                     <div key={index}>
-                      <img className='max-w-[200px] lg:max-w-sm' src={image} alt={`Image ${index + 1}`} />
+                      <img
+                        className="max-w-[200px] lg:max-w-sm"
+                        src={image}
+                        alt={`Image ${index + 1}`}
+                      />
                     </div>
                   ))}
                 </Carousel>
               </div>
             )}
-            <div className='flex-1 text-center lg:text-left ml-0'>
-              <h1 className='text-[26px] lg:mx-0 font-medium mb-2 max-w-[450px] mx-auto'>{title}</h1>
-              <div className='text-xl text-red-500 font-medium mb-6'>${price}</div>
-              <p className='mb-8'>{description}</p>
+            <div className="flex-1 text-center lg:text-left ml-0">
+              <h1 className="text-[26px] lg:mx-0 font-medium mb-2 max-w-[450px] mx-auto">
+                {title}
+              </h1>
+              <div className="text-xl text-red-500 font-medium mb-6">
+                ${price}
+              </div>
+              <p className="mb-8">{description}</p>
               <button
                 onClick={() => addToCart(product, product.id)}
-                className='font-normal hover:font-bold text-white bg-orange-300 rounded-xl py-4 px-8'
+                className="font-normal hover:font-bold text-white bg-orange-300 rounded-xl py-4 px-8"
               >
                 Add to cart
               </button>
