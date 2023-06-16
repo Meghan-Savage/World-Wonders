@@ -1,10 +1,10 @@
 import React from "react";
-import CartItem from "../cartItem/CartItem";
+import ShoppingCart from "../shoppingCart/ShoppingCart";
 
 function NavBar() {
   return (
     <div>
-      <CartItem />
+      <ShoppingCart />
     </div>
   );
 }
