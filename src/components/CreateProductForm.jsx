@@ -24,44 +24,46 @@ const CreateProductForm = (props) => {
     const quantity = parseInt(form.elements.quantity.value);
     const description = form.elements.description.value;
     const imageFile = form.elements.image.files[0];
-    const imageFile2 = form.elements.image2.files[0];
-    const imageFile3 = form.elements.image3.files[0];
-    const imageFile4 = form.elements.image4.files[0];
-    const imageFile5 = form.elements.image5.files[0];
-    const videoFile = form.elements.video.files[0];
+    const imageFile2 = form.elements?.image2?.files[0];
+    const imageFile3 = form.elements?.image3?.files[0];
+    const imageFile4 = form.elements?.image4?.files[0];
+    const imageFile5 = form.elements?.image5?.files[0];
+    const videoFile = form.elements?.video.files[0];
 
     try {
       setUploading(true);
 
-      const imageRef = ref(storage, `images/${imageFile.name}`);
-      const imageRef2 = ref(storage, `images/${imageFile2.name}`);
-      const imageRef3 = ref(storage, `images/${imageFile3.name}`);
-      const imageRef4 = ref(storage, `images/${imageFile4.name}`);
-      const imageRef5 = ref(storage, `images/${imageFile5.name}`);
-      await uploadBytes(imageRef, imageFile);
-      await uploadBytes(imageRef2, imageFile2);
-      await uploadBytes(imageRef3, imageFile3);
-      await uploadBytes(imageRef4, imageFile4);
-      await uploadBytes(imageRef5, imageFile5);
+      const imageRef = imageFile && ref(storage, `images/${imageFile.name}`);
+      const imageRef2 = imageFile2 && ref(storage, `images/${imageFile2.name}`);
+      const imageRef3 = imageFile3 && ref(storage, `images/${imageFile3.name}`);
+      const imageRef4 = imageFile4 && ref(storage, `images/${imageFile4.name}`);
+      const imageRef5 = imageFile5 && ref(storage, `images/${imageFile5.name}`);
+      imageFile && (await uploadBytes(imageRef, imageFile));
+      imageFile2 && (await uploadBytes(imageRef2, imageFile2));
+      imageFile3 && (await uploadBytes(imageRef3, imageFile3));
+      imageFile4 && (await uploadBytes(imageRef4, imageFile4));
+      imageFile5 && (await uploadBytes(imageRef5, imageFile5));
 
-      const imageUrl = await getDownloadURL(imageRef);
-      const imageUrl2 = await getDownloadURL(imageRef2);
-      const imageUrl3 = await getDownloadURL(imageRef3);
-      const imageUrl4 = await getDownloadURL(imageRef4);
-      const imageUrl5 = await getDownloadURL(imageRef5);
+      const imageUrl = imageFile && (await getDownloadURL(imageRef));
+      const imageUrl2 = imageFile2 && (await getDownloadURL(imageRef2));
+      const imageUrl3 = imageFile3 && (await getDownloadURL(imageRef3));
+      const imageUrl4 = imageFile4 && (await getDownloadURL(imageRef4));
+      const imageUrl5 = imageFile5 && (await getDownloadURL(imageRef5));
 
-      const videoRef = ref(storage, `videos/${videoFile.name}`);
-      await uploadBytes(videoRef, videoFile);
-      const videoUrl = await getDownloadURL(videoRef);
+      const videoRef = videoFile && ref(storage, `videos/${videoFile.name}`);
+      videoFile && (await uploadBytes(videoRef, videoFile));
+      const videoUrl = videoFile && (await getDownloadURL(videoRef));
 
       const productData = {
         storeId,
         country,
-        product,
+        title: product,
         price,
         quantity,
         description,
-        images: [imageUrl, imageUrl2, imageUrl3, imageUrl4, imageUrl5],
+        images: [imageUrl, imageUrl2, imageUrl3, imageUrl4, imageUrl5].filter(
+          Boolean
+        ),
         video: videoUrl,
       };
 

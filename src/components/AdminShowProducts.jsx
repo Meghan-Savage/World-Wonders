@@ -79,10 +79,10 @@ const AdminShowProducts = () => {
           >
             <img
               src={product.images[0]}
-              alt={product.product}
+              alt={product.title}
               className="w-full h-40 object-cover mb-4"
             />
-            <h2 className="text-xl font-bold mb-2">{product.product}</h2>
+            <h2 className="text-xl font-bold mb-2">{product.title}</h2>
             <p className="text-gray-600 mb-4">{product.description}</p>
             <p className="text-gray-700 font-semibold">${product.price}</p>
             <p className="text-gray-600">Quantity: {product.quantity}</p>
@@ -115,11 +115,11 @@ const AdminShowProducts = () => {
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
                 type="text"
                 id="productName"
-                value={selectedProduct.product}
+                value={selectedProduct.title}
                 onChange={(e) =>
                   setSelectedProduct((prevProduct) => ({
                     ...prevProduct,
-                    product: e.target.value,
+                    title: e.target.value,
                   }))
                 }
               />
@@ -154,7 +154,7 @@ const AdminShowProducts = () => {
                 onChange={(e) =>
                   setSelectedProduct((prevProduct) => ({
                     ...prevProduct,
-                    price: parseFloat(e.target.value),
+                    price: e.target.value,
                   }))
                 }
               />
