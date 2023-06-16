@@ -14,14 +14,23 @@ function Product({ product }) {
     <div key={id}>
       <div className="border border-[#e4e4e4] h-[300px] mb-4 relative overflow-hidden group transition rounded-xl">
         <div className="w-full h-full flex justify-center items-center">
-          {/* image */}
+          {/* image or video */}
           <Link to={`/product/${id}`}>
             <div className="w-full h-full">
-              <img
-                className="w-full h-full object-cover object-center group-hover:scale-150 transition duration-300"
-                src={images}
-                alt=""
-              />
+              {Array.isArray(images) ? (
+                <img
+                  className="w-full h-full object-cover object-center group-hover:scale-150 transition duration-300"
+                  src={images[0]}
+                  alt=""
+                />
+              ) : (
+                <video
+                  className="w-full h-full object-cover object-center group-hover:scale-150 transition duration-300"
+                  src={video}
+                  alt=""
+                  controls
+                />
+              )}
             </div>
           </Link>
           {/* button */}

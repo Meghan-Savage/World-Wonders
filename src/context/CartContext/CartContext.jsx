@@ -1,37 +1,43 @@
-import React, {createContext, useState, useEffect} from 'react'
+import React, { createContext, useState, useEffect } from "react";
 
-export const CartContext = createContext()
+export const CartContext = createContext();
 
-function CartProvider({children}) {
-
-  const [cart, setCart] = useState([])
+function CartProvider({ children }) {
+  const [cart, setCart] = useState([]);
+  const [itemAmount, setItemAmount] = useState(0);
 
   const addToCart = (product, id) => {
-    const newItem = {...product, amount: 1}
-    const cartItem = cart.find((item) =>{
-      return item.id === id;
-    })
-    
+    const newItem = { ...product, amount: 1 };
+    const cartItem = cart.find((item) => item.id === id);
+
     if (cartItem) {
-      const newCart = [...cart].map((item) =>{
-        if (item.id === id ) {
-          return {...item, amount: cartItem.amount + 1}
+      const newCart = cart.map((item) => {
+        if (item.id === id) {
+          return { ...item, amount: item.amount + 1 };
         } else {
           return item;
         }
-      })
-      setCart(newCart)
+      });
+      setCart(newCart);
     } else {
-      setCart([...cart, newItem])
+      setCart([...cart, newItem]);
     }
-  }
+  };
 
-  console.log('cart', cart)
+  useEffect(() => {
+    if (cart) {
+      const amount = cart.reduce((accumulator, currentItem) => {
+        return accumulator + currentItem.amount;
+      }, 0);
+      setItemAmount(amount);
+    }
+  }, [cart]);
 
-  return <CartContext.Provider value={{cart, addToCart}}>
-    {children}
+  return (
+    <CartContext.Provider value={{ cart, addToCart, itemAmount }}>
+      {children}
     </CartContext.Provider>
-
+  );
 }
 
-export default CartProvider
+export default CartProvider;

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { CartContext } from "../../context/CartContext/CartContext.jsx";
 import { ProductContext } from "../../context/ProductContext/ProductContext.jsx";
@@ -10,7 +10,17 @@ function ProductDetails() {
   const { products } = useContext(ProductContext);
   const { addToCart } = useContext(CartContext);
 
+  const [carouselItems, setCarouselItems] = useState([]);
   const product = products.find((item) => item.id === id);
+
+  useEffect(() => {
+    if (product) {
+      const { images, video } = product;
+      const itemArray = video ? [video, ...images] : images;
+      setCarouselItems(itemArray);
+      console.log("carouselItems", itemArray);
+    }
+  }, [product]);
 
   if (!product) {
     return (
@@ -20,17 +30,7 @@ function ProductDetails() {
     );
   }
 
-  const { title, price, description, images } = product;
-
-  const [carouselImages, setCarouselImages] = useState([]);
-
-  useEffect(() => {
-    setCarouselImages(images);
-  }, [images]);
-
-  useEffect(() => {
-    console.log("carouselImages", carouselImages);
-  }, [carouselImages]);
+  const { title, price, description, images, video } = product;
 
   return (
     <div>
@@ -38,22 +38,25 @@ function ProductDetails() {
       <section className="pt-32 pb-12 lg:py-32 h-screen flex items-center">
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row items-center">
-            {carouselImages.length >= 4 && (
+            {carouselItems.length >= 1 && (
               <div className="flex flex-1 justify-center items-center mb-8 lg:mb-0">
-                <Carousel
-                  infiniteLoop
-                  emulateTouch
-                  axis="vertical"
-                  image={carouselImages[0]}
-                  images={carouselImages}
-                >
-                  {carouselImages.map((image, index) => (
+                <Carousel images={carouselItems}>
+                  {carouselItems.map((item, index) => (
                     <div key={index}>
-                      <img
-                        className="max-w-[200px] lg:max-w-sm"
-                        src={image}
-                        alt={`Image ${index + 1}`}
-                      />
+                      {typeof item === "string" ? (
+                        <img
+                          className="max-w-[200px] lg:max-w-sm"
+                          src={item}
+                          alt={`Image ${index + 1}`}
+                        />
+                      ) : (
+                        <video
+                          className="max-w-[200px] lg:max-w-sm"
+                          src={item}
+                          alt={`Video ${index + 1}`}
+                          controls
+                        />
+                      )}
                     </div>
                   ))}
                 </Carousel>
