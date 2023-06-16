@@ -172,7 +172,7 @@ const AdminShowProducts = () => {
                 onChange={(e) =>
                   setSelectedProduct((prevProduct) => ({
                     ...prevProduct,
-                    quantity: parseInt(e.target.value),
+                    quantity: e.target.value,
                   }))
                 }
               />

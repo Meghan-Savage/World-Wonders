@@ -28,7 +28,7 @@ const CreateProductForm = (props) => {
     const imageFile3 = form.elements?.image3?.files[0];
     const imageFile4 = form.elements?.image4?.files[0];
     const imageFile5 = form.elements?.image5?.files[0];
-    const videoFile = form.elements?.video.files[0];
+    const videoFile = form.elements?.video?.files[0];
 
     try {
       setUploading(true);
@@ -64,7 +64,7 @@ const CreateProductForm = (props) => {
         images: [imageUrl, imageUrl2, imageUrl3, imageUrl4, imageUrl5].filter(
           Boolean
         ),
-        video: videoUrl,
+        video: videoUrl ? videoUrl : null,
       };
 
       const productRef = await addDoc(collection(db, "products"), productData);
