@@ -1,6 +1,6 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
-export const CartContext = createContext();
+export const CartContext = React.createContext();
 
 function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
@@ -9,7 +9,6 @@ function CartProvider({ children }) {
   const addToCart = (product, id) => {
     const newItem = { ...product, amount: 1 };
     const cartItem = cart.find((item) => item.id === id);
-
     if (cartItem) {
       const newCart = cart.map((item) => {
         if (item.id === id) {
@@ -24,17 +23,34 @@ function CartProvider({ children }) {
     }
   };
 
+  const removeFromCart = (id) => {
+    const newCart = cart.filter((item) => {
+      return item.id !== id;
+    });
+    setCart(newCart);
+  };
+
+  useEffect(() => {
+    const storedCart = sessionStorage.getItem("cart");
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
+    }
+  }, []);
+
   useEffect(() => {
     if (cart) {
       const amount = cart.reduce((accumulator, currentItem) => {
         return accumulator + currentItem.amount;
       }, 0);
       setItemAmount(amount);
+      sessionStorage.setItem("cart", JSON.stringify(cart));
     }
   }, [cart]);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, itemAmount }}>
+    <CartContext.Provider
+      value={{ cart, addToCart, itemAmount, removeFromCart }}
+    >
       {children}
     </CartContext.Provider>
   );

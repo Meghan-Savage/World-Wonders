@@ -31,7 +31,7 @@ function Carousel({ images, video }) {
             src={selectedItem}
             width={300}
             height={150}
-            className="main-item cursor-pointer transform transition duration-300 hover:scale-150"
+            className="main-item cursor-pointer transform transition"
             onClick={handleMainItemClick}
             controls
           />
@@ -41,7 +41,7 @@ function Carousel({ images, video }) {
             alt="Selected"
             width={410}
             height={200}
-            className="main-item cursor-pointer transform transition duration-300 hover:scale-150"
+            className="main-item cursor-pointer transform transition"
             onClick={handleMainItemClick}
           />
         )}
