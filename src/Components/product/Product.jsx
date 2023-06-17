@@ -1,4 +1,12 @@
 import React, { useContext } from "react";
+import {
+  Card,
+  CardFooter,
+  CardHeader,
+  CardBody,
+  Typography,
+  Button,
+} from "@material-tailwind/react";
 import { CartContext } from "../../context/CartContext/CartContext.jsx";
 import { Link } from "react-router-dom";
 
@@ -11,48 +19,45 @@ function Product({ product }) {
   const { addToCart } = useContext(CartContext);
 
   return (
-    <div key={id}>
-      <div className="border border-[#e4e4e4] h-[300px] mb-4 relative overflow-hidden group transition rounded-xl">
-        <div className="w-full h-full flex justify-center items-center">
-          {/* image or video */}
-          <Link to={`/product/${id}`}>
-            <div className="w-full h-full">
-              {Array.isArray(images) ? (
-                <img
-                  className="w-full h-full object-cover object-center group-hover:scale-150 transition duration-300"
-                  src={images[0]}
-                  alt=""
-                />
-              ) : (
-                <video
-                  className="w-full h-full object-cover object-center group-hover:scale-150 transition duration-300"
-                  src={video}
-                  alt=""
-                  controls
-                />
-              )}
-            </div>
-          </Link>
-          {/* button */}
-          <div className="absolute bottom-0 right-0 p-2 flex items-center justify-center gap-y-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
-            <button
-              onClick={() => addToCart(product, id)}
-              className="font-normal hover:font-bold text-white bg-orange-300 py-2 px-4 rounded"
-            >
-              Add to cart
-            </button>
-          </div>
+    <Card className="w-64">
+      <CardHeader shadow={false} floated={false} className="h-48">
+        <Link to={`/product/${id}`}>
+          <img
+            src={images}
+            alt={title}
+            className="h-full w-full object-cover"
+          />
+        </Link>
+      </CardHeader>
+      <CardBody>
+        <div className="flex items-center justify-between mb-2">
+          <Typography color="blue-gray" className="font-medium text-sm">
+            {title}
+          </Typography>
+          <Typography color="blue-gray" className="font-medium text-sm">
+            ${price}
+          </Typography>
         </div>
-      </div>
-      {/* category & title & price */}
-      <div>
-        <div className="text-sm capitalize text-gray-500 mb-1">
+        <Typography
+          variant="body"
+          color="gray"
+          className="font-normal opacity-75 text-sm"
+        >
           {description}
-        </div>
-        <h2 className="font-semibold mb-1">{title}</h2>
-        <div className="font-semibold">${price}</div>
-      </div>
-    </div>
+        </Typography>
+      </CardBody>
+      <CardFooter className="pt-0">
+        <Button
+          ripple={false}
+          fullWidth={true}
+          color="orange"
+          className="font-normal hover:font-bold text-white bg-orange-300 rounded-xl py-2 px-4 text-sm"
+          onClick={() => addToCart()}
+        >
+          Add to Cart
+        </Button>
+      </CardFooter>
+    </Card>
   );
 }
 

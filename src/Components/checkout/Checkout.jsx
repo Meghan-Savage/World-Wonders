@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { CartContext } from "../../context/CartContext/CartContext";
-import CartItem from "../../Components/cartItem/CartItem";
+import CartItem from "../cartItem/CartItem";
 import { FiTrash2 } from "react-icons/fi";
 
-function checkout() {
+function Checkout() {
   const { cart } = useContext(CartContext);
   return (
     <div>
@@ -29,4 +29,4 @@ function checkout() {
   );
 }
 
-export default checkout;
+export default Checkout;

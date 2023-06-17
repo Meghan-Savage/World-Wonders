@@ -32,7 +32,7 @@ function CartItem({ item }) {
           </div>
           <div className="flex gap-x-6 h-[72px] text-sm">
             {/*Qty*/}
-            <div className="flex flex-1 max-w-[100px] items-center h-full border text-primary font-medium">
+            <div className="flex flex-1 max-w-[100px] items-center h-full text-primary font-medium">
               {/*minus icon*/}
               <div className="flex-1 h-full flex justify-center items-center cursor-pointer">
                 <IoMdRemove />
