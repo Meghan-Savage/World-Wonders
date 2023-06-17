@@ -1,41 +1,88 @@
-import React from 'react'
-//import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate} from "react-router-dom";
+import { auth } from "../firebase/provider";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function RegistrationForm() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  // Sign up function/logic
+  const signUp = (e) => {
+    e.preventDefault();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log(userCredential);
+        navigate("/products");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
-    <div className="bg-slate-200 px-60 py-40 rounded-3xl border-2 border-gray-200">
-    <h1 className="text-6xl text-blue-700 font-semibold">Create an Account.</h1>
-    <p className="font-bold text-lg text-gray-600 mt-4">Please enter your details.</p>
-    <div className="mt-8">
-      
+    <div className="flex justify-center items-center h-screen bg-indigo-300">
+      <div className="w-96 p-6 shadow-lg bg-white rounded-md">
+        <form onSubmit={signUp}>
+          <div>
+            <h1 className="text-3xl block text-center font-bold text-indigo-600">
+              Create an Account
+            </h1>
+            <p className="text-1xl block text-center font-semi-bold text-indigo-600">
+              Please enter your details.
+            </p>
+
+            <div className="mt-3">
+              <label className="block font-semibold text-base mb-2">
+                Email
+              </label>
+              <input
+                className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div className="mt-3">
+              <label className="block font-semibold text-base mb-2">
+                Password
+              </label>
+              <input
+                className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+
+            <div className="mt-3">
+              <button
+                type="submit"
+                className="border-2 border-indigo-700 bg-indigo-600 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-indigo-700 font-semibold"
+              >
+                Sign up
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <div className="mt-2 flex justify-center items-center">
+          <p className="font-semibold text-1xl">Already have an account?</p>
+          <Link
+            to="/signin"
+            className="text-1xl font-semibold ml-2 border-2 border-indigo-400 hover:text-indigo-700 rounded-md hover:bg-transparent bg-indigo-400 text-white w-24"
+          >
+            Sign In
+          </Link>
+        </div>
+      </div>
     </div>
-
-    <div>
-          <label className="text-2xl font-medium font-bold">Email</label>
-          <input className="w-full border-2 border-gray-400 rounded-xl p-4 mt-2 bg-transparent" 
-          type="password" placeholder="Enter your email" onChange={(event) => {
-            setRegisterEmail(event.target.value);
-          }}/>
-      </div>
-      <div>
-          <label className="text-2xl font-medium font-bold">password</label>
-          <input className="w-full border-2 border-gray-400 rounded-xl p-4 mt-2 bg-transparent" 
-          type="password" placeholder="Enter your password!" onChange={(event) => {
-            setRegisterPassword(event.target.value);
-          }}/>
-      </div>
-      
-
-      <div className="mt-8 flex flex-col gap-y-4">
-          <button className="active: scale-[.98] active:duration-75 hover:scale-[1.01] 
-          ease-in-out transition-all py-3 rounded-xl bg-blue-700 border-gray-400 big-violet-500 text-blue
-           text-4xl font-bold" onClick={register}>Submit</button>
-      </div>
-      <div className="mt-8 flex justify-center items-center">
-          <p className="font-bold text-1xl">Already have an account?</p>
-          <button className="text-violet-500 text-2xl font-bold ml-2"></button>
-      </div>
-  </div>
-  )
+  );
 }
+
+
 
