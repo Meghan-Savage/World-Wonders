@@ -3,7 +3,7 @@ import icon from '../images/icon.png';
 import { Link, useNavigate} from "react-router-dom";
 
 import { auth } from "../firebase/provider";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword,} from "firebase/auth";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -24,6 +24,9 @@ export default function LoginForm() {
         console.log(error);
       });
   };
+
+   
+ 
 
   return (
     <div className="flex justify-center items-center h-screen bg-indigo-300">
@@ -68,6 +71,7 @@ export default function LoginForm() {
           </div>
         </form>
 
+
         <div className="mt-3 grid grid-cols-3 items-center text-indigo-600">
           <hr className="border-gray-900" />
           <p className="text-center  font-bold text-1xl">Or</p>
@@ -96,4 +100,4 @@ export default function LoginForm() {
       </div>
     </div>
   );
-}
+};
