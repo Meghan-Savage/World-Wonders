@@ -5,6 +5,7 @@ export const CartContext = React.createContext();
 function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
   const [itemAmount, setItemAmount] = useState(0);
+  const [cartAmount, setCartAmount] = useState(0);
   const [total, setTotal] = useState(0);
 
   const addToCart = (product, id) => {
@@ -29,34 +30,6 @@ function CartProvider({ children }) {
       return item.id !== id;
     });
     setCart(newCart);
-  };
-
-  useEffect(() => {
-    const total = cart.reduce((accumulator, currentItem) => {
-      return accumulator + currentItem.price * currentItem.amount;
-    }, 0);
-    setTotal(total);
-  });
-
-  useEffect(() => {
-    const storedCart = sessionStorage.getItem("cart");
-    if (storedCart) {
-      setCart(JSON.parse(storedCart));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (cart) {
-      const amount = cart.reduce((accumulator, currentItem) => {
-        return accumulator + currentItem.amount;
-      }, 0);
-      setItemAmount(amount);
-      sessionStorage.setItem("cart", JSON.stringify(cart));
-    }
-  }, [cart]);
-
-  const clearCart = () => {
-    setCart([]);
   };
 
   const increaseAmount = (id) => {
@@ -84,6 +57,57 @@ function CartProvider({ children }) {
     }
   };
 
+  const updateQuantity = (id, quantity) => {
+    const newCart = cart.map((item) => {
+      if (item.id === id) {
+        return { ...item, amount: quantity };
+      } else {
+        return item;
+      }
+    });
+    setCart(newCart);
+    const amount = newCart.reduce((accumulator, currentItem) => {
+      return accumulator + currentItem.amount;
+    }, 0);
+    setItemAmount(amount);
+  };
+
+  useEffect(() => {
+    const total = cart.reduce((accumulator, currentItem) => {
+      return accumulator + currentItem.price * currentItem.amount;
+    }, 0);
+    setTotal(total);
+  }, [cart]);
+
+  useEffect(() => {
+    if (cart) {
+      const uniqueIds = new Set(cart.map((item) => item.id));
+      setCartAmount(uniqueIds.size);
+      sessionStorage.setItem("cart", JSON.stringify(cart));
+    }
+  }, [cart]);
+
+  useEffect(() => {
+    if (cart) {
+      const amount = cart.reduce((accumulator, currentItem) => {
+        return accumulator + currentItem.amount;
+      }, 0);
+      setItemAmount(amount);
+      sessionStorage.setItem("cart", JSON.stringify(cart));
+    }
+  }, [cart]);
+
+  const clearCart = () => {
+    setCart([]);
+  };
+
+  useEffect(() => {
+    const storedCart = sessionStorage.getItem("cart");
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
+    }
+  }, []);
+
   return (
     <CartContext.Provider
       value={{
@@ -95,6 +119,9 @@ function CartProvider({ children }) {
         increaseAmount,
         decreaseAmount,
         total,
+        cartAmount,
+        updateQuantity,
+        setTotal,
       }}
     >
       {children}

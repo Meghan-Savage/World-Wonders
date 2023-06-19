@@ -12,8 +12,8 @@ function Product({ product }) {
 
   return (
     <div key={id}>
-      <div className="border border-[#e4e4e4] h-[300px] mb-4 relative overflow-hidden group transition rounded-xl">
-        <div className="w-full h-full flex justify-center items-center">
+      <div className="border border-[#e4e4e4] h-[200px] mb-4 relative overflow-hidden group transition rounded-xl">
+        <div className="w-full h-2/3 flex justify-center items-center">
           {/* image */}
           <Link to={`/product/${id}`}>
             <div className="w-full h-full">
@@ -37,11 +37,11 @@ function Product({ product }) {
       </div>
       {/* category & title & price */}
       <div>
-        <div className="text-sm capitalize text-gray-500 mb-1">
+        <div className="text-sm capitalize text-gray-500 mb-1 text-[12px] line-clamp-3">
           {description}
         </div>
-        <h2 className="font-semibold mb-1">{title}</h2>
-        <div className="font-semibold">${price}</div>
+        <h2 className="font-semibold text-base mb-1 line-clamp-2">{title}</h2>
+        <div className="font-semibold text-lg">${price}</div>
       </div>
     </div>
   );
