@@ -13,7 +13,8 @@ import NavBar from "../../Components/navBar/NavBar.jsx";
 import Footer from "../../Components/footer/Footer.jsx";
 
 export default function ViewCart() {
-  const { cart, cartAmount, updateQuantity } = useContext(CartContext);
+  const { cart, cartAmount, updateQuantity, removeFromCart } =
+    useContext(CartContext);
   const [selectedQuantity, setSelectedQuantity] = useState(cart.quantity);
 
   const handleQuantityChange = (id, event) => {
@@ -28,10 +29,10 @@ export default function ViewCart() {
       <div>
         {cart.map((item) => (
           <Card
-            className="max-w-[36rem] sm:max-w-[28rem] md:max-w-[32rem] lg:max-w-[36rem] xl:max-w-[40rem] flex mb-4 shadow-md"
+            className="max-w-[36rem] sm:max-w-[28rem] md:max-w-[32rem] lg:max-w-[36rem] xl:max-w-[40rem] flex mb-4 shadow-md rounded-none"
             key={item.id}
           >
-            <CardHeader shadow={false} floated={false}>
+            <CardHeader shadow={false} floated={false} className="rounded-none">
               <div className="w-full min-h-[150px] flex items-start justify-between">
                 <div className="flex flex-col gap-y-1">
                   <div className="flex items-start gap-x-4">
@@ -39,16 +40,18 @@ export default function ViewCart() {
                       src={item.images}
                       className="w-[100px] h-full object-cover"
                     />
-                    <div className="flex flex-col gap-y-1">
+                    <div className="flex flex-col gap-y-3">
                       <div>
                         <Link to={`/product/${item.id}`}>
-                          <Typography className="text-sm uppercase font-medium text-black hover:underline">
+                          <Typography className="text-sm sm:text-xs uppercase font-medium text-black hover:underline">
                             {item.title}
                           </Typography>
                         </Link>
                       </div>
                       <div>
-                        <Typography>Quantity: {item.quantity}</Typography>
+                        <Typography className="text-sm sm:text-xs">
+                          Quantity: {item.quantity}
+                        </Typography>
                       </div>
                       <div>
                         <select
@@ -56,7 +59,7 @@ export default function ViewCart() {
                           onChange={(event) =>
                             handleQuantityChange(item.id, event)
                           }
-                          className="border rounded-md px-2 py-1"
+                          className="border px-2 py-1 text-sm sm:text-xs"
                         >
                           {[...Array(item.quantity)].map((_, index) => (
                             <option key={index + 1} value={index + 1}>
@@ -65,15 +68,42 @@ export default function ViewCart() {
                           ))}
                         </select>
                       </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          width: "100%",
+                        }}
+                      >
+                        <button
+                          style={{ flex: "1 0 auto", fontSize: "0.8rem" }}
+                          className="rounded hover:bg-gray-300"
+                        >
+                          Save
+                        </button>
+                        <button
+                          style={{
+                            flex: "1 0 auto",
+                            fontSize: "0.8rem",
+                            marginLeft: "1rem",
+                          }}
+                          className="rounded hover:bg-gray-300"
+                          onClick={() => removeFromCart(item.id)}
+                        >
+                          Remove
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <Typography className="text-black font-bold">
-                  CA$ {item.price}
-                </Typography>
+                <div className="flex flex-col gap-y-1">
+                  <Typography className="text-sm sm:text-xs text-black font-bold">
+                    CA$ {item.price}
+                  </Typography>
+                </div>
               </div>
             </CardHeader>
-            <CardBody></CardBody>
+            <CardBody className="rounded-none"></CardBody>
           </Card>
         ))}
       </div>
