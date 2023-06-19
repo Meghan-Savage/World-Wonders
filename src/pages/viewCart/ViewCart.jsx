@@ -24,9 +24,9 @@ export default function ViewCart() {
 
   return (
     <>
-      <NavBar />
-      <div>{cartAmount} Items In your Shopping Bag</div>
-      <div>
+      <div className="container mx-auto">
+        <NavBar />
+        <div>{cartAmount} Items In your Shopping Bag</div>
         {cart.map((item) => (
           <Card
             className="max-w-[36rem] sm:max-w-[28rem] md:max-w-[32rem] lg:max-w-[36rem] xl:max-w-[40rem] flex mb-4 shadow-md rounded-none"
@@ -106,8 +106,8 @@ export default function ViewCart() {
             <CardBody className="rounded-none"></CardBody>
           </Card>
         ))}
+        <Footer />
       </div>
-      <Footer />
     </>
   );
 }

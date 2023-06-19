@@ -2,8 +2,7 @@ import React, { useState } from "react";
 
 function Carousel({ images, video }) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const allItems = [...images, video].filter((item) => item);
-  const hasVideo = video !== null && video !== undefined;
+  const allItems = [video, ...images].filter((item) => item);
 
   const handlePrevious = () => {
     setCurrentIndex((prevIndex) =>
@@ -26,25 +25,14 @@ function Carousel({ images, video }) {
   return (
     <div className="flex flex-col lg:flex-column items-center">
       <div className="relative group">
-        {hasVideo && selectedItem.type === "video" ? (
-          <video
-            src={selectedItem}
-            width={300}
-            height={150}
-            className="main-item cursor-pointer transform transition"
-            onClick={handleMainItemClick}
-            controls
-          />
-        ) : (
-          <img
-            src={selectedItem}
-            alt="Selected"
-            width={410}
-            height={200}
-            className="main-item cursor-pointer transform transition"
-            onClick={handleMainItemClick}
-          />
-        )}
+        <img
+          className="main-item cursor-pointer transform transition"
+          src={selectedItem}
+          alt="Image"
+          onClick={handleMainItemClick}
+          width={410}
+          height={200}
+        />
         <div
           className="absolute top-1/2 transform -translate-y-1/2 left-0 cursor-pointer z-10"
           onClick={handlePrevious}
