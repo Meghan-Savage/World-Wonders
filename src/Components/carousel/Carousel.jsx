@@ -23,8 +23,24 @@ function Carousel({ images, video }) {
   const selectedItem = allItems[currentIndex];
 
   return (
-    <div className="flex flex-col lg:flex-column items-center">
-      <div className="relative group">
+    <div className="w-full min-h-[150px] flex items-start">
+      <div className="flex flex-col gap-10">
+        {allItems.map((item, index) => (
+          <img
+            key={index}
+            width={100}
+            height={75}
+            src={item}
+            alt={`Item ${index + 1}`}
+            onClick={() => setCurrentIndex(index)}
+            className={`preview-item cursor-pointer transform transition duration-300 hover:scale-150 ${
+              index === currentIndex ? "border-4 border-orange-300" : ""
+            }`}
+            style={{ maxWidth: "100%", maxHeight: "100%" }}
+          />
+        ))}
+      </div>
+      <div className="flex gap-x-4 ml-4">
         <img
           className="main-item cursor-pointer transform transition"
           src={selectedItem}
@@ -45,21 +61,6 @@ function Carousel({ images, video }) {
         >
           {/* Next SVG */}
         </div>
-      </div>
-      <div className="flex gap-10 mt-4">
-        {allItems.map((item, index) => (
-          <img
-            key={index}
-            width={100}
-            height={75}
-            src={item}
-            alt={`Item ${index + 1}`}
-            onClick={() => setCurrentIndex(index)}
-            className={`preview-item cursor-pointer transform transition duration-300 hover:scale-150 ${
-              index === currentIndex ? "border-4 border-orange-300" : ""
-            }`}
-          />
-        ))}
       </div>
     </div>
   );
