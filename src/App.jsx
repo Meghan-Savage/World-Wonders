@@ -9,7 +9,7 @@ import SideBar from "./Components/sideBar/SideBar.jsx";
 import ViewCart from "./pages/viewCart/ViewCart.jsx";
 import LoginForm from "./Components/LoginForm.jsx";
 import RegistrationForm from "./Components/RegistrationForm.jsx";
-import Home from "./Components/Home.jsx";
+
 
 function App() {
   return (
