@@ -20,9 +20,12 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+// This is already been declared in the file
+// And passed to the context provider
+// const auth = getAuth(app);
 console.log("APP", app);
 
+//This is wrong!!!
 export const auth = getAuth(app);
 console.log("auth", auth);
 
