@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-
+/* This shouldn't here this can be set up properly in tailwindCSS */
 body {
     background:rgb(165 180 252);
   }
