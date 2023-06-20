@@ -27,7 +27,7 @@ function SideBar() {
       >
         <IoMdArrowForward className="text-xl" />
       </div>
-      <div className="flex flex-col gap-y-2 h-[40vh] overflow-y-auto overflow-x-hidden border-b">
+      <div className="flex flex-col gap-y-2 h-[60vh] overflow-y-auto overflow-x-hidden border-b">
         {cart.map((item) => (
           <CartItem key={item.id} item={item} />
         ))}
@@ -41,7 +41,7 @@ function SideBar() {
           {/* Clear cart icon */}
           <div
             onClick={clearCart}
-            className="cursor-pointer py-2 bg-red-500 text-white w-8 h-8 flex justify-center items-center text-sm"
+            className="cursor-pointer py-2 text-red w-8 h-8 flex justify-center items-center text-sm"
           >
             <FiTrash2 />
           </div>
