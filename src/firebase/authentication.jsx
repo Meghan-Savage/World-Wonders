@@ -32,7 +32,7 @@ export const AuthProvider = (props) => {
         console.log("Login failed!");
       }
     } catch (ex) {
-      console.log("AUTH FAILURE!", ex.message);
+      console.log("AUTH FAILURE!", ex);
     }
   };
 
@@ -40,10 +40,10 @@ export const AuthProvider = (props) => {
     await signOut(auth);
   };
 
-  const theValues = { user, login, logout };
+  const authContextValue = { user, login, logout }; // Create the context value object
 
   return (
-    <AuthContext.Provider value={theValues}>
+    <AuthContext.Provider value={authContextValue}> {/* Pass the context value */}
       {props.children}
     </AuthContext.Provider>
   );

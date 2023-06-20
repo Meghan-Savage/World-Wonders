@@ -19,18 +19,18 @@ const firebaseConfig = {
   measurementId: "G-5VFSVY33LR",
 };
 
-console.log("firebaseConfig", firebaseConfig);
-
 const app = initializeApp(firebaseConfig);
+// This is already been declared in the file
+// And passed to the context provider
+// const auth = getAuth(app);
 console.log("APP", app);
 
-const auth = getAuth(app);
+//This is wrong!!!
+export const auth = getAuth(app);
 console.log("auth", auth);
 
 const db = getFirestore(app);
-console.log("db", db);
 const storage = getStorage(app);
-console.log("storage", storage);
 
 export const FirebaseContext = createContext();
 

@@ -1,6 +1,9 @@
+// This file had to be fixed
+import withMT from "@material-tailwind/react/utils/withMT";
+
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+const config = {
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       animation: {
@@ -16,3 +19,5 @@ module.exports = {
   },
   plugins: [],
 };
+
+module.exports = withMT(config);
