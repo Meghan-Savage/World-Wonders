@@ -6,14 +6,3 @@
 body {
     background:rgb(165 180 252);
   }
-
-  .tooltip {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 8px;
-    background-color:rgba(253 186 116 0);
-    color: #fff;
-    font-size: 14px;
-    z-index: 999;
-  }

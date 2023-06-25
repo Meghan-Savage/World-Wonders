@@ -26,12 +26,10 @@ const Banner = () => {
     "pictures/ww9.jpg",
   ];
 
-  const allPictures = [...pictures, ...pictures, ...pictures];
-
   return (
     <div className="h-20 w-screen overflow-hidden">
-      <Marquee velocity={5} direction="rtl" className="w-full h-full">
-        {allPictures.map((picture, index) => (
+      <Marquee velocity={20} direction="rtl" className="w-full h-full">
+        {pictures.map((picture, index) => (
           <div key={index} className="h-full flex items-center">
             <img
               src={picture}

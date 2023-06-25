@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import gsap from "gsap";
-
+import { Link } from "react-router-dom";
 import atmosphereVertexShader from "../shaders/atmosphereVertex.glsl";
 import atmosphereFragmentShader from "../shaders/atmosphereFragment.glsl";
 import fragmentShader from "../shaders/fragment.glsl";
@@ -10,14 +10,6 @@ import vertexShader from "../shaders/vertex.glsl";
 
 import countries from "./countries.json";
 import "../index.css";
-
-const Tooltip = ({ country, population }) => {
-  return (
-    <div className="tooltip">
-      {country}, Population: {population}
-    </div>
-  );
-};
 
 const LandingPage = () => {
   const canvasContainerRef = useRef(null);
@@ -345,7 +337,7 @@ const LandingPage = () => {
 
   return (
     <div className="flex flex-row h-screen w-screen bg-orange-300">
-      <div className="w-1/2 flex flex-col justify-center px-8 pt-16 xl:pt-0">
+      <div className="flex flex-col justify-center px-8 pt-16 xl:pt-0">
         <div>
           <h1 className="text-black text-bold text-4xl mb-8 font-Crimson leading-none uppercase items-center mt-20">
             World Wonders
@@ -355,22 +347,21 @@ const LandingPage = () => {
             immersive cultural experiences, inviting you to embark on a
             captivating voyage into the very essence of each civilization.
           </p>
-
           <div>
-            <a
-              href=""
+            <Link
+              to="/products"
               className="text-white bg-blue-600 hover:text-black inline-block px-10 py-4 rounded-full text-xl font-Lato"
             >
-              Learn More
-            </a>
+              Shop Now!
+            </Link>
           </div>
         </div>
       </div>
       <div className="h-full w-1/2 relative">
         {tooltipVisible && (
-          <div className="tooltip">
+          <span className="text-white">
             {tooltipContent.country}, Population: {tooltipContent.population}
-          </div>
+          </span>
         )}
       </div>
       <div className="h-full w-1/2">

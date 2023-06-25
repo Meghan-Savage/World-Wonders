@@ -25,7 +25,7 @@ const app = initializeApp(firebaseConfig);
 // const auth = getAuth(app);
 console.log("APP", app);
 
-//This is wrong!!!
+//This should be done with the context provider
 export const auth = getAuth(app);
 console.log("auth", auth);
 
