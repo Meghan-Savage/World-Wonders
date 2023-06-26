@@ -1,5 +1,5 @@
-import LandingPage from "../components/LandingPage";
-import Banner from "../components/Banner";
+import LandingPage from "../Components/LandingPage";
+import Banner from "../Components/Banner/Banner";
 
 import React from "react";
 

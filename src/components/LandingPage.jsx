@@ -1,26 +1,31 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import gsap from "gsap";
-
+import { Link } from "react-router-dom";
 import atmosphereVertexShader from "../shaders/atmosphereVertex.glsl";
 import atmosphereFragmentShader from "../shaders/atmosphereFragment.glsl";
 import fragmentShader from "../shaders/fragment.glsl";
 import vertexShader from "../shaders/vertex.glsl";
 
 import countries from "./countries.json";
+import "../index.css";
 
 const LandingPage = () => {
   const canvasContainerRef = useRef(null);
+  const [tooltipVisible, setTooltipVisible] = useState(false);
+  const [tooltipContent, setTooltipContent] = useState({
+    country: "",
+    population: "",
+  });
 
   useEffect(() => {
     const raycaster = new THREE.Raycaster();
 
-    //const intersectedBoxes = [];
     const canvas = canvasContainerRef.current;
     const sizes = {
-      width: canvas.clientWidth,
-      height: canvas.clientHeight,
+      width: window.innerWidth / 2,
+      height: window.innerHeight,
     };
 
     const scene = new THREE.Scene();
@@ -117,23 +122,8 @@ const LandingPage = () => {
 
         delay: Math.random(),
       });
-
-      // Tooltip
-      const tooltipElement = document.createElement("div");
-      tooltipElement.classList.add("tooltip");
-      tooltipElement.textContent = `${country}, Population: ${population}`;
-      document.body.appendChild(tooltipElement);
-
-      // Events
-      box.addEventListener("mouseenter", () => {
-        gsap.to(box.scale, { x: 1.5, y: 1.5, z: 1.5, duration: 0.3 });
-        gsap.to(tooltipElement, { opacity: 1, duration: 0.3 });
-      });
-
-      box.addEventListener("mouseleave", () => {
-        gsap.to(box.scale, { x: 1, y: 1, z: 1, duration: 0.3 });
-        gsap.to(tooltipElement, { opacity: 0, duration: 0.3 });
-      });
+      box.country = country;
+      box.population = population;
     }
 
     function createBoxes(countries) {
@@ -224,6 +214,7 @@ const LandingPage = () => {
       x: 0,
       y: 0,
     };
+
     const mouse = {
       x: undefined,
       y: undefined,
@@ -232,11 +223,47 @@ const LandingPage = () => {
       yPrev: undefined,
     };
 
-    // Add boxes for countries
-    countries.forEach((countryData) => {
-      const { lat, lng, country, population, color } = countryData;
-      createBox({ lat, lng, country, population, color });
-    });
+    const handleMouseMove = (event) => {
+      mouse.x = ((event.clientX - innerWidth / 2) / (innerWidth / 2)) * 2 - 1;
+
+      const computedFontSize = parseFloat(
+        getComputedStyle(document.documentElement).fontSize
+      );
+      const pixelsToSubtract = 5 * computedFontSize;
+
+      mouse.y = -((event.clientY - pixelsToSubtract) / sizes.height) * 2 + 1;
+
+      const intersects = raycaster.intersectObjects(
+        group.children.filter((mesh) => {
+          return mesh.geometry.type === "BoxGeometry";
+        })
+      );
+
+      if (intersects.length > 0) {
+        const intersectedBox = intersects[0].object;
+        setTooltipVisible(true);
+        setTooltipContent({
+          country: intersectedBox.country,
+          population: intersectedBox.population,
+        });
+      } else {
+        setTooltipVisible(false);
+      }
+    };
+
+    const handleMouseDown = (event) => {
+      mouse.down = true;
+      mouse.xPrev = mouse.x;
+      mouse.yPrev = mouse.y;
+    };
+
+    const handleMouseUp = (event) => {
+      mouse.down = false;
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mouseup", handleMouseUp);
 
     // Animation loop
     const animate = () => {
@@ -262,8 +289,8 @@ const LandingPage = () => {
 
       if (mouse.down) {
         event.preventDefault();
-        const deltaX = mouse.clientX - mouse.xPrev;
-        const deltaY = mouse.clientY - mouse.yPrev;
+        const deltaX = mouse.x - mouse.xPrev;
+        const deltaY = mouse.y - mouse.yPrev;
 
         group.rotation.offset.x += deltaY * 0.005;
         group.rotation.offset.y += deltaX * 0.005;
@@ -274,8 +301,8 @@ const LandingPage = () => {
           duration: 2,
         });
 
-        mouse.xPrev = mouse.clientX;
-        mouse.yPrev = mouse.clientY;
+        mouse.xPrev = mouse.x;
+        mouse.yPrev = mouse.y;
       }
 
       //controls.update();
@@ -298,15 +325,19 @@ const LandingPage = () => {
 
     window.addEventListener("resize", handleResize);
 
+    console.log("raycaster update", raycaster.ray);
     // Clean up
     return () => {
       window.removeEventListener("resize", handleResize);
+      canvas.addEventListener("mousemove", handleMouseMove);
+      canvas.addEventListener("mousedown", handleMouseDown);
+      canvas.addEventListener("mouseup", handleMouseUp);
     };
   }, []);
 
   return (
     <div className="flex flex-row h-screen w-screen bg-orange-300">
-      <div className="xl:w-1/2 flex flex-col justify-center px-8 pt-16 xl:pt-0">
+      <div className="flex flex-col justify-center px-8 pt-16 xl:pt-0">
         <div>
           <h1 className="text-black text-bold text-4xl mb-8 font-Crimson leading-none uppercase items-center mt-20">
             World Wonders
@@ -316,16 +347,22 @@ const LandingPage = () => {
             immersive cultural experiences, inviting you to embark on a
             captivating voyage into the very essence of each civilization.
           </p>
-
           <div>
-            <a
-              href=""
+            <Link
+              to="/products"
               className="text-white bg-blue-600 hover:text-black inline-block px-10 py-4 rounded-full text-xl font-Lato"
             >
-              Learn More
-            </a>
+              Shop Now!
+            </Link>
           </div>
         </div>
+      </div>
+      <div className="h-full w-1/2 relative">
+        {tooltipVisible && (
+          <span className="text-white">
+            {tooltipContent.country}, Population: {tooltipContent.population}
+          </span>
+        )}
       </div>
       <div className="h-full w-1/2">
         <canvas className="h-full w-full" ref={canvasContainerRef}></canvas>

@@ -3,7 +3,7 @@ import icon from '../images/icon.png';
 import { Link, useNavigate} from "react-router-dom";
 
 import { auth } from "../firebase/provider";
-import { signInWithEmailAndPassword,} from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -25,16 +25,31 @@ export default function LoginForm() {
       });
   };
 
+  //sign in with google code/logic
+  const signInWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // Handle successful sign-in with Google
+        const user = result.user;
+        // Perform any necessary actions, such as redirecting to a new page
+        navigate("/products");
+      })
+      .catch((error) => {
+        // Handle error during sign-in with Google
+        console.log(error);
+      });
+  };
    
  
 
   return (
-    <div className="flex justify-center items-center h-screen bg-indigo-300">
+    <div className="flex justify-center items-center h-screen bg-orange-100">
       <div className="w-96 p-6 shadow-lg bg-white rounded-md">
         <form onSubmit={login}>
           <div>
-            <h1 className="text-3xl block text-center font-bold text-indigo-600">LOGIN</h1>
-            <p className="text-1xl block text-center font-semi-bold text-indigo-600">
+            <h1 className="text-3xl block text-center font-bold text-gray-800">LOGIN</h1>
+            <p className="text-1xl block text-center font-semi-bold text-gray-800">
               Welcome back! Please enter your details.
             </p>
 
@@ -63,7 +78,7 @@ export default function LoginForm() {
             <div className="mt-3">
               <button
                 type="submit"
-                className="border-2 border-indigo-700 bg-indigo-600 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-indigo-700 font-semibold"
+                className="border-2 border-gray-800 bg-gray-800 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-gray-800 font-semibold"
               >
                 Login
               </button>
@@ -72,7 +87,7 @@ export default function LoginForm() {
         </form>
 
 
-        <div className="mt-3 grid grid-cols-3 items-center text-indigo-600">
+        <div className="mt-3 grid grid-cols-3 items-center text-gray-800">
           <hr className="border-gray-900" />
           <p className="text-center  font-bold text-1xl">Or</p>
           <hr className="border-gray-900" />
@@ -81,10 +96,10 @@ export default function LoginForm() {
         <div className="mt-3">
           <button
             type="submit"
-            className="border-2 border-indigo-400 bg-indigo-400 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-indigo-700 font-semibold  flex items-center justify-center px-0  gap-2"
+            className="border-2 border-gray-800 bg-gray-800 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-gray-800 font-semibold  flex items-center justify-center px-0  gap-2"
           >
             <img className="w-6 h-6 mt-0" src={icon} alt="images" />
-            <span className="">Sign in with Google</span>
+            <span className="" onClick={signInWithGoogle}>Sign in with Google</span>
           </button>
         </div>
 
@@ -92,7 +107,7 @@ export default function LoginForm() {
           <p className="font-semibold text-1xl">Don't have an account?</p>
           <Link
             to="/signup"
-            className="text-1xl font-semibold ml-2 border-2 border-indigo-400 hover:text-indigo-700 rounded-md hover:bg-transparent bg-indigo-400 text-white w-24"
+            className="text-1xl font-semibold ml-2 border-2 border-gray-800 hover:text-gray-800 rounded-md hover:bg-transparent bg-gray-800 text-white w-24"
           >
             Sign up
           </Link>
