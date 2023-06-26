@@ -11,6 +11,7 @@ console.log(
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  chatKey: import.meta.env.CHAT_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
   projectId: "world-wonders-inceptionu",
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
@@ -25,7 +26,7 @@ const app = initializeApp(firebaseConfig);
 // const auth = getAuth(app);
 console.log("APP", app);
 
-//This should be done with the context provider
+//This is wrong!!!
 export const auth = getAuth(app);
 console.log("auth", auth);
 
