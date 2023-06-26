@@ -23,7 +23,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // This is already been declared in the file
 // And passed to the context provider
-const auth = getAuth(app);
+//const auth = getAuth(app);
 console.log("APP", app);
 
 //This is wrong!!!
