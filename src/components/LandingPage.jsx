@@ -271,7 +271,7 @@ const LandingPage = () => {
 
       raycaster.setFromCamera(mouse, camera);
       renderer.render(scene, camera);
-      scene.rotation.y += 0.011;
+      scene.rotation.y += 0.001;
 
       const intersects = raycaster.intersectObjects(
         group.children.filter((mesh) => {
@@ -288,7 +288,7 @@ const LandingPage = () => {
       });
 
       if (mouse.down) {
-        event.preventDefault();
+        //event.preventDefault();
         const deltaX = mouse.x - mouse.xPrev;
         const deltaY = mouse.y - mouse.yPrev;
 
