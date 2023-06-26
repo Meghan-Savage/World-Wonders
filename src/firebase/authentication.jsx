@@ -16,10 +16,7 @@ export const AuthProvider = (props) => {
   const db = fbContext.db;
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (user) => {
-      console.log("onAuthStateChanged() - new User!!", user);
-      setUser(user);
-    });
+    const unsub = onAuthStateChanged(auth, (user) => {});
     return unsub; // to shut down onAuthStateChanged listener
   }, [auth]);
 
@@ -43,7 +40,9 @@ export const AuthProvider = (props) => {
   const authContextValue = { user, login, logout }; // Create the context value object
 
   return (
-    <AuthContext.Provider value={authContextValue}> {/* Pass the context value */}
+    <AuthContext.Provider value={authContextValue}>
+      {" "}
+      {/* Pass the context value */}
       {props.children}
     </AuthContext.Provider>
   );
