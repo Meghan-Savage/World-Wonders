@@ -6,7 +6,7 @@ export default function BottomPage() {
 
   return (
     <footer>
-      <div className="p-0 bg-gray-800 text-orange-200">
+      <div className="p-0 bg-gray-900 text-orange-200">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="mb-5">
@@ -107,7 +107,7 @@ export default function BottomPage() {
           </div>
         </div>
       </div>
-      <div className="w-full bg-gray-900 text-gray-500 px-10">
+      <div className="w-full bg-gray-800 text-gray-500 px-10">
         <div className="max-w-7xl flex-col sm:flex-row py-4 mx-auto justify-between items-center">
           <div className="text-center">
           <div className="text-orange-200">

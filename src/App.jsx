@@ -12,10 +12,12 @@ import AdminShowProducts from "./components/AdminShowProducts";
 import CreateProductForm from "./components/CreateProductForm";
 import HomePage from "./pages/HomePage";
 import BottomPage from "./components/BottomPage.jsx"
+import TopPage from "./Components/TopPage"
 
 function App() {
   return (
     <>
+    <TopPage />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<Products />} />
@@ -26,6 +28,7 @@ function App() {
         <Route path="/admin-products" element={<AdminShowProducts />} />
         <Route path="/create-product" element={<CreateProductForm />} />
         <Route path="/footer" element={<BottomPage />} />
+        <Route path="/navbar" element={<TopPage />} />
       </Routes>
       <SideBar />
       <BottomPage />
