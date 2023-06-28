@@ -18,16 +18,17 @@ const LandingPage = () => {
     country: "",
     population: "",
   });
+  const [tooltipPositionX, setTooltipPositionX] = useState(0);
+  const [tooltipPositionY, setTooltipPositionY] = useState(0);
 
   useEffect(() => {
     const raycaster = new THREE.Raycaster();
 
     const canvas = canvasContainerRef.current;
     const sizes = {
-      width: window.innerWidth / 2,
-      height: window.innerHeight,
+      width: canvas.clientWidth,
+      height: canvas.clientHeight,
     };
-
     const scene = new THREE.Scene();
 
     const camera = new THREE.PerspectiveCamera(
@@ -224,14 +225,14 @@ const LandingPage = () => {
     };
 
     const handleMouseMove = (event) => {
-      mouse.x = ((event.clientX - innerWidth / 2) / (innerWidth / 2)) * 2 - 1;
+      const canvasBounds = canvas.getBoundingClientRect();
 
-      const computedFontSize = parseFloat(
-        getComputedStyle(document.documentElement).fontSize
-      );
-      const pixelsToSubtract = 5 * computedFontSize;
+      const mouse = {
+        x: ((event.clientX - canvasBounds.left) / canvasBounds.width) * 2 - 1,
+        y: -((event.clientY - canvasBounds.top) / canvasBounds.height) * 2 + 1,
+      };
 
-      mouse.y = -((event.clientY - pixelsToSubtract) / sizes.height) * 2 + 1;
+      raycaster.setFromCamera(mouse, camera);
 
       const intersects = raycaster.intersectObjects(
         group.children.filter((mesh) => {
@@ -241,11 +242,29 @@ const LandingPage = () => {
 
       if (intersects.length > 0) {
         const intersectedBox = intersects[0].object;
+
+        const tooltipX =
+          event.clientX - canvasBounds.left < canvasBounds.width / 2
+            ? ((event.clientX - canvasBounds.left) * canvas.width) /
+              (canvasBounds.width / 1.75)
+            : ((event.clientX - canvasBounds.left) * canvas.width) /
+              (canvasBounds.width / 1.25);
+
+        const tooltipY =
+          ((event.clientY - canvasBounds.top) * canvas.height) /
+          canvasBounds.height;
+
+        const tooltipOffsetX = tooltipX - canvas.width / 2;
+        const tooltipOffsetY = tooltipY - canvas.height / 2;
+
         setTooltipVisible(true);
         setTooltipContent({
           country: intersectedBox.country,
           population: intersectedBox.population,
         });
+
+        setTooltipPositionX(tooltipX + (tooltipOffsetX > 0 ? -80 : 0));
+        setTooltipPositionY(tooltipY + (tooltipOffsetY > 0 ? -30 : 0));
       } else {
         setTooltipVisible(false);
       }
@@ -259,6 +278,10 @@ const LandingPage = () => {
 
     const handleMouseUp = (event) => {
       mouse.down = false;
+      group.rotation.offset.x += mouse.y - mouse.yPrev;
+      group.rotation.offset.y += mouse.x - mouse.xPrev;
+      mouse.xPrev = mouse.x;
+      mouse.yPrev = mouse.y;
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -288,7 +311,7 @@ const LandingPage = () => {
       });
 
       if (mouse.down) {
-        //event.preventDefault();
+        event.preventDefault();
         const deltaX = mouse.x - mouse.xPrev;
         const deltaY = mouse.y - mouse.yPrev;
 
@@ -321,28 +344,40 @@ const LandingPage = () => {
 
       renderer.setSize(sizes.width, sizes.height);
       renderer.setPixelRatio(window.devicePixelRatio);
+
+      const canvasBounds = canvas.getBoundingClientRect();
+      const tooltipX =
+        (tooltipPositionX * canvasBounds.width) / sizes.width +
+        canvasBounds.left;
+      const tooltipY =
+        (tooltipPositionY * canvasBounds.height) / sizes.height +
+        canvasBounds.top;
+
+      setTooltipPositionX(tooltipX);
+      setTooltipPositionY(tooltipY);
     };
 
     window.addEventListener("resize", handleResize);
 
     console.log("raycaster update", raycaster.ray);
+
     // Clean up
     return () => {
       window.removeEventListener("resize", handleResize);
-      canvas.addEventListener("mousemove", handleMouseMove);
-      canvas.addEventListener("mousedown", handleMouseDown);
-      canvas.addEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mouseup", handleMouseUp);
     };
   }, []);
 
   return (
-    <div className="flex flex-row h-screen w-screen bg-orange-300">
-      <div className="flex flex-col justify-center px-8 pt-16 xl:pt-0">
-        <div>
-          <h1 className="text-black text-bold text-4xl mb-8 font-Crimson leading-none uppercase items-center mt-20">
+    <div className="flex flex-row h-screen bg-orange-300">
+      <div className="flex flex-col justify-center px-8 pt-16 xl:pt-0 w-1/2 p-4">
+        <div className="flex flex-col  items-center">
+          <h1 className="text-black text-bold text-6xl mb-8 font-Crimson leading-none uppercase items-center mt-70">
             World Wonders
           </h1>
-          <p className="text-black mb-8 font-Lato-400">
+          <p className="text-black mb-8 font-Lato-400 w-1/2">
             World Wonders presents a delightful fusion of exquisite products and
             immersive cultural experiences, inviting you to embark on a
             captivating voyage into the very essence of each civilization.
@@ -357,15 +392,25 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-      <div className="h-full w-1/2 relative">
-        {tooltipVisible && (
-          <span className="text-white">
-            {tooltipContent.country}, Population: {tooltipContent.population}
-          </span>
-        )}
-      </div>
       <div className="h-full w-1/2">
         <canvas className="h-full w-full" ref={canvasContainerRef}></canvas>
+        {tooltipVisible && (
+          <Link to="/products">
+            <div
+              className="flex justify-center items-center h-14 text-white bg-black px-4 py-2 rounded bg-opacity-50"
+              style={{
+                position: "absolute",
+                left: `${tooltipPositionX * 2}px`,
+                top: `${tooltipPositionY}px`,
+              }}
+            >
+              <span className="text-center">
+                {tooltipContent.country}, Population:{" "}
+                {tooltipContent.population}
+              </span>
+            </div>
+          </Link>
+        )}
       </div>
     </div>
   );
