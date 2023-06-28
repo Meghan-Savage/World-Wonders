@@ -11,7 +11,6 @@ console.log(
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  chatKey: import.meta.env.CHAT_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
   projectId: "world-wonders-inceptionu",
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,

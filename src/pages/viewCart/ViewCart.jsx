@@ -8,9 +8,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { ArrowLongRightIcon } from "@heroicons/react/24/outline";
-import CartItem from "../../Components/cartItem/CartItem.jsx";
 import NavBar from "../../Components/navBar/NavBar.jsx";
-import Footer from "../../Components/footer/Footer.jsx";
 
 export default function ViewCart() {
   const { cart, cartAmount, updateQuantity, removeFromCart } =
@@ -29,7 +27,7 @@ export default function ViewCart() {
         <div>{cartAmount} Items In your Shopping Bag</div>
         {cart.map((item) => (
           <Card
-            className="max-w-[36rem] sm:max-w-[28rem] md:max-w-[32rem] lg:max-w-[36rem] xl:max-w-[40rem] flex mb-4 shadow-md rounded-none"
+            className="max-w-[30rem] sm:max-w-[24rem] md:max-w-[28rem] lg:max-w-[30rem] xl:max-w-[33.33rem] flex mb-4 shadow-md rounded-none"
             key={item.id}
           >
             <CardHeader shadow={false} floated={false} className="rounded-none">
@@ -106,7 +104,6 @@ export default function ViewCart() {
             <CardBody className="rounded-none"></CardBody>
           </Card>
         ))}
-        <Footer />
       </div>
     </>
   );

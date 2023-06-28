@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { CartContext } from "../../context/CartContext/CartContext.jsx";
 import { ProductContext } from "../../context/ProductContext/ProductContext.jsx";
-import Carousel from "../../Components/carousel/Carousel.jsx";
+import "./ProductDetails.css";
 import NavBar from "../../Components/navBar/NavBar.jsx";
 
 function ProductDetails() {
@@ -21,34 +21,68 @@ function ProductDetails() {
   }
 
   const { title, price, description, images } = product;
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [showFullDescription, setShowFullDescription] = useState(false);
+
+  const handleTab = (index) => {
+    setActiveIndex(index);
+  };
+
+  const toggleDescription = () => {
+    setShowFullDescription((prevShow) => !prevShow);
+  };
+
+  const truncateDescription = (text, maxLength) => {
+    const words = text.split(" ");
+    if (words.length <= maxLength) {
+      return text;
+    }
+    return words.slice(0, maxLength).join(" ") + "...";
+  };
 
   return (
     <div>
-      <NavBar />
-      <section className="pt-32 pb-12 lg:py-32 h-screen flex items-center">
-        <div className="container mx-auto">
-          <div className="flex flex-col lg:flex-row items-center">
-            <div className="flex flex-1 justify-center items-center mb-8 lg:mb-0">
-              <Carousel images={images} />
+      <div className="app">
+        <NavBar />
+        <div className="details" key={id}>
+          <div className="big-img">
+            <img src={images[activeIndex]} alt="" />
+          </div>
+
+          <div className="box">
+            <div className="row">
+              <h2>{title}</h2>
+              <span>${price}</span>
             </div>
-            <div className="flex-1 text-center lg:text-left ml-0">
-              <h1 className="text-[26px] lg:mx-0 font-medium mb-2 max-w-[450px] mx-auto">
-                {title}
-              </h1>
-              <div className="text-xl text-red-500 font-medium mb-6">
-                ${price}
-              </div>
-              <p className="mb-8">{description}</p>
-              <button
-                onClick={() => addToCart(product, product.id)}
-                className="font-normal hover:font-bold text-white bg-orange-300 rounded-xl py-4 px-8"
-              >
-                Add to cart
+            <p>
+              {showFullDescription
+                ? description
+                : truncateDescription(description, 40)}
+            </p>
+            {description.length > 40 && (
+              <button onClick={toggleDescription}>
+                {showFullDescription ? "Show Less" : "Learn More"}
               </button>
+            )}
+            <div className="thump">
+              {images.map((img, index) => (
+                <img
+                  src={img}
+                  onClick={() => handleTab(index)}
+                  key={index}
+                  className={index === activeIndex ? "active" : ""}
+                />
+              ))}
             </div>
+            <button
+              className="cart"
+              onClick={() => addToCart(product, product.id)}
+            >
+              Add To Cart
+            </button>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 }

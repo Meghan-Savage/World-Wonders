@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { ProductContext } from "../../context/ProductContext/ProductContext.jsx";
 import { Outlet } from "react-router-dom";
-import Footer from "../../Components/footer/Footer.jsx";
+
 import NavBar from "../../Components/navBar/NavBar.jsx";
 import Product from "../../Components/product/Product.jsx";
 import "./AllProducts.css";
@@ -21,11 +21,8 @@ const Products = () => {
           </div>
         </div>
       </section>
-      <div className="Products">
-        <h2>This is the Products page!</h2>
-        <Outlet />
-        <Footer />
-      </div>
+
+      <Outlet />
     </>
   );
 };

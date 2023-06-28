@@ -1,7 +1,6 @@
 import React from "react";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-
 import Products from "./pages/allProducts/AllProducts.jsx";
 import ProductDetails from "./pages/productDetails/ProductDetails.jsx";
 import SideBar from "./Components/sideBar/SideBar.jsx";
@@ -11,13 +10,13 @@ import RegistrationForm from "./Components/RegistrationForm.jsx";
 import AdminShowProducts from "./components/AdminShowProducts";
 import CreateProductForm from "./components/CreateProductForm";
 import HomePage from "./pages/HomePage";
-import BottomPage from "./components/BottomPage.jsx"
-import TopPage from "./Components/TopPage"
+import BottomPage from "./components/BottomPage.jsx";
+import TopPage from "./Components/TopPage";
 
 function App() {
   return (
     <>
-    <TopPage />
+      <TopPage />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<Products />} />
