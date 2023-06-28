@@ -24,12 +24,12 @@ export const AuthProvider = (props) => {
     try {
       let userCred = await signInWithEmailAndPassword(auth, email, password);
       if (userCred) {
-        console.log("Logged in!!", userCred.user);
+        console.log("Logged in!!");
       } else {
         console.log("Login failed!");
       }
     } catch (ex) {
-      console.log("AUTH FAILURE!", ex);
+      console.log("AUTH FAILURE!");
     }
   };
 
@@ -41,8 +41,6 @@ export const AuthProvider = (props) => {
 
   return (
     <AuthContext.Provider value={authContextValue}>
-      {" "}
-      {/* Pass the context value */}
       {props.children}
     </AuthContext.Provider>
   );

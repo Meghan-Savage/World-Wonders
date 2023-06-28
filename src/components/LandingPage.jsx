@@ -267,6 +267,10 @@ const LandingPage = () => {
     };
 
     const handleMouseDown = (event) => {
+      onClick = (event) => {
+        event.preventDefault();
+      };
+
       mouse.down = true;
       mouse.xPrev = mouse.x;
       mouse.yPrev = mouse.y;
@@ -307,7 +311,6 @@ const LandingPage = () => {
       });
 
       if (mouse.down) {
-        event.preventDefault();
         const deltaX = mouse.x - mouse.xPrev;
         const deltaY = mouse.y - mouse.yPrev;
 
