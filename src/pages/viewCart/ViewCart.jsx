@@ -10,7 +10,6 @@ import {
 import { ArrowLongRightIcon } from "@heroicons/react/24/outline";
 import CartItem from "../../Components/cartItem/CartItem.jsx";
 import NavBar from "../../Components/navBar/NavBar.jsx";
-import Footer from "../../Components/footer/Footer.jsx";
 
 export default function ViewCart() {
   const { cart, cartAmount, updateQuantity, removeFromCart } =
@@ -106,7 +105,6 @@ export default function ViewCart() {
             <CardBody className="rounded-none"></CardBody>
           </Card>
         ))}
-        <Footer />
       </div>
     </>
   );

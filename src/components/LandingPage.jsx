@@ -252,7 +252,8 @@ const LandingPage = () => {
 
         const tooltipY =
           ((event.clientY - canvasBounds.top) * canvas.height) /
-          canvasBounds.height;
+            canvasBounds.height +
+          75;
 
         const tooltipOffsetX = tooltipX - canvas.width / 2;
         const tooltipOffsetY = tooltipY - canvas.height / 2;
