@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { ArrowLongRightIcon } from "@heroicons/react/24/outline";
-import NavBar from "../../Components/navBar/NavBar.jsx";
+import Checkout from "../../Components/checkout/Checkout.jsx";
 
 export default function ViewCart() {
   const { cart, cartAmount, updateQuantity, removeFromCart } =
@@ -21,9 +21,8 @@ export default function ViewCart() {
   };
 
   return (
-    <>
+    <div className="flex flex-col md:flex-row justify-center items-start md:items-top gap-8">
       <div className="container mx-auto">
-        <NavBar />
         <div>{cartAmount} Items In your Shopping Bag</div>
         {cart.map((item) => (
           <Card
@@ -105,6 +104,9 @@ export default function ViewCart() {
           </Card>
         ))}
       </div>
-    </>
+      <div className="flex justify-center mr-64">
+        <Checkout />
+      </div>
+    </div>
   );
 }

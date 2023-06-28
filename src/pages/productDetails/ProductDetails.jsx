@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { CartContext } from "../../context/CartContext/CartContext.jsx";
 import { ProductContext } from "../../context/ProductContext/ProductContext.jsx";
 import "./ProductDetails.css";
-import NavBar from "../../Components/navBar/NavBar.jsx";
 
 function ProductDetails() {
   const { id } = useParams();
@@ -43,7 +42,6 @@ function ProductDetails() {
   return (
     <div>
       <div className="app">
-        <NavBar />
         <div className="details" key={id}>
           <div className="big-img">
             <img src={images[activeIndex]} alt="" />

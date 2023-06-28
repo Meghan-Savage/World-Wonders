@@ -12,6 +12,7 @@ import CreateProductForm from "./components/CreateProductForm";
 import HomePage from "./pages/HomePage";
 import BottomPage from "./components/BottomPage.jsx";
 import TopPage from "./Components/TopPage";
+import ShippingForm from "./pages/shippingForm/ShippingForm.jsx";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/create-product" element={<CreateProductForm />} />
         <Route path="/footer" element={<BottomPage />} />
         <Route path="/navbar" element={<TopPage />} />
+        <Route path="/shipping" element={<ShippingForm />} />
       </Routes>
       <SideBar />
       <BottomPage />
