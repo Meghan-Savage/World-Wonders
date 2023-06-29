@@ -12,14 +12,11 @@ import CreateProductForm from "./components/CreateProductForm";
 import HomePage from "./pages/HomePage";
 import BottomPage from "./components/BottomPage.jsx";
 import TopPage from "./Components/TopPage";
-import BottomPage from "./components/BottomPage.jsx";
-import TopPage from "./Components/TopPage";
 import ShippingForm from "./pages/shippingForm/ShippingForm.jsx";
 
 function App() {
   return (
     <>
-      <TopPage />
       <TopPage />
       <Routes>
         <Route path="/" element={<HomePage />} />

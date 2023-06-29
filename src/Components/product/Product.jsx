@@ -39,7 +39,7 @@ function Product({ product }) {
               onClick={() => addToCart(product, product.id)}
               ripple={false}
               fullWidth={true}
-              className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100 text-xs"
+              className="bg-gray-900 text-orange-200 shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100 text-xs"
             >
               Add to Cart
             </Button>
