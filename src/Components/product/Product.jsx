@@ -14,7 +14,6 @@ import "./Product.css";
 
 function Product({ product }) {
   const { id, images, description, title, price, video } = product;
-  console.log("id", id);
 
   const { addToCart } = useContext(CartContext);
 

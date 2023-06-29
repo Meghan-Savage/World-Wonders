@@ -4,11 +4,6 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 
-console.log(
-  "import.meta.env.FIREBASE_API_KEY",
-  import.meta.env.FIREBASE_API_KEY
-);
-
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -23,11 +18,8 @@ const app = initializeApp(firebaseConfig);
 // This is already been declared in the file
 // And passed to the context provider
 //const auth = getAuth(app);
-console.log("APP", app);
 
-//This is wrong!!!
 export const auth = getAuth(app);
-console.log("auth", auth);
 
 const db = getFirestore(app);
 const storage = getStorage(app);

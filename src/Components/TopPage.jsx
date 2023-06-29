@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   FaShoppingCart,
   FaUser,
@@ -6,10 +6,31 @@ import {
   FaSignOutAlt,
   FaSignInAlt,
 } from "react-icons/fa";
-import ShoppingCart from "./cartBadge/CartBadge.jsx";
-import { SideBarContext } from "../context/SideBarContext/SideBarContext.jsx";
+import { Link } from "react-router-dom";
 
-export default function Navbar() {
+const menuItems = [
+  { text: "Home", to: "/" },
+  { text: "Products", to: "/products" },
+  {
+    text: "Profile",
+    to: "/signin",
+
+    icon: <FaUser className="mr-1" />,
+    subItems: [
+      {
+        text: "Sign In",
+        to: "/signin",
+        icon: <FaSignInAlt className="ml-1 text-orange-200" />,
+      },
+      { text: "Sign Up", to: "/signup" },
+    ],
+  },
+  { text: "Admin Products", to: "/admin-products" },
+  { text: "Sign In", to: "/signin" },
+  { text: "Create Product", to: "/create-product" },
+];
+
+const Navbar = () => {
   const { isOpen, setIsOpen } = useContext(SideBarContext);
 
   return (
@@ -53,6 +74,40 @@ export default function Navbar() {
             </a>
           </div>
         </li>
+        {menuItems.map((item, index) => (
+          <li key={index}>
+            {item.subItems ? (
+              <div className="relative">
+                <Link
+                  to={item.to}
+                  className="text-orange-200 hover:text-gray-400"
+                >
+                  {item.text}
+                </Link>
+                <div className="absolute z-10 bg-white hidden">
+                  {item.subItems.map((subItem, subIndex) => (
+                    <Link
+                      key={subIndex}
+                      to={subItem.to}
+                      className="block px-4 py-2 text-orange-200 hover:text-gray-400"
+                    >
+                      {subItem.icon}
+                      {subItem.text}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <Link
+                to={item.to}
+                className="text-orange-200 hover:text-gray-400 flex items-center"
+              >
+                {item.icon}
+                {item.text}
+              </Link>
+            )}
+          </li>
+        ))}
         <li className="navbar-right">
           <div className="flex items-center">
             <div className="relative">
@@ -65,25 +120,6 @@ export default function Navbar() {
                 <FaSearch className="text-gray-600" />
               </div>
             </div>
-          </div>
-        </li>
-        <li className="navbar-right relative">
-          <div onClick={() => setIsOpen(!isOpen)}>
-            <ShoppingCart className="cursor-pointer" />
-          </div>
-          <div className="absolute z-10 bg-white hidden">
-            <a
-              href="#"
-              className="block px-4 py-2 text-orange-200 hover:text-gray-400"
-            >
-              Profile
-            </a>
-            <a
-              href="#"
-              className="block px-4 py-2 text-orange-200 hover:text-gray-400"
-            >
-              Sign Out
-            </a>
           </div>
         </li>
         <li className="navbar-right flex items-center">
@@ -101,8 +137,17 @@ export default function Navbar() {
             Profile
           </a>
           <FaSignInAlt className="ml-1 text-orange-200" />
+          <Link
+            to="/cart"
+            className="text-orange-200 hover:text-gray-400 flex items-center"
+          >
+            <FaShoppingCart className="flex mr-1" />
+            Cart
+          </Link>
         </li>
       </ul>
     </nav>
   );
-}
+};
+
+export default Navbar;
