@@ -13,6 +13,7 @@ import CreateProductForm from "./components/CreateProductForm";
 import HomePage from "./pages/HomePage";
 import BottomPage from "./components/BottomPage.jsx";
 import TopPage from "./Components/TopPage";
+import UserDropdown from "./Components/UserDropdown";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/signup" element={<RegistrationForm />} />
         <Route path="/admin-products" element={<AdminShowProducts />} />
         <Route path="/create-product" element={<CreateProductForm />} />
+        <Route path="/user" element={<UserDropdown />} />
       </Routes>
       <SideBar />
       <BottomPage />

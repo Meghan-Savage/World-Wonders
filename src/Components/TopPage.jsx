@@ -3,10 +3,13 @@ import {
   FaShoppingCart,
   FaUser,
   FaSearch,
-  FaSignOutAlt,
   FaSignInAlt,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import UserDropdown from "./UserDropdown";
+
+
+
 
 const menuItems = [
   { text: "Home", to: "/" },
@@ -14,8 +17,8 @@ const menuItems = [
   {
     text: "Profile",
     to: "/signin",
-
     icon: <FaUser className="mr-1" />,
+    
     subItems: [
       {
         text: "Sign In",
@@ -83,13 +86,7 @@ const Navbar = () => {
           </div>
         </li>
         <li className="navbar-right flex items-center">
-          <Link
-            to="/cart"
-            className="text-orange-200 hover:text-gray-400 flex items-center"
-          >
-            <FaShoppingCart className="flex mr-1" />
-            Cart
-          </Link>
+          <UserDropdown />
         </li>
       </ul>
     </nav>
