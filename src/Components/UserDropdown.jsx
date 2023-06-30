@@ -72,8 +72,6 @@ const UserAccountDropdown = () => {
         <FaUser className="mr-1" style={{ fontSize: "24px" }} />
         <span className="hidden sm:inline">Profile</span>
         <FaCaretDown className="text-xs ml-1" />
-        <FaUser className="mr-1" style={{ fontSize: "24px" }} />
-        <FaCaretDown className="text-xs" />
       </button>
       {showDropdown && (
         <div className="absolute right-0 mt-2 bg-gray-200 border rounded border-gray-800 w-60">
