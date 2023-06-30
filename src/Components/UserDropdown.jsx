@@ -27,7 +27,7 @@ const UserAccountDropdown = () => {
         onClick={toggleDropdown}
         className="flex items-center text-orange-200 hover:text-gray-400 focus:outline-none"
       >
-        <FaUser className="mr-1" />
+        <FaUser className="mr-1" style={{ fontSize: "24px" }} />
         <FaCaretDown className="text-xs" />
       </button>
       {showDropdown && (
