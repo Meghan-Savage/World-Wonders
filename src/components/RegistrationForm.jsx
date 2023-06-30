@@ -74,7 +74,7 @@ export default function RegistrationForm() {
           <p className="font-semibold text-1xl">Already have an account?</p>
           <Link
             to="/signin"
-            className="text-1xl font-semibold ml-2 border-2 border-gray-800 hover:text-gray-800 rounded-md hover:bg-transparent bg-gray-800 text-white w-24"
+            className=" text-center text-1xl font-semibold ml-2 border-2 border-gray-800 hover:text-gray-800 rounded-md hover:bg-transparent bg-gray-800 text-white w-24"
           >
             Sign In
           </Link>

@@ -128,7 +128,7 @@ export default function LoginForm() {
           <p className="font-semibold text-1xl">Don't have an account?</p>
           <Link
             to="/signup"
-            className="text-1xl font-semibold ml-2 border-2 border-gray-800 hover:text-gray-800 rounded-md hover:bg-transparent bg-gray-800 text-white w-24"
+            className=" text-center text-1xl font-semibold ml-2 border-2 border-gray-800 hover:text-gray-800 rounded-md hover:bg-transparent bg-gray-800 text-white w-24"
           >
             Sign up
           </Link>
