@@ -61,7 +61,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-orange-300">
+    <div className="flex justify-center items-center h-screen bg-orange-100">
       <div className="w-96 p-6 shadow-lg bg-white rounded-md">
         <form onSubmit={login}>
           <div>

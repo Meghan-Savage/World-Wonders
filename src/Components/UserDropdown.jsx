@@ -57,7 +57,7 @@ const UserAccountDropdown = () => {
   };
 
   const handleLogin = () => {
-    // Navigate to the CreateProduct component
+    // Navigate to the Signin component
     navigate("/signin");
 
     setShowDropdown(false);
@@ -76,11 +76,10 @@ const UserAccountDropdown = () => {
       {showDropdown && (
         <div className="absolute right-0 mt-2 bg-gray-200 border rounded border-gray-800 w-60">
           <button
-          onClick={handleLogin}
-            
+            onClick={handleLogin}
             className="block px-4 py-2 text-black hover:bg-orange-200 w-full text-left"
           >
-            Login
+            Login or Sign up
           </button>
           <button
             className="block px-4 py-2 text-black hover:bg-orange-200 w-full text-left"
@@ -88,7 +87,6 @@ const UserAccountDropdown = () => {
             Your Orders
           </button>
           <button
-            
             className="block px-4 py-2 text-black hover:bg-orange-200 w-full text-left"
           >
             Order Shipping
@@ -100,7 +98,6 @@ const UserAccountDropdown = () => {
             Post Product(s)
           </button>
           <button
-            
             className="block px-4 py-2 text-black hover:bg-orange-200 w-full text-left"
           >
             Order Management
