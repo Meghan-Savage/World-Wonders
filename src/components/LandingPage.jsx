@@ -398,7 +398,7 @@ const LandingPage = () => {
         <div className="h-full w-1/2">
           <canvas className="h-full w-full" ref={canvasContainerRef}></canvas>
           {tooltipVisible && (
-            <Link to="/products">
+            <Link to={`/products/${tooltipContent.country}`}>
               <div
                 className="flex justify-center items-center h-14 text-white bg-black px-4 py-2 rounded bg-opacity-50"
                 style={{
