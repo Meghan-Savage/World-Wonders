@@ -243,15 +243,14 @@ const LandingPage = () => {
       if (intersects.length > 0) {
         const intersectedBox = intersects[0].object;
 
-        const tooltipX =
-          (event.clientX - canvasBounds.left) *
-          (canvas.width / canvasBounds.width);
-        const tooltipY =
-          (event.clientY - canvasBounds.top) *
-          (canvas.height / canvasBounds.height);
+        const tooltipX = event.clientX - canvasBounds.left;
+        const tooltipY = event.clientY - canvasBounds.top;
 
-        const tooltipOffsetX = tooltipX - canvas.width / 2;
-        const tooltipOffsetY = tooltipY - canvas.height / 2;
+        const offsetX = tooltipX + 10 > canvasBounds.width / 2 ? -80 : 0;
+        const offsetY = tooltipY + 10 > canvasBounds.height / 2 ? -30 : 0;
+
+        const adjustedTooltipX = tooltipX + offsetX + canvasBounds.left;
+        const adjustedTooltipY = tooltipY + offsetY + canvasBounds.top;
 
         setTooltipVisible(true);
         setTooltipContent({
@@ -259,8 +258,8 @@ const LandingPage = () => {
           population: intersectedBox.population,
         });
 
-        setTooltipPositionX(tooltipX + (tooltipOffsetX > 0 ? -80 : 0));
-        setTooltipPositionY(tooltipY + (tooltipOffsetY > 0 ? -30 : 0));
+        setTooltipPositionX(adjustedTooltipX);
+        setTooltipPositionY(adjustedTooltipY);
       } else {
         setTooltipVisible(false);
       }
@@ -294,7 +293,7 @@ const LandingPage = () => {
 
       raycaster.setFromCamera(mouse, camera);
       renderer.render(scene, camera);
-      scene.rotation.y += 0.001;
+      scene.rotation.y += 0.0008;
 
       const intersects = raycaster.intersectObjects(
         group.children.filter((mesh) => {
@@ -345,17 +344,13 @@ const LandingPage = () => {
       renderer.setPixelRatio(window.devicePixelRatio);
 
       const canvasBounds = canvas.getBoundingClientRect();
+
       let tooltipX = tooltipPositionX;
       let tooltipY = tooltipPositionY;
 
       if (sizes.width !== 0 && sizes.height !== 0) {
-        tooltipX =
-          ((tooltipPositionX - canvasBounds.left) * sizes.width) /
-            canvasBounds.width || tooltipX;
-
-        tooltipY =
-          ((tooltipPositionY - canvasBounds.top) * sizes.height) /
-            canvasBounds.height || tooltipY;
+        tooltipX = (tooltipX * sizes.width) / canvasBounds.width;
+        tooltipY = (tooltipY * sizes.height) / canvasBounds.height;
       }
 
       setTooltipPositionX(tooltipX);
@@ -386,6 +381,18 @@ const LandingPage = () => {
               and immersive cultural experiences, inviting you to embark on a
               captivating voyage into the very essence of each civilization.
             </p>
+            <div>
+              <Link to="/products">
+                <button className="bg-black text-white px-8 py-4 rounded-full uppercase font-Lato-400">
+                  Explore
+                </button>
+              </Link>
+              <Link to="/signIn">
+                <button className="bg-black text-white px-8 py-4 rounded-full uppercase font-Lato-400 ml-4">
+                  Sign In
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
         <div className="h-full w-1/2">
@@ -396,8 +403,8 @@ const LandingPage = () => {
                 className="flex justify-center items-center h-14 text-white bg-black px-4 py-2 rounded bg-opacity-50"
                 style={{
                   position: "absolute",
-                  left: `${tooltipPositionX + 725}px`,
-                  top: `${tooltipPositionY + 80}px`,
+                  left: `${tooltipPositionX - 10}px`,
+                  top: `${tooltipPositionY - 20}px`,
                 }}
               >
                 <span className="text-center">
