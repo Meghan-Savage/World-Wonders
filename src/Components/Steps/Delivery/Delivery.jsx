@@ -1,0 +1,189 @@
+import { useStepperContext } from "../../../context/StepperContext/StepperContext";
+
+function Delivery() {
+  const { userData, setUserData } = useStepperContext();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserData({ ...userData, [name]: value });
+  };
+
+  return (
+    <>
+      <form>
+        <div className=" rounded  p-4 px-4 md:p-8 h-full w-full">
+          <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
+            <div className="text-gray-600 text-xl">
+              <h1>Please enter your information.</h1>
+            </div>
+
+            <div className="lg:col-span-2">
+              <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
+                <div className="md:col-span-5">
+                  <label htmlFor="full_name">Full Name</label>
+                  <input
+                    type="text"
+                    name="full_name"
+                    id="full_name"
+                    className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                    value={userData["full_name"] || ""}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div class="md:col-span-5">
+                  <label for="email">Email Address</label>
+                  <input
+                    type="text"
+                    name="email"
+                    id="email"
+                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                    value={userData["email"] || ""}
+                    placeholder="email@domain.com"
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div class="md:col-span-3">
+                  <label for="address">Address / Street</label>
+                  <input
+                    type="text"
+                    name="address"
+                    id="address"
+                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                    value={userData["address"] || ""}
+                    placeholder=""
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div class="md:col-span-2">
+                  <label for="city">City</label>
+                  <input
+                    type="text"
+                    name="city"
+                    id="city"
+                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                    value={userData["city"] || ""}
+                    placeholder=""
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div class="md:col-span-2">
+                  <label for="country">Country / region</label>
+                  <div class="h-10 bg-gray-50 flex border border-gray-200 rounded items-center mt-1">
+                    <input
+                      name="country"
+                      id="country"
+                      placeholder="Country"
+                      class="px-4 appearance-none outline-none text-gray-800 w-full bg-transparent"
+                      value={userData["country"] || ""}
+                      onChange={handleChange}
+                    />
+                    <button
+                      tabindex="-1"
+                      class="cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-red-600"
+                    >
+                      <svg
+                        class="w-4 h-4 mx-2 fill-current"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                      </svg>
+                    </button>
+                    <button
+                      tabindex="-1"
+                      for="show_more"
+                      class="cursor-pointer outline-none focus:outline-none border-l border-gray-200 transition-all text-gray-300 hover:text-blue-600"
+                    >
+                      <svg
+                        class="w-4 h-4 mx-2 fill-current"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <polyline points="18 15 12 9 6 15"></polyline>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="md:col-span-2">
+                  <label for="state">State / province</label>
+                  <div class="h-10 bg-gray-50 flex border border-gray-200 rounded items-center mt-1">
+                    <input
+                      name="state"
+                      id="state"
+                      placeholder="State"
+                      class="px-4 appearance-none outline-none text-gray-800 w-full bg-transparent"
+                      value=""
+                    />
+                    <button
+                      tabindex="-1"
+                      class="cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-red-600"
+                    >
+                      <svg
+                        class="w-4 h-4 mx-2 fill-current"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                      </svg>
+                    </button>
+                    <button
+                      tabindex="-1"
+                      for="show_more"
+                      class="cursor-pointer outline-none focus:outline-none border-l border-gray-200 transition-all text-gray-300 hover:text-blue-600"
+                    >
+                      <svg
+                        class="w-4 h-4 mx-2 fill-current"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <polyline points="18 15 12 9 6 15"></polyline>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="md:col-span-1">
+                  <label for="zipcode">Zipcode/Postal Code</label>
+                  <input
+                    type="text"
+                    name="zipcode"
+                    id="zipcode"
+                    class="transition-all flex items-center h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                    placeholder=""
+                    value={userData["zipcode"] || ""}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </>
+  );
+}
+
+export default Delivery;

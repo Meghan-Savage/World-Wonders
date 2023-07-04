@@ -8,12 +8,13 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { ArrowLongRightIcon } from "@heroicons/react/24/outline";
-import Checkout from "../../Components/checkout/Checkout.jsx";
+import ProceedCheckout from "../../Components/proceedCheckout/ProceedCheckout.jsx";
 
 export default function ViewCart() {
   const { cart, cartAmount, updateQuantity, removeFromCart } =
     useContext(CartContext);
   const [selectedQuantity, setSelectedQuantity] = useState(cart.quantity);
+  console.log("cart", cart);
 
   const handleQuantityChange = (id, event) => {
     const quantity = parseInt(event.target.value);
@@ -105,7 +106,7 @@ export default function ViewCart() {
         ))}
       </div>
       <div className="flex justify-center mr-64">
-        <Checkout />
+        <ProceedCheckout />
       </div>
     </div>
   );
