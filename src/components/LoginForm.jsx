@@ -14,6 +14,7 @@ export default function LoginForm() {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    navigate("/");
 
     // Simulating login logic
     if (email === "yourEmail" && password === "yourPassword") {
@@ -60,6 +61,19 @@ export default function LoginForm() {
       });
   };
 
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        setLoggedIn(false);
+        
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+ 
   return (
     <div className="flex justify-center items-center h-screen bg-orange-100">
       <div className="w-96 p-6 shadow-lg bg-white rounded-md">

@@ -1,17 +1,57 @@
-import React, { useState } from "react";
-import { FaShoppingCart, } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { FaShoppingCart } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 import countryList from "country-list";
 import ReactCountryFlag from "react-country-flag";
-import UserDropdown from "./UserDropdown";
+import LoginForm from "./LoginForm";
+import { auth } from "../firebase/provider";
+import { signOut, onAuthStateChanged } from "firebase/auth";
 
 const countries = countryList.getData();
 
 const Navbar = () => {
   const [selectedCountry, setSelectedCountry] = useState(null);
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [showLoginForm, setShowLoginForm] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const handleSelectCountry = (countryCode) => {
     setSelectedCountry(countryCode);
+  };
+
+  const handleLogin = () => {
+    // Add your login logic here
+    setLoggedIn(true);
+    setShowLoginForm(false); // Hide the login form after successful login
+  };
+
+  const handleLogout = () => {
+    // Add your logout logic here
+    signOut(auth)
+      .then(() => {
+        setLoggedIn(false);
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+         
+      });
+  };
+
+  const toggleLoginForm = () => {
+    setShowLoginForm(!showLoginForm);
   };
 
   return (
@@ -63,9 +103,29 @@ const Navbar = () => {
           </Link>
         </li>
         <li className="flex items-center">
-          <UserDropdown/>
+          {isLoggedIn ? (
+            <button
+              onClick={handleLogout}
+              className="text-orange-200 hover:text-gray-400 block sm:inline-block"
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              onClick={toggleLoginForm} // Toggle the login form visibility
+              className="text-orange-200 hover:text-gray-400 block sm:inline-block"
+            >
+              Login
+            </button>
+          )}
         </li>
       </ul>
+
+      {showLoginForm && !isLoggedIn && (
+        <div className="container mx-auto px-8 mt-4">
+          <LoginForm onLogin={handleLogin} />
+        </div>
+      )}
     </nav>
   );
 };
