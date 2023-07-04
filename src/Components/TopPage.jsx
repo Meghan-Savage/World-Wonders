@@ -63,7 +63,7 @@ const Navbar = () => {
           </Link>
         </li>
         <li className="flex items-center">
-          <UserDropdown />
+          <UserDropdown/>
         </li>
       </ul>
     </nav>
