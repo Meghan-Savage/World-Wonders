@@ -95,6 +95,14 @@ const Navbar = () => {
             Products
           </Link>
         </li>
+        <li>
+          <Link
+            to="/contact"
+            className="text-orange-200 hover:text-gray-400 block sm:inline-block"
+          >
+            Contact Us
+          </Link>
+        </li>
         <li className="flex items-center">
           <select
             onChange={(e) => handleSelectCountry(e.target.value)}
