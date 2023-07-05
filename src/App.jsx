@@ -14,6 +14,7 @@ import HomePage from "./pages/HomePage";
 import BottomPage from "./components/BottomPage.jsx";
 import TopPage from "./Components/TopPage";
 import UserDropdown from "./Components/UserDropdown";
+import ContactPage from "./Components/ContactPage"
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="/admin-products" element={<AdminShowProducts />} />
         <Route path="/create-product" element={<CreateProductForm />} />
         <Route path="/user" element={<UserDropdown />} />
+        <Route path="/contact" element={<ContactPage />} />
         
       </Routes>
       <SideBar />
