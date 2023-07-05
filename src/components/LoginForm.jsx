@@ -1,56 +1,79 @@
-import React, { useState,} from "react";
+import React, { useState } from "react";
 import icon from '../images/icon.png';
-import { Link, useNavigate} from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase/provider";
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { RiAlertFill } from "react-icons/ri";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [loginError, setLoginError] = useState("");
   const navigate = useNavigate();
-  
 
-  // Sign in function/logic
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    // Simulating login logic
+    if (email === "yourEmail" && password === "yourPassword") {
+      setLoggedIn(true);
+      setLoginError("");
+      navigate("/products");
+    } else {
+      setLoggedIn(false);
+      setLoginError("Wrong password or email");
+    }
+  };
+
+  // Sign in with Firebase logic
   const login = (e) => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log(userCredential);
+        setLoggedIn(true);
+        setLoginError("");
         navigate("/products");
-        
       })
       .catch((error) => {
         console.log(error);
+        setLoggedIn(false);
+        setLoginError("Wrong Email or Password !!.");
       });
   };
 
-  //sign in with google code/logic
+  // Sign in with Google logic
   const signInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then((result) => {
-        // Handle successful sign-in with Google
         const user = result.user;
-        // Perform any necessary actions, such as redirecting to a new page
+        setLoggedIn(true);
+        setLoginError("");
         navigate("/products");
       })
       .catch((error) => {
-        // Handle error during sign-in with Google
         console.log(error);
+        setLoggedIn(false);
+        setLoginError("Failed to sign in with Google");
       });
   };
-   
- 
 
   return (
     <div className="flex justify-center items-center h-screen bg-orange-300">
       <div className="w-96 p-6 shadow-lg bg-white rounded-md">
+     
         <form onSubmit={login}>
           <div>
             <h1 className="text-3xl block text-center font-bold text-gray-800">LOGIN</h1>
             <p className="text-1xl block text-center font-semi-bold text-gray-800">
               Welcome back! Please enter your details.
+              {isLoggedIn && <p className="text-green-500">User logged in successfully</p>}
+        {loginError && <p className="text-white text-x z-50 bg-red-600 w-64 rounded ">
+        <RiAlertFill className="mr-2" style={{ fontSize: "24px" }} />
+          {loginError}</p>}
+
             </p>
 
             <div className="mt-3">
@@ -74,32 +97,31 @@ export default function LoginForm() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-
+            
             <div className="mt-3">
               <button
                 type="submit"
                 className="border-2 border-gray-800 bg-gray-800 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-gray-800 font-semibold"
               >
                 Login
-              </button>
+              </button> 
             </div>
           </div>
         </form>
-
-
         <div className="mt-3 grid grid-cols-3 items-center text-gray-800">
           <hr className="border-gray-900" />
-          <p className="text-center  font-bold text-1xl">Or</p>
+          <p className="text-center font-bold text-1xl">Or</p>
           <hr className="border-gray-900" />
         </div>
 
         <div className="mt-3">
           <button
             type="submit"
-            className="border-2 border-gray-800 bg-gray-800 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-gray-800 font-semibold  flex items-center justify-center px-0  gap-2"
+            className="border-2 border-gray-800 bg-gray-800 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-gray-800 font-semibold flex items-center justify-center px-0 gap-2"
+            onClick={signInWithGoogle}
           >
             <img className="w-6 h-6 mt-0" src={icon} alt="images" />
-            <span className="" onClick={signInWithGoogle}>Sign in with Google</span>
+            <span>Sign in with Google</span>
           </button>
         </div>
 
@@ -115,6 +137,4 @@ export default function LoginForm() {
       </div>
     </div>
   );
-};
-
-
+}

@@ -1,14 +1,9 @@
-import React, { useContext } from "react";
-import {
-  FaShoppingCart,
-  FaUser,
-  FaSearch,
-  FaSignOutAlt,
-  FaSignInAlt,
-} from "react-icons/fa";
+import React from "react";
+import { FaShoppingCart, FaUser, FaSearch, FaSignInAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import ShoppingCart from "./cartBadge/CartBadge.jsx";
 import { SideBarContext } from "../context/SideBarContext/SideBarContext.jsx";
+import UserDropdown from "./UserDropdown";
 
 const menuItems = [
   { text: "Home", to: "/" },
@@ -16,8 +11,8 @@ const menuItems = [
   {
     text: "Profile",
     to: "/signin",
-
     icon: <FaUser className="mr-1" />,
+
     subItems: [
       {
         text: "Sign In",
@@ -90,6 +85,7 @@ const Navbar = () => {
           <div onClick={() => setIsOpen(!isOpen)}>
             <ShoppingCart className="cursor-pointer" />
           </div>
+          <UserDropdown />
         </li>
       </ul>
     </nav>

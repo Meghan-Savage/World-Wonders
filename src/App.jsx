@@ -13,6 +13,8 @@ import HomePage from "./pages/HomePage";
 import BottomPage from "./components/BottomPage.jsx";
 import TopPage from "./Components/TopPage";
 import Checkout from "./pages/checkout/Checkout";
+import UserDropdown from "./Components/UserDropdown";
+
 function App() {
   return (
     <>
@@ -29,6 +31,7 @@ function App() {
         <Route path="/footer" element={<BottomPage />} />
         <Route path="/navbar" element={<TopPage />} />
         <Route path="/checkout/:id" element={<Checkout />} />
+        <Route path="/user" element={<UserDropdown />} />
       </Routes>
       <SideBar />
       <BottomPage />
