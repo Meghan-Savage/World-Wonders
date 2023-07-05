@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import countryList from "country-list";
@@ -13,14 +13,19 @@ const Navbar = () => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [showLoginForm, setShowLoginForm] = useState(false);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setLoggedIn(true);
+        setUserEmail(user.email);
       } else {
         setLoggedIn(false);
+        setUserEmail("");
       }
     });
 
@@ -32,27 +37,44 @@ const Navbar = () => {
   };
 
   const handleLogin = () => {
-    // Add your login logic here
     setLoggedIn(true);
-    setShowLoginForm(false); // Hide the login form after successful login
+    setShowLoginForm(false);
   };
 
   const handleLogout = () => {
-    // Add your logout logic here
     signOut(auth)
       .then(() => {
         setLoggedIn(false);
+        setShowProfileDropdown(false);
         navigate("/");
       })
       .catch((error) => {
         console.log(error);
-         
       });
   };
 
   const toggleLoginForm = () => {
     setShowLoginForm(!showLoginForm);
+    setShowProfileDropdown(false);
   };
+
+  const toggleProfileDropdown = () => {
+    setShowProfileDropdown(!showProfileDropdown);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowProfileDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <nav className="bg-gray-900 py-4">
@@ -73,7 +95,7 @@ const Navbar = () => {
             Products
           </Link>
         </li>
-        <li className="flex items-center space-x-2">
+        <li className="flex items-center">
           <select
             onChange={(e) => handleSelectCountry(e.target.value)}
             className="text-orange-200 bg-gray-900 border border-gray-400 rounded py-1 px-2"
@@ -93,16 +115,30 @@ const Navbar = () => {
             />
           )}
         </li>
-        <li>
-          <Link
-            to="/cart"
-            className="text-orange-200 hover:text-gray-400 flex items-center"
-          >
-            <FaShoppingCart className="mr-1" />
-            Cart
-          </Link>
-        </li>
-        <li className="flex items-center">
+        <li className="relative">
+          {isLoggedIn && (
+            <button
+              onClick={toggleProfileDropdown}
+              className="text-orange-200 hover:text-gray-400 block sm:inline-block"
+            >
+              {userEmail}
+              <svg
+                className={`${
+                  showProfileDropdown ? "transform rotate-180" : ""
+                } inline-block ml-1 h-4 w-4`}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                ref={dropdownRef}
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+          )}
           {isLoggedIn ? (
             <button
               onClick={handleLogout}
@@ -112,11 +148,39 @@ const Navbar = () => {
             </button>
           ) : (
             <button
-              onClick={toggleLoginForm} // Toggle the login form visibility
+              onClick={toggleLoginForm}
               className="text-orange-200 hover:text-gray-400 block sm:inline-block"
             >
               Login
             </button>
+          )}
+          {showProfileDropdown && (
+            <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-400 rounded py-2 z-10">
+              <Link
+                to="/cart"
+                className="text-orange-200 hover:text-gray-400 block px-4 py-2"
+              >
+                Your Orders
+              </Link>
+              <Link
+                to="/create-product"
+                className="text-orange-200 hover:text-gray-400 block px-4 py-2"
+              >
+                Upload Products
+              </Link>
+              <Link
+                to="/order-shipping"
+                className="text-orange-200 hover:text-gray-400 block px-4 py-2"
+              >
+                Order Shipping
+              </Link>
+              <Link
+                to="/order-management"
+                className="text-orange-200 hover:text-gray-400 block px-4 py-2"
+              >
+                Order Management
+              </Link>
+            </div>
           )}
         </li>
       </ul>
