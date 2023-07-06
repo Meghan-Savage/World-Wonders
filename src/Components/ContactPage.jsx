@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+
 
 const ContactPage = () => {
   const [fullName, setFullName] = useState("");
@@ -12,7 +12,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-800 flex flex-col justify-center items-center">
+    <div className="min-h-screen z-10 bg-gray-100 flex flex-col justify-center items-center">
       <div className="max-w-2xl px-6 py-8 bg-gray-900 text-orange-200 shadow-md rounded-lg">
         <h2 className="text-2xl font-semibold mb-4">Contact Us</h2>
        
