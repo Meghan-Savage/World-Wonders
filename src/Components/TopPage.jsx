@@ -80,6 +80,7 @@ const Navbar = () => {
   const handlePostProduct = () => {
     // Navigate to the CreateProduct component
     navigate("/create-product");
+  };
 
   return (
     <nav className="bg-gray-900 py-4">
