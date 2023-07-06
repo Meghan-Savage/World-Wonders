@@ -14,6 +14,7 @@ export default function LoginForm() {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    navigate("/");
 
     // Simulating login logic
     if (email === "yourEmail" && password === "yourPassword") {
@@ -60,10 +61,22 @@ export default function LoginForm() {
       });
   };
 
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        setLoggedIn(false);
+        
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+ 
   return (
-    <div className="flex justify-center items-center h-screen bg-orange-300">
+    <div className="flex justify-center items-center h-screen bg-orange-100">
       <div className="w-96 p-6 shadow-lg bg-white rounded-md">
-     
         <form onSubmit={login}>
           <div>
             <h1 className="text-3xl block text-center font-bold text-gray-800">LOGIN</h1>
@@ -129,7 +142,7 @@ export default function LoginForm() {
           <p className="font-semibold text-1xl">Don't have an account?</p>
           <Link
             to="/signup"
-            className="text-1xl font-semibold ml-2 border-2 border-gray-800 hover:text-gray-800 rounded-md hover:bg-transparent bg-gray-800 text-white w-24"
+            className=" text-center text-1xl font-semibold ml-2 border-2 border-gray-800 hover:text-gray-800 rounded-md hover:bg-transparent bg-gray-800 text-white w-24"
           >
             Sign up
           </Link>

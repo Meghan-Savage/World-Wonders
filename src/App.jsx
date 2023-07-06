@@ -20,6 +20,7 @@ import CheckoutForm from "./Components/checkoutForm/CheckoutForm";
 const stripePromise = loadStripe(
   "pk_test_51NPWL7DwzLlcdwuQkg39TBWtYi5q7OKls4iYv804iRG0mia75vcvF8BJTP2isZtjC0DG5H4IZjGyrYbnKASlZGvK00RCCaDLqQ"
 );
+import ContactPage from "./Components/ContactPage";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
             </Elements>
           }
         />
+        <Route path="/contact" element={<ContactPage />} />
       </Routes>
       <SideBar />
       <BottomPage />

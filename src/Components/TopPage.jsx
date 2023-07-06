@@ -1,93 +1,209 @@
-import React, { useContext } from "react";
-import { FaShoppingCart, FaUser, FaSearch, FaSignInAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import ShoppingCart from "./cartBadge/CartBadge.jsx";
-import { SideBarContext } from "../context/SideBarContext/SideBarContext.jsx";
-import UserDropdown from "./UserDropdown";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import countryList from "country-list";
+import ReactCountryFlag from "react-country-flag";
+import LoginForm from "./LoginForm";
+import { auth } from "../firebase/provider";
+import { signOut, onAuthStateChanged } from "firebase/auth";
 
-const menuItems = [
-  { text: "Home", to: "/" },
-  { text: "Products", to: "/products" },
-  {
-    text: "Profile",
-    to: "/signin",
-    icon: <FaUser className="mr-1" />,
-
-    subItems: [
-      {
-        text: "Sign In",
-        to: "/signin",
-        icon: <FaSignInAlt className="ml-1 text-orange-200" />,
-      },
-      { text: "Sign Up", to: "/signup" },
-    ],
-  },
-  { text: "Admin Products", to: "/admin-products" },
-  { text: "Sign In", to: "/signin" },
-  { text: "Create Product", to: "/create-product" },
-];
+const countries = countryList.getData();
 
 const Navbar = () => {
-  const { isOpen, setIsOpen } = useContext(SideBarContext);
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [showLoginForm, setShowLoginForm] = useState(false);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+  const navigate = useNavigate();
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoggedIn(true);
+        setUserEmail(user.email);
+      } else {
+        setLoggedIn(false);
+        setUserEmail("");
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleSelectCountry = (countryCode) => {
+    setSelectedCountry(countryCode);
+  };
+
+  const handleLogin = () => {
+    setLoggedIn(true);
+    setShowLoginForm(false);
+  };
+
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        setLoggedIn(false);
+        setShowProfileDropdown(false);
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const toggleLoginForm = () => {
+    setShowLoginForm(!showLoginForm);
+    setShowProfileDropdown(false);
+  };
+
+  const toggleProfileDropdown = () => {
+    setShowProfileDropdown(!showProfileDropdown);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowProfileDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+
+
+  const handlePostProduct = () => {
+    // Navigate to the CreateProduct component
+    navigate("/create-product");
+  };
 
   return (
     <nav className="bg-gray-900 py-4">
       <ul className="flex justify-between container mx-auto px-8">
-        {menuItems.map((item, index) => (
-          <li key={index}>
-            {item.subItems ? (
-              <div className="relative">
-                <Link
-                  to={item.to}
-                  className="text-orange-200 hover:text-gray-400"
-                >
-                  {item.text}
-                </Link>
-                <div className="absolute z-10 bg-white hidden">
-                  {item.subItems.map((subItem, subIndex) => (
-                    <Link
-                      key={subIndex}
-                      to={subItem.to}
-                      className="block px-4 py-2 text-orange-200 hover:text-gray-400"
-                    >
-                      {subItem.icon}
-                      {subItem.text}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <Link
-                to={item.to}
-                className="text-orange-200 hover:text-gray-400 flex items-center"
-              >
-                {item.icon}
-                {item.text}
-              </Link>
-            )}
-          </li>
-        ))}
-        <li className="navbar-right">
-          <div className="flex items-center">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Type here..."
-                className="border rounded-l px-2 py-1 pl-8 rounded-r"
-              />
-              <div className="absolute top-0 left-0 mt-2 ml-2">
-                <FaSearch className="text-gray-600" />
-              </div>
-            </div>
-          </div>
+        <li>
+          <Link
+            to="/"
+            className="text-orange-200 hover:text-gray-400 block sm:inline-block"
+          >
+            Home
+          </Link>
         </li>
-        <li className="navbar-right flex items-center">
-          <div onClick={() => setIsOpen(!isOpen)}>
-            <ShoppingCart className="cursor-pointer" />
-          </div>
-          <UserDropdown />
+        <li>
+          <Link
+            to="/products"
+            className="text-orange-200 hover:text-gray-400 block sm:inline-block"
+          >
+            Products
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/contact"
+            className="text-orange-200 hover:text-gray-400 block sm:inline-block"
+          >
+            Contact Us
+          </Link>
+        </li>
+        <li className="flex items-center">
+          <select
+            onChange={(e) => handleSelectCountry(e.target.value)}
+            className="text-orange-200 bg-gray-900 border border-gray-400 rounded py-1 px-2"
+          >
+            <option value="">Select Country</option>
+            {countries.map((country) => (
+              <option key={country.code} value={country.code}>
+                {country.name}
+              </option>
+            ))}
+          </select>
+          {selectedCountry && (
+            <ReactCountryFlag
+              countryCode={selectedCountry}
+              svg
+              className="ml-2 w-8 h-8"
+            />
+          )}
+        </li>
+        <li className="relative">
+          {isLoggedIn && (
+            <button
+              onClick={toggleProfileDropdown}
+              className="text-orange-200 hover:text-gray-400 block sm:inline-block"
+            >
+              {userEmail}
+              <svg
+                className={`${
+                  showProfileDropdown ? "transform rotate-180" : ""
+                } inline-block ml-1 h-4 w-4`}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                ref={dropdownRef}
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+          )}
+          {isLoggedIn ? (
+            <button
+              onClick={handleLogout}
+              className="text-orange-200 hover:text-gray-400 block sm:inline-block"
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              onClick={toggleLoginForm}
+              className="text-orange-200 hover:text-gray-400 block sm:inline-block"
+            >
+              Login
+            </button>
+          )}
+          {showProfileDropdown && (
+            <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-400 rounded py-2 z-10">
+              <button
+                onClick={() => navigate("/cart")}
+                className="text-orange-200 hover:text-gray-400 block px-4 py-2"
+              >
+                Your Orders
+              </button>
+              <button
+                onClick={handlePostProduct}
+                className="text-orange-200 hover:text-gray-400 block px-4 py-2"
+              >
+                Upload Products
+              </button>
+              <button
+                onClick={() => navigate("/products")}
+                className="text-orange-200 hover:text-gray-400 block px-4 py-2"
+              >
+                Order Shipping
+              </button>
+              <button
+                onClick={() => navigate("/products")}
+               className="text-orange-200 hover:text-gray-400 block px-4 py-2"
+              >
+                Order Management
+              </button>
+            </div>
+          )}
         </li>
       </ul>
+
+      {showLoginForm && !isLoggedIn && (
+        <div className="container mx-auto px-8 mt-4">
+          <LoginForm onLogin={handleLogin} />
+        </div>
+      )}
     </nav>
   );
 };
