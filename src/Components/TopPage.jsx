@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaShoppingCart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import countryList from "country-list";
 import ReactCountryFlag from "react-country-flag";
@@ -75,6 +74,12 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+
+
+  const handlePostProduct = () => {
+    // Navigate to the CreateProduct component
+    navigate("/create-product");
 
   return (
     <nav className="bg-gray-900 py-4">
@@ -164,30 +169,30 @@ const Navbar = () => {
           )}
           {showProfileDropdown && (
             <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-400 rounded py-2 z-10">
-              <Link
-                to="/cart"
+              <button
+                onClick={() => navigate("/cart")}
                 className="text-orange-200 hover:text-gray-400 block px-4 py-2"
               >
                 Your Orders
-              </Link>
-              <Link
-                to="/create-product"
+              </button>
+              <button
+                onClick={handlePostProduct}
                 className="text-orange-200 hover:text-gray-400 block px-4 py-2"
               >
                 Upload Products
-              </Link>
-              <Link
-                to="/order-shipping"
+              </button>
+              <button
+                onClick={() => navigate("/products")}
                 className="text-orange-200 hover:text-gray-400 block px-4 py-2"
               >
                 Order Shipping
-              </Link>
-              <Link
-                to="/order-management"
-                className="text-orange-200 hover:text-gray-400 block px-4 py-2"
+              </button>
+              <button
+                onClick={() => navigate("/products")}
+               className="text-orange-200 hover:text-gray-400 block px-4 py-2"
               >
                 Order Management
-              </Link>
+              </button>
             </div>
           )}
         </li>
