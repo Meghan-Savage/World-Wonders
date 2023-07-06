@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaShoppingCart, FaUser, FaSearch, FaSignInAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import ShoppingCart from "./cartBadge/CartBadge.jsx";

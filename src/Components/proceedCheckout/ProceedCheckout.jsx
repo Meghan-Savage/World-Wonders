@@ -22,7 +22,7 @@ export default function ProceedCheckout() {
         </Typography>
       </CardBody>
       <CardFooter className="pt-0">
-        <Link to={`/checkout/${id}`}>
+        <Link to={`/checkout`}>
           <Button className="bg-orange-300 rounded-none">
             Proceed to Checkout
           </Button>

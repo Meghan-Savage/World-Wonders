@@ -1,6 +1,8 @@
 import React from "react";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import Products from "./pages/allProducts/AllProducts.jsx";
 import ProductDetails from "./pages/productDetails/ProductDetails.jsx";
 import SideBar from "./Components/sideBar/SideBar.jsx";
@@ -12,8 +14,12 @@ import CreateProductForm from "./components/CreateProductForm";
 import HomePage from "./pages/HomePage";
 import BottomPage from "./components/BottomPage.jsx";
 import TopPage from "./Components/TopPage";
-import Checkout from "./pages/checkout/Checkout";
 import UserDropdown from "./Components/UserDropdown";
+import CheckoutForm from "./Components/checkoutForm/CheckoutForm";
+
+const stripePromise = loadStripe(
+  "pk_test_51NPWL7DwzLlcdwuQkg39TBWtYi5q7OKls4iYv804iRG0mia75vcvF8BJTP2isZtjC0DG5H4IZjGyrYbnKASlZGvK00RCCaDLqQ"
+);
 
 function App() {
   return (
@@ -30,8 +36,15 @@ function App() {
         <Route path="/create-product" element={<CreateProductForm />} />
         <Route path="/footer" element={<BottomPage />} />
         <Route path="/navbar" element={<TopPage />} />
-        <Route path="/checkout/:id" element={<Checkout />} />
         <Route path="/user" element={<UserDropdown />} />
+        <Route
+          path="/checkout"
+          element={
+            <Elements stripe={stripePromise}>
+              <CheckoutForm />
+            </Elements>
+          }
+        />
       </Routes>
       <SideBar />
       <BottomPage />

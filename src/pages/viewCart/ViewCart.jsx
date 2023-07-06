@@ -13,6 +13,7 @@ import ProceedCheckout from "../../Components/proceedCheckout/ProceedCheckout.js
 export default function ViewCart() {
   const { cart, cartAmount, updateQuantity, removeFromCart } =
     useContext(CartContext);
+  console.log("cart", cart);
   const [selectedQuantity, setSelectedQuantity] = useState(cart.quantity);
   console.log("cart", cart);
 

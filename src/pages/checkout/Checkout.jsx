@@ -1,10 +1,6 @@
-import { useState } from "react";
-import Stepper from "../../Components/stepper/Stepper.jsx";
-import StepperControl from "../../Components/stepperControl/StepperControl.jsx";
-import { UseContextProvider } from "../../context/StepperContext/StepperContext.jsx";
-import Delivery from "../../Components/Steps/Delivery/Delivery";
-import Payment from "../../Components/Steps/Payment/Payment";
-import Review from "../../Components/Steps/Review/Review";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 
 function Checkout() {
   const [currentStep, setCurrentStep] = useState(1);
