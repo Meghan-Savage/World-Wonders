@@ -17,11 +17,11 @@ export default function BottomPage() {
             <div className="text-orange-200">© World-Wonders Inc. 2023</div>
             <div className="flex items-center justify-center mt-2">
             <Link to="/contact" className="ml-4">
-              <RiPhoneFill size={20} className="mr-1 text-orange-200 hover:text-orange-500" />
+              <RiPhoneFill size={20} className="mr-1 text-orange-200 hover:text-orange-600" />
               </Link>
               <span>+1403-111-2222</span>
               <Link to="/contact" className="ml-4">
-                <RiMailFill size={20} className="text-orange-200 hover:text-gray-400" />
+                <RiMailFill size={20} className="text-orange-200 hover:text-orange-600" />
               </Link>
               <span>w-wonders@gmail.com</span>
             </div>
