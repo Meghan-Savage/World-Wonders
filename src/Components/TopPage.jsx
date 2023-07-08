@@ -5,6 +5,7 @@ import ReactCountryFlag from "react-country-flag";
 import LoginForm from "./LoginForm";
 import { auth } from "../firebase/provider";
 import { signOut, onAuthStateChanged } from "firebase/auth";
+import ShoppingCart from "./cartBadge/CartBadge";
 
 const countries = countryList.getData();
 
@@ -75,8 +76,6 @@ const Navbar = () => {
     };
   }, []);
 
-
-
   const handlePostProduct = () => {
     // Navigate to the CreateProduct component
     navigate("/create-product");
@@ -128,6 +127,14 @@ const Navbar = () => {
               className="ml-2 w-8 h-8"
             />
           )}
+        </li>
+        <li>
+          <Link
+            className="text-orange-200 hover:text-gray-400 block sm:inline-block"
+            to="/cart"
+          >
+            <ShoppingCart />
+          </Link>
         </li>
         <li className="relative">
           {isLoggedIn && (
@@ -190,7 +197,7 @@ const Navbar = () => {
               </button>
               <button
                 onClick={() => navigate("/products")}
-               className="text-orange-200 hover:text-gray-400 block px-4 py-2"
+                className="text-orange-200 hover:text-gray-400 block px-4 py-2"
               >
                 Order Management
               </button>

@@ -3,10 +3,12 @@ import vitePluginString from "vite-plugin-string";
 import react from "@vitejs/plugin-react";
 //import string from 'vite-plugin-string';
 
-
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), vitePluginString()],
+  server: {
+    proxy: { "/api": { target: "http://localhost:5252", changeOrigin: true } },
+  },
   define: {
     "process.env.VITE_FIREBASE_API_KEY": JSON.stringify(
       process.env.VITE_FIREBASE_API_KEY

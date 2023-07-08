@@ -16,28 +16,34 @@ export const AuthProvider = (props) => {
   const db = fbContext.db;
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (user) => {});
-    return unsub; // to shut down onAuthStateChanged listener
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user); // Update the user state with the authenticated user
+    });
+
+    return () => unsubscribe(); // to shut down onAuthStateChanged listener
   }, [auth]);
 
   const login = async (email, password) => {
     try {
-      let userCred = await signInWithEmailAndPassword(auth, email, password);
-      if (userCred) {
-        console.log("Logged in!!");
-      } else {
-        console.log("Login failed!");
-      }
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const loggedInUser = userCredential.user;
+      setUser(loggedInUser); // Update the user state with the logged-in user
+      console.log("Logged in!!");
     } catch (ex) {
-      console.log("AUTH FAILURE!");
+      console.log("Login failed!");
     }
   };
 
   const logout = async () => {
     await signOut(auth);
+    setUser(null); // Clear the user state when logged out
   };
 
-  const authContextValue = { user, login, logout }; // Create the context value object
+  const authContextValue = { user, login, logout };
 
   return (
     <AuthContext.Provider value={authContextValue}>

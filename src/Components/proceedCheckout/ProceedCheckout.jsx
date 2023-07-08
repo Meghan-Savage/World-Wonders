@@ -6,27 +6,47 @@ import {
   Typography,
   Button,
 } from "@material-tailwind/react";
-import { Link, useParams } from "react-router-dom";
-import { CartContext } from "../../context/CartContext/CartContext.jsx";
+import axios from "axios";
+import { CartContext } from "../../context/CartContext/CartContext";
+import { AuthContext } from "../../firebase/authentication";
 
 export default function ProceedCheckout() {
-  const { total, cartAmount } = useContext(CartContext);
-  const roundedTotal = total.toFixed(2);
-  const { id } = useParams();
+  const { cart, total } = useContext(CartContext);
+  const { user } = useContext(AuthContext);
+
+  const roundedTotal = Number(total.toFixed(2));
+  console.log("roundedTotal", roundedTotal);
+
+  const handleCheckout = () => {
+    const data = {
+      user: user,
+      cart: cart,
+      total: roundedTotal,
+    };
+    console.log("data", data);
+    axios
+      .post("/api/create-checkout-session", data, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((res) => {
+        window.location.href = res.data.url;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <Card className="w-96 h-48 rounded-none justify-center flex">
       <CardBody>
         <Typography variant="h5" color="blue-gray" className="mb-2">
-          Subtotal ({cartAmount} items): ${roundedTotal}
+          Subtotal: ${roundedTotal}
         </Typography>
       </CardBody>
       <CardFooter className="pt-0">
-        <Link to={`/checkout`}>
-          <Button className="bg-orange-300 rounded-none">
-            Proceed to Checkout
-          </Button>
-        </Link>
+        <Button onClick={handleCheckout} className="bg-orange-300 rounded-none">
+          Proceed to Checkout
+        </Button>
       </CardFooter>
     </Card>
   );

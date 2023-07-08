@@ -9,12 +9,13 @@ function ShoppingCart() {
   return (
     <div className="xl:text-4xl text-orange-300 container mx-auto flex items-center justify-end">
       <div className="flex items-center relative">
-        <GiShoppingCart className="text-6xl" />
+        <GiShoppingCart className="text-4xl" />
         <div
-          className="ml-1 absolute -right-2 -bottom-0"
+          className="ml-1 absolute -right-0 -bottom-2"
           style={{ top: "0.4rem", right: "-0.4rem" }}
         >
-          <div className="bg-orange-300 text-[0.65rem] sm:text-[0.75rem] md:text-[0.8rem] lg:text-[0.9rem] xl:text-[1rem] w-[1.5rem] h-[1.5rem] text-white rounded-full flex justify-center items-center">
+          <div className="bg-orange-300 text-[0.65rem] sm:text-[0.75rem] md:text-[0.8rem] lg:text-[0.9rem] xl:text-[1rem] w-[0.75rem] h-[0.75rem] text-white rounded-full flex justify-center items-center">
+            {/* Content */}
             {itemAmount}
           </div>
         </div>
