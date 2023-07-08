@@ -14,9 +14,8 @@ import HomePage from "./pages/HomePage";
 import BottomPage from "./components/BottomPage.jsx";
 import TopPage from "./Components/TopPage";
 import UserDropdown from "./Components/UserDropdown";
-import ContactPage from "./Components/ContactPage"
-import AboutUS from "./Components/AboutUs"
-
+import ContactPage from "./Components/ContactPage";
+import AboutUS from "./Components/AboutUs";
 
 function App() {
   return (
@@ -25,6 +24,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<Products />} />
+        <Route path="/products/:country" element={<Products />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<ViewCart />} />
         <Route path="/signin" element={<LoginForm />} />
@@ -34,7 +34,6 @@ function App() {
         <Route path="/user" element={<UserDropdown />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/about-us" element={<AboutUS />} />
-        
       </Routes>
       <SideBar />
       <BottomPage />

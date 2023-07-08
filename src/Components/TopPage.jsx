@@ -32,6 +32,7 @@ const Navbar = () => {
   }, []);
 
   const handleSelectCountry = (countryCode) => {
+    navigate(`/products/${countryCode}`);
     setSelectedCountry(countryCode);
   };
 
