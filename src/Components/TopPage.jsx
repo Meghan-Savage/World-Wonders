@@ -20,7 +20,7 @@ const Navbar = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setLoggedIn(true)
+        setLoggedIn(true);
         setUserEmail(user.email);
       } else {
         setLoggedIn(false);
@@ -123,7 +123,7 @@ const Navbar = () => {
           >
             <option value="">Select Country</option>
             {countries.map((country) => (
-              <option key={country.code} value={country.code}>
+              <option key={country.code} value={country.name}>
                 {country.name}
               </option>
             ))}
