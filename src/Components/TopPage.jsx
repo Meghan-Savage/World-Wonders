@@ -20,7 +20,7 @@ const Navbar = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setLoggedIn(true);
+        setLoggedIn(true)
         setUserEmail(user.email);
       } else {
         setLoggedIn(false);

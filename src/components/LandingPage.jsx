@@ -198,7 +198,7 @@ const LandingPage = () => {
     createBox({
       lat: 12.8628,
       lng: 30.2176,
-      country: "Africa",
+      country: "Kenya",
       population: "1433266542",
       color: "#8512ed",
     });
