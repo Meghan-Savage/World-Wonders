@@ -7,7 +7,6 @@ import {
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
-import { getFunctions, httpsCallable } from "firebase/functions";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -25,35 +24,15 @@ setPersistence(auth, browserSessionPersistence);
 
 export const db = getFirestore(app);
 const storage = getStorage(app);
-const functions = getFunctions(app, "us-central1");
 
 export const FirebaseContext = createContext();
 
 const FirebaseProvider = (props) => {
-  const [createCheckoutSessionFn, setCreateCheckoutSessionFn] = useState(null);
-
-  useEffect(() => {
-    const getCreateCheckoutSession = async () => {
-      try {
-        const createCheckoutSession = httpsCallable(
-          functions,
-          "createCheckoutSession"
-        );
-        setCreateCheckoutSessionFn(() => createCheckoutSession);
-      } catch (error) {
-        console.error("Error retrieving createCheckoutSession:", error);
-      }
-    };
-
-    getCreateCheckoutSession();
-  }, []);
-
   const firebaseValues = {
     app,
     auth,
     db,
     storage,
-    createCheckoutSession: createCheckoutSessionFn,
   };
 
   return (

@@ -1,7 +1,8 @@
 import dotenv from "dotenv";
 import express from "express";
-import stripe from "stripe";
-import cors from "cors"
+import Stripe from "stripe";
+import cors from "cors";
+import { db, storage } from "./firebase.js";
 
 dotenv.config();
 const port = 5252;
@@ -10,17 +11,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Initialize Firebase admin SDK
-const serviceAccount = require("path/to/serviceAccountKey.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://your-firebase-project.firebaseio.com",
-});
-const db = admin.firestore();
-
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-const endpointSecret = process.env.WEB_HOOK_SECRET;
-const stripeClient = stripe(stripeSecretKey);
+const stripeClient = new Stripe(stripeSecretKey);
 
 app.get("/", (req, res) => {
   res.send("Hello, server is working correctly!");
@@ -29,6 +21,14 @@ app.get("/", (req, res) => {
 app.post("/api/create-checkout-session", async (req, res) => {
   try {
     const { cart } = req.body;
+    const customer = await stripeClient.customers.create({
+      metadata: {
+        user_id: req.body.user.user_id,
+        cart: JSON.stringify(req.body.items),
+        total: req.body.total,
+      },
+    });
+
     const line_items = cart.map((item) => {
       return {
         price_data: {
@@ -65,6 +65,7 @@ app.post("/api/create-checkout-session", async (req, res) => {
         enabled: true,
       },
       line_items,
+      customer: customer.id,
       mode: "payment",
       success_url: "http://localhost:5173/products",
       cancel_url: "http://localhost:5173/cart",
@@ -76,42 +77,56 @@ app.post("/api/create-checkout-session", async (req, res) => {
   }
 });
 
-app.post("/webhook", express.raw({ type: "application/json" }), (req, res) => {
-  const sig = req.headers["stripe-signature"];
+let endpointSecret;
 
-  let eventType;
-  let data;
+app.post(
+  "/webhook",
+  express.raw({ type: "application/json" }),
+  async (req, res) => {
+    const sig = req.headers["stripe-signature"];
 
-  if (endpointSecret) {
-    try {
-      event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-    } catch (err) {
-      res.status(400).send(`Webhook Error: ${err.message}`);
-      return;
+    let eventType;
+    let data;
+
+    if (endpointSecret) {
+      try {
+        event = stripeClient.webhooks.constructEvent(
+          req.body,
+          sig,
+          endpointSecret
+        );
+      } catch (err) {
+        res.status(400).send(`Webhook Error: ${err.message}`);
+        return;
+      }
+      data = event.data.object;
+      eventType = event.type;
+    } else {
+      data = req.body.data.object;
+      eventType = req.body.type;
     }
-    data = event.data.object;
-    eventType = event.type;
-  } else {
-    data = req.body.data.object;
-    eventType = req.body.type;
-  }
 
-  if (eventType === "checkout.session.completed") {
-    stripe.CustomersResource.retrieve(data.customer).then((customer) => {
-      createOrder(customer, data);
-    });
-  }
-  // Return a 200 response to acknowledge receipt of the event
-  res.send().end();
-});
+    if (eventType === "checkout.session.completed") {
+      try {
+        const customer = await stripeClient.customers.retrieve(data.customer);
+        createOrder(customer, data, res);
+      } catch (err) {
+        console.log("Error retrieving customer details:", err);
+      }
+    }
 
-const createOrder = async (customer, intent) => {
+    // Return a 200 response to acknowledge receipt of the event
+    res.send().end();
+  }
+);
+
+const createOrder = async (customer, intent, res) => {
   try {
     const orderId = Date.now();
     const data = {
       intentId: intent.id,
       orderId: orderId,
-      amount: intent.total,
+      amount: intent.amount_total,
       created: intent.created,
       payment_method_types: intent.payment_method_types,
       status: intent.payment_status,
@@ -123,10 +138,12 @@ const createOrder = async (customer, intent) => {
       sts: "preparing",
     };
 
-    await db.collection("orders").doc(orderId.toString()).set(data);
+    console.log("Creating Order:", data);
+
+    await db.collection("orders").doc(`/${orderId}/`).set(data);
     console.log("Order created:", orderId);
   } catch (err) {
-    console.log(err);
+    console.log("Error creating order:", err);
   }
 };
 
