@@ -196,10 +196,10 @@ const LandingPage = () => {
       color: "#8512ed",
     });
     createBox({
-      lat: 12.8628,
-      lng: 30.2176,
+      lat: 0.0236,
+      lng: 37.9062,
       country: "Kenya",
-      population: "1433266542",
+      population: "53455245",
       color: "#8512ed",
     });
 
