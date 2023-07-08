@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-import icon from '../images/icon.png';
+import icon from "../images/icon.png";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase/provider";
-import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
 import { RiAlertFill } from "react-icons/ri";
 
 export default function LoginForm() {
@@ -65,7 +69,7 @@ export default function LoginForm() {
     signOut(auth)
       .then(() => {
         setLoggedIn(false);
-        
+
         navigate("/");
       })
       .catch((error) => {
@@ -73,24 +77,31 @@ export default function LoginForm() {
       });
   };
 
- 
   return (
-    <div className="flex justify-center items-center h-screen bg-orange-100">
+    <div className="flex justify-center items-center h-screen bg-gradient-to-r from-orange-400 to-orange-100 ">
       <div className="w-96 p-6 shadow-lg bg-white rounded-md">
         <form onSubmit={login}>
           <div>
-            <h1 className="text-3xl block text-center font-bold text-gray-800">LOGIN</h1>
+            <h1 className="text-3xl block text-center font-bold text-gray-800">
+              LOGIN
+            </h1>
             <p className="text-1xl block text-center font-semi-bold text-gray-800">
               Welcome back! Please enter your details.
-              {isLoggedIn && <p className="text-green-500">User logged in successfully</p>}
-        {loginError && <p className="text-white text-x z-50 bg-red-600 w-64 rounded ">
-        <RiAlertFill className="mr-2" style={{ fontSize: "24px" }} />
-          {loginError}</p>}
-
+              {isLoggedIn && (
+                <p className="text-green-500">User logged in successfully</p>
+              )}
+              {loginError && (
+                <p className="text-white text-x z-50 bg-red-600 w-64 rounded ">
+                  <RiAlertFill className="mr-2" style={{ fontSize: "24px" }} />
+                  {loginError}
+                </p>
+              )}
             </p>
 
             <div className="mt-3">
-              <label className="block font-semibold text-base mb-2">Email</label>
+              <label className="block font-semibold text-base mb-2">
+                Email
+              </label>
               <input
                 className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
                 type="email"
@@ -101,7 +112,9 @@ export default function LoginForm() {
             </div>
 
             <div className="mt-3">
-              <label className="block font-semibold text-base mb-2">Password</label>
+              <label className="block font-semibold text-base mb-2">
+                Password
+              </label>
               <input
                 className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
                 type="password"
@@ -110,14 +123,14 @@ export default function LoginForm() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            
+
             <div className="mt-3">
               <button
                 type="submit"
                 className="border-2 border-gray-800 bg-gray-800 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-gray-800 font-semibold"
               >
                 Login
-              </button> 
+              </button>
             </div>
           </div>
         </form>

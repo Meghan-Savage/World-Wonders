@@ -196,7 +196,7 @@ const LandingPage = () => {
       color: "#8512ed",
     });
     createBox({
-      lat: 0.0236,
+      lat: 0.02,
       lng: 37.9062,
       country: "Kenya",
       population: "53455245",
@@ -376,19 +376,19 @@ const LandingPage = () => {
             <h1 className="text-black text-bold text-6xl mb-8 font-Crimson leading-none uppercase items-center mt-70">
               World Wonders
             </h1>
-            <p className="text-black mb-8 font-Lato-400 w-1/2">
+            <p className=" text-center text-black mb-8 font-Lato-400 w-1/2">
               World Wonders presents a delightful fusion of exquisite products
               and immersive cultural experiences, inviting you to embark on a
               captivating voyage into the very essence of each civilization.
             </p>
             <div>
               <Link to="/products">
-                <button className="bg-black text-white px-8 py-4 rounded-full uppercase font-Lato-400">
+                <button className="bg-black text-white px-8 py-4 rounded-md uppercase font-Lato-400 hover:bg-gray-900 hover:text-orange-300">
                   Explore
                 </button>
               </Link>
               <Link to="/signIn">
-                <button className="bg-black text-white px-8 py-4 rounded-full uppercase font-Lato-400 ml-4">
+                <button className="bg-black text-white px-8 py-4 rounded-md uppercase font-Lato-400 ml-4 hover:bg-gray-900 hover:text-orange-300">
                   Sign In
                 </button>
               </Link>

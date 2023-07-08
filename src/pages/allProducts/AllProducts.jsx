@@ -12,11 +12,27 @@ export const MissingProducts = () => {
   };
 
   return (
-    <>
-      <h2>No Products Found</h2>
-      <p>Please add a product to sell</p>
-      <button onClick={navigateHandler}>ADD PRODUCT</button>{" "}
-    </>
+    <div className="flex flex-col items-center justify-center h-[25.09rem] mx-auto w-screen bg-white">
+      <h2 className="text-2xl mb-4 font-bold">No Products Found</h2>
+      <p className="mb-8 text-gray-600">Please add a product to sell</p>
+      <button
+        className="
+      w-[20rem]
+        font-semibold
+        
+        border-2
+        border-gray-800
+        hover:text-gray-800
+        rounded-md
+        hover:bg-orange-300
+        bg-gray-800
+        text-white
+        w-24"
+        onClick={navigateHandler}
+      >
+        ADD PRODUCT
+      </button>
+    </div>
   );
 };
 
