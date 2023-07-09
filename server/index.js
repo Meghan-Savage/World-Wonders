@@ -2,7 +2,8 @@ import dotenv from "dotenv";
 import express from "express";
 import Stripe from "stripe";
 import cors from "cors";
-import { db, storage } from "./firebase.js";
+import admin from "firebase-admin";
+import * as functions from "firebase-functions";
 
 dotenv.config();
 const port = 5252;
@@ -10,6 +11,9 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+admin.initializeApp();
+const db = admin.firestore();
 
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const stripeClient = new Stripe(stripeSecretKey);
@@ -88,17 +92,17 @@ app.post(
 
     if (endpointSecret) {
       try {
-        event = stripeClient.webhooks.constructEvent(
+        const event = stripeClient.webhooks.constructEvent(
           req.body,
           sig,
           endpointSecret
         );
+        data = event.data.object;
+        eventType = event.type;
       } catch (err) {
         res.status(400).send(`Webhook Error: ${err.message}`);
         return;
       }
-      data = event.data.object;
-      eventType = event.type;
     } else {
       data = req.body.data.object;
       eventType = req.body.type;
@@ -107,7 +111,7 @@ app.post(
     if (eventType === "checkout.session.completed") {
       try {
         const customer = await stripeClient.customers.retrieve(data.customer);
-        createOrder(customer, data, res);
+        await createOrder(customer, data, res);
         console.log("customer", customer);
       } catch (err) {
         console.log("Error retrieving customer details:", err);
@@ -136,20 +140,6 @@ const createOrder = async (customer, intent, res) => {
       sts: "preparing",
     };
 
-    // try {
-    //   const cartData = JSON.parse(customer.metadata.cart);
-    //   if (Array.isArray(cartData)) {
-    //     data.items = cartData;
-    //   } else {
-    //     throw new Error("Invalid cart data format");
-    //   }
-    // } catch (err) {
-    //   console.log("Error parsing cart data:", err);
-    //   return res.status(500).json({ error: "Error parsing cart data" });
-    // }
-
-    // console.log("Creating Order:", data);
-
     await db.collection("orders").doc(`/${orderId}/`).set(data);
     console.log("Order created:", orderId);
   } catch (err) {
@@ -161,3 +151,5 @@ const createOrder = async (customer, intent, res) => {
 app.listen(port, () => {
   console.log(`Web server running on port ${port}`);
 });
+
+export const api = functions.https.onRequest(app);
