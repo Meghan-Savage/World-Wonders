@@ -20,16 +20,14 @@ app.get("/", (req, res) => {
 
 app.post("/api/create-checkout-session", async (req, res) => {
   try {
-    const { cart } = req.body;
+    console.log("req.body.items", req.body.items);
     const customer = await stripeClient.customers.create({
       metadata: {
-        user_id: req.body.user.user_id,
-        cart: JSON.stringify(req.body.items),
+        items: JSON.stringify(req.body.items),
         total: req.body.total,
       },
     });
-
-    const line_items = cart.map((item) => {
+    const line_items = req.body.items.map((item) => {
       return {
         price_data: {
           currency: "cad",
@@ -110,6 +108,7 @@ app.post(
       try {
         const customer = await stripeClient.customers.retrieve(data.customer);
         createOrder(customer, data, res);
+        console.log("customer", customer);
       } catch (err) {
         console.log("Error retrieving customer details:", err);
       }
@@ -132,18 +131,30 @@ const createOrder = async (customer, intent, res) => {
       status: intent.payment_status,
       customer: intent.customer_details,
       shipping_details: intent.shipping_details,
-      userId: customer.metadata.user_id,
-      items: JSON.parse(customer.metadata.cart),
+      items: customer.metadata.items,
       total: customer.metadata.total,
       sts: "preparing",
     };
 
-    console.log("Creating Order:", data);
+    // try {
+    //   const cartData = JSON.parse(customer.metadata.cart);
+    //   if (Array.isArray(cartData)) {
+    //     data.items = cartData;
+    //   } else {
+    //     throw new Error("Invalid cart data format");
+    //   }
+    // } catch (err) {
+    //   console.log("Error parsing cart data:", err);
+    //   return res.status(500).json({ error: "Error parsing cart data" });
+    // }
+
+    // console.log("Creating Order:", data);
 
     await db.collection("orders").doc(`/${orderId}/`).set(data);
     console.log("Order created:", orderId);
   } catch (err) {
     console.log("Error creating order:", err);
+    return res.status(500).json({ error: "Error creating order" });
   }
 };
 

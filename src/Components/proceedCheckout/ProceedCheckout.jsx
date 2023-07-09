@@ -12,17 +12,28 @@ import { AuthContext } from "../../firebase/authentication";
 
 export default function ProceedCheckout() {
   const { cart, total } = useContext(CartContext);
+  console.log("cart", cart);
   const { user } = useContext(AuthContext);
 
   const roundedTotal = Number(total.toFixed(2));
   console.log("roundedTotal", roundedTotal);
 
   const handleCheckout = () => {
+    const filteredCart = cart.map((item) => {
+      return {
+        id: item.id,
+        title: item.title,
+        price: item.price,
+        amount: item.amount,
+      };
+    });
+
     const data = {
       user: user,
-      cart: cart,
+      items: filteredCart,
       total: roundedTotal,
     };
+
     console.log("data", data);
     axios
       .post("/api/create-checkout-session", data, {
@@ -33,6 +44,7 @@ export default function ProceedCheckout() {
       })
       .catch((error) => {
         console.log(error);
+        alert("An error occurred during checkout. Please try again later.");
       });
   };
 
