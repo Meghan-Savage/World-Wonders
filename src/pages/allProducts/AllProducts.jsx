@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { ProductContext } from "../../context/ProductContext/ProductContext.jsx";
 import { Outlet, useParams, useNavigate } from "react-router-dom";
-import NavBar from "../../Components/navBar/NavBar.jsx";
 import Product from "../../Components/product/Product.jsx";
 
 export const MissingProducts = () => {
@@ -26,8 +25,7 @@ export const MissingProducts = () => {
         rounded-md
         hover:bg-orange-300
         bg-gray-800
-        text-white
-        w-24"
+        text-white"
         onClick={navigateHandler}
       >
         ADD PRODUCT
