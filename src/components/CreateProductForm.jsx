@@ -209,7 +209,7 @@ const CreateProductForm = (props) => {
       )}
       {!showAdditionalImages && (
         <button
-          className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700"
+          className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-orange-300 hover:text-black"
           onClick={handleAddImage}
         >
           Add Additional Images
@@ -228,7 +228,7 @@ const CreateProductForm = (props) => {
         />
       </div>
       <button
-        className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700"
+        className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-orange-300 hover:text-black"
         type="submit"
         disabled={uploading}
       >
