@@ -7,14 +7,21 @@ import {
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { setPersistence, browserSessionPersistence } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  apiKey: "AIzaSyCgypmoLS2uaGESAaHLSWUAbCFmdtQLwdk",
+
+  authDomain: "world-wonders-inceptionu.firebaseapp.com",
+
   projectId: "world-wonders-inceptionu",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+
+  storageBucket: "world-wonders-inceptionu.appspot.com",
+
   messagingSenderId: "741891750091",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+
+  appId: "1:741891750091:web:33eb7ea287ad8ae062434e",
+
   measurementId: "G-5VFSVY33LR",
 };
 
@@ -22,7 +29,7 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 setPersistence(auth, browserSessionPersistence);
 
-export const db = getFirestore(app);
+const db = getFirestore(app);
 const storage = getStorage(app);
 
 export const FirebaseContext = createContext();

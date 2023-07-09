@@ -33,6 +33,7 @@ const Navbar = () => {
   }, []);
 
   const handleSelectCountry = (countryCode) => {
+    navigate(`/products/${countryCode}`);
     setSelectedCountry(countryCode);
   };
 
@@ -108,6 +109,14 @@ const Navbar = () => {
             Contact Us
           </Link>
         </li>
+        <li>
+          <Link
+            to="/about-us"
+            className="text-orange-200 hover:text-gray-400 block sm:inline-block"
+          >
+            About Us
+          </Link>
+        </li>
         <li className="flex items-center">
           <select
             onChange={(e) => handleSelectCountry(e.target.value)}
@@ -115,7 +124,7 @@ const Navbar = () => {
           >
             <option value="">Select Country</option>
             {countries.map((country) => (
-              <option key={country.code} value={country.code}>
+              <option key={country.code} value={country.name}>
                 {country.name}
               </option>
             ))}

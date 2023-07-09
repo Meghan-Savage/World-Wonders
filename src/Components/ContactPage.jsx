@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 
 const ContactPage = () => {
   const [fullName, setFullName] = useState("");
@@ -12,12 +11,13 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-800 flex flex-col justify-center items-center">
+    <div className="min-h-screen z-10 bg-gray-100 flex flex-col justify-center items-center bg-gradient-to-r from-orange-400 to-orange-100 ">
       <div className="max-w-2xl px-6 py-8 bg-gray-900 text-orange-200 shadow-md rounded-lg">
         <h2 className="text-2xl font-semibold mb-4">Contact Us</h2>
-       
+
         <p className="text-red-400 mb-4">
-          Notice: This Contact Form is Not Monitored - Please Refrain from Sending Messages.
+          Notice: This Contact Form is Not Monitored - Please Refrain from
+          Sending Messages.
         </p>
         <form onSubmit={handleSubmit}>
           {/* Input fields */}
@@ -59,7 +59,7 @@ const ContactPage = () => {
           </div>
           <button
             type="submit"
-            className="bg-orange-200 hover:bg-gray-400 text-white py-2 px-4 rounded"
+            className="border-2 border-gray-800 bg-gray-800 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-orange-300 font-semibold"
           >
             Submit
           </button>
