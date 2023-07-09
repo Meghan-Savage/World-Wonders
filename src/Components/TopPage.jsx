@@ -84,7 +84,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-gray-900 py-4">
-      <ul className="flex justify-between container mx-auto px-8">
+      <ul className="flex justify-between items-center container mx-auto px-8">
         <li>
           <Link
             to="/"
