@@ -369,14 +369,24 @@ const LandingPage = () => {
   }, []);
 
   return (
-    <div className="flex flex-row h-screen bg-gradient-to-r from-orange-400 to-orange-100">
+    <div
+      className="flex flex-row h-screen bg-gradient-to-r from-orange-400 to-orange-100"
+      style={{ touchAction: "manipulation" }}
+      onWheel={(e) => e.preventDefault()}
+      onGestureStart={(e) => e.preventDefault()}
+      onGestureChange={(e) => e.preventDefault()}
+      onGestureEnd={(e) => e.preventDefault()}
+      onTouchStart={(e) => e.preventDefault()}
+      onTouchMove={(e) => e.preventDefault()}
+      onTouchEnd={(e) => e.preventDefault()}
+    >
       <div className="flex mb-32">
         <div className="flex flex-col justify-center px-8 pt-16 xl:pt-0 w-1/2 p-4">
-          <div className="flex flex-col  items-center">
+          <div className="flex flex-col items-center">
             <h1 className="text-black text-bold text-6xl mb-8 font-Crimson leading-none uppercase items-center mt-70">
               World Wonders
             </h1>
-            <p className=" text-center text-black mb-8 font-Lato-400 w-1/2">
+            <p className="text-center text-black mb-8 font-Lato-400 w-1/2">
               World Wonders presents a delightful fusion of exquisite products
               and immersive cultural experiences, inviting you to embark on a
               captivating voyage into the very essence of each civilization.
