@@ -62,8 +62,8 @@ app.post("/api/create-checkout-session", async (req, res) => {
       line_items,
       customer: customer.id,
       mode: "payment",
-      success_url: "http://localhost:5173/sucess",
-      cancel_url: "http://localhost:5173/products",
+      success_url: "https://world-wonders-inceptionu.web.app/sucess",
+      cancel_url: "https://world-wonders-inceptionu.web.app/products",
     });
 
     res.send({ url: session.url });
