@@ -15,6 +15,7 @@ import TopPage from "./Components/TopPage";
 import UserDropdown from "./Components/UserDropdown";
 import ContactPage from "./Components/ContactPage";
 import AboutUS from "./Components/AboutUs";
+import OrderSuccess from "./pages/orderSucess/OrderSucess";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path="/user" element={<UserDropdown />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/about-us" element={<AboutUS />} />
+        <Route path="/sucess" element={<OrderSuccess />} />
       </Routes>
       <SideBar />
       <BottomPage />

@@ -18,7 +18,7 @@ function Product({ product }) {
   const { addToCart } = useContext(CartContext);
 
   return (
-    <Card className="w-64 flex flex-col">
+    <Card className="w-64 flex flex-col shadow-2xl">
       <CardHeader shadow={false} floated={false} className="h-48">
         <Link to={`/product/${id}`}>
           <img src={images} className="w-full h-full" />
