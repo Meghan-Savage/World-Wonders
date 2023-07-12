@@ -103,7 +103,7 @@ const Navbar = () => {
           <div className="flex items-center">
             <select
               onChange={(e) => handleSelectCountry(e.target.value)}
-              className="text-orange-200 bg-gray-900 border border-gray-400 rounded py-1 px-24 mr-2"
+              className="text-orange-200 bg-gray-900 border border-gray-400 rounded py-1 px-16 mr-2"
             >
               <option value="">Select Country</option>
               {countries.map((country) => (
@@ -158,12 +158,12 @@ const Navbar = () => {
                 Logout
               </button>
             ) : (
-              <button
-                onClick={toggleLoginForm}
-                className="text-orange-200 hover:text-gray-400 ml-4"
-              >
-                Login
-              </button>
+              <Link
+              to="/signin"
+              className="text-orange-200 hover:text-gray-400 ml-4"
+            >
+              Login
+            </Link>
             )}
           </div>
           {showProfileDropdown && (
