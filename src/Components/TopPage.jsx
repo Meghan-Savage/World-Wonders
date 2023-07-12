@@ -101,22 +101,6 @@ const Navbar = () => {
             Products
           </Link>
         </li>
-        <li>
-          <Link
-            to="/contact"
-            className="text-orange-200 hover:text-gray-400 block sm:inline-block"
-          >
-            Contact Us
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/about-us"
-            className="text-orange-200 hover:text-gray-400 block sm:inline-block"
-          >
-            About Us
-          </Link>
-        </li>
         <li className="flex items-center">
           <select
             onChange={(e) => handleSelectCountry(e.target.value)}
@@ -197,18 +181,6 @@ const Navbar = () => {
                 className="text-orange-200 hover:text-gray-400 block px-4 py-2"
               >
                 Upload Products
-              </button>
-              <button
-                onClick={() => navigate("/products")}
-                className="text-orange-200 hover:text-gray-400 block px-4 py-2"
-              >
-                Order Shipping
-              </button>
-              <button
-                onClick={() => navigate("/products")}
-                className="text-orange-200 hover:text-gray-400 block px-4 py-2"
-              >
-                Order Management
               </button>
             </div>
           )}
