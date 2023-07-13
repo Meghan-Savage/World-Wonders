@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "appAssociation": "AUTO",
     "public": "dist",
     "ignore": [
       "logs",

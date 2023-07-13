@@ -1,29 +1,26 @@
 const functions = require("firebase-functions");
-const express = require("express");
+const cors = require("cors");
 const admin = require("firebase-admin");
-
+const express = require("express");
 const stripe = require("stripe")(
   "sk_test_51NPs04ALbGdPmn1L7QQTY20l2iYxBxIoKnqt3AqginbOGzoV1nc4qDtnbfikYq9ZnUrv5vd9Fsu0ObAIGDjZMX3N00jaR4KX05"
 );
 
-const port = 3000;
 const app = express();
-
 admin.initializeApp();
 
-app.listen(port, function () {
-  console.log("listening to port" + port);
-});
-
-app.post("/api/create-checkout-session", async (req, res) => {
+app.use(cors());
+app.use(express.json());
+app.post("/", async (req, res) => {
   try {
-    console.log("req.body.items", req.body.items);
+    console.log(req.body.items);
     const customer = await stripe.customers.create({
       metadata: {
         items: JSON.stringify(req.body.items),
         total: req.body.total,
       },
     });
+    console.log("customer ", customer);
     const line_items = req.body.items.map((item) => {
       return {
         price_data: {
@@ -39,7 +36,7 @@ app.post("/api/create-checkout-session", async (req, res) => {
         quantity: item.amount,
       };
     });
-
+    console.log("line_items ", line_items);
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       shipping_address_collection: { allowed_countries: ["CA"] },
@@ -65,12 +62,17 @@ app.post("/api/create-checkout-session", async (req, res) => {
       success_url: "https://world-wonders-inceptionu.web.app/sucess",
       cancel_url: "https://world-wonders-inceptionu.web.app/products",
     });
+    console.log("session :", session);
+    console.log("session.url", session.url);
 
     res.send({ url: session.url });
   } catch (error) {
+    console.log("errooooooooor :", error.message);
     res.status(500).json({ error: error.message });
   }
 });
+exports.api = functions.https.onRequest(app);
+
 let endpointSecret;
 
 app.post(
@@ -139,4 +141,3 @@ const createOrder = async (customer, intent, res) => {
     return res.status(500).json({ error: "Error creating order" });
   }
 };
-exports.api = functions.https.onRequest(app);

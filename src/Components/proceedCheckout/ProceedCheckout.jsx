@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+
 import {
   Card,
   CardBody,
@@ -36,9 +37,13 @@ export default function ProceedCheckout() {
 
     console.log("data", data);
     axios
-      .post("/api/create-checkout-session", data, {
-        headers: { "Content-Type": "application/json" },
-      })
+      .post(
+        "https://us-central1-world-wonders-inceptionu.cloudfunctions.net/api",
+        data,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
       .then((res) => {
         window.location.href = res.data.url;
       })
