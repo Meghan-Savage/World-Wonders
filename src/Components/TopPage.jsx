@@ -15,6 +15,7 @@ const Navbar = () => {
   const [showLoginForm, setShowLoginForm] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [userEmail, setUserEmail] = useState("");
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
@@ -63,6 +64,10 @@ const Navbar = () => {
     setShowProfileDropdown(!showProfileDropdown);
   };
 
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -77,149 +82,184 @@ const Navbar = () => {
     };
   }, []);
 
-  const handlePostProduct = () => {
-    // Navigate to the CreateProduct component
-    navigate("/create-product");
-  };
-
   return (
     <nav className="bg-gray-900 py-4">
-      <ul className="flex justify-between items-center container mx-auto px-8">
-        <li>
-          <Link
-            to="/"
-            className="text-orange-200 hover:text-gray-400 block sm:inline-block"
-          >
-            Home
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/products"
-            className="text-orange-200 hover:text-gray-400 block sm:inline-block"
-          >
-            Products
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/contact"
-            className="text-orange-200 hover:text-gray-400 block sm:inline-block"
-          >
-            Contact Us
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/about-us"
-            className="text-orange-200 hover:text-gray-400 block sm:inline-block"
-          >
-            About Us
-          </Link>
-        </li>
-        <li className="flex items-center">
-          <select
-            onChange={(e) => handleSelectCountry(e.target.value)}
-            className="text-orange-200 bg-gray-900 border border-gray-400 rounded py-1 px-2"
-          >
-            <option value="">Select Country</option>
-            {countries.map((country) => (
-              <option key={country.code} value={country.name}>
-                {country.name}
-              </option>
-            ))}
-          </select>
-          {selectedCountry && (
-            <ReactCountryFlag
-              countryCode={selectedCountry}
-              svg
-              className="ml-2 w-8 h-8"
-            />
-          )}
-        </li>
-        <li>
-          <Link
-            className="text-orange-200 hover:text-gray-400 block sm:inline-block"
-            to="/cart"
-          >
-            <ShoppingCart />
-          </Link>
-        </li>
-        <li className="relative">
-          {isLoggedIn && (
-            <button
-              onClick={toggleProfileDropdown}
-              className="text-orange-200 hover:text-gray-400 block sm:inline-block"
+      <div className="container mx-auto px-4 sm:px-8 relative">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center">
+            <Link
+              to="/"
+              className="text-orange-200 hover:text-gray-400 block sm:inline-block mr-16"
             >
-              {userEmail}
-              <svg
-                className={`${
-                  showProfileDropdown ? "transform rotate-180" : ""
-                } inline-block ml-1 h-4 w-4`}
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                ref={dropdownRef}
-              >
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
-            </button>
-          )}
-          {isLoggedIn ? (
-            <button
-              onClick={handleLogout}
-              className="text-orange-200 hover:text-gray-400 block sm:inline-block"
+              Home
+            </Link>
+            <Link
+              to="/products"
+              className="text-orange-200 hover:text-gray-400 block sm:inline-block mr-4"
             >
-              Logout
-            </button>
-          ) : (
-            <button
-              onClick={toggleLoginForm}
-              className="text-orange-200 hover:text-gray-400 block sm:inline-block"
+              Products
+            </Link>
+          </div>
+          <div className="flex items-center">
+            <select
+              onChange={(e) => handleSelectCountry(e.target.value)}
+              className="text-orange-200 bg-gray-900 border border-gray-400 rounded py-1 px-16 mr-2"
             >
-              Login
-            </button>
-          )}
-          {showProfileDropdown && (
-            <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-400 rounded py-2 z-10">
+              <option value="">Select Country</option>
+              {countries.map((country) => (
+                <option key={country.code} value={country.name}>
+                  {country.name}
+                </option>
+              ))}
+            </select>
+            {selectedCountry && (
+              <ReactCountryFlag
+                countryCode={selectedCountry}
+                svg
+                className="ml-2 w-8 h-8"
+              />
+            )}
+          </div>
+          <div className="flex items-center">
+            <Link
+              className="text-orange-200 hover:text-gray-400 mr-8"
+              to="/cart"
+            >
+              <ShoppingCart />
+            </Link>
+            {isLoggedIn && (
               <button
-                onClick={() => navigate("/cart")}
-                className="text-orange-200 hover:text-gray-400 block px-4 py-2"
+                onClick={toggleProfileDropdown}
+                className="text-orange-200 hover:text-gray-400 focus:outline-none"
               >
-                Your Orders
+                {userEmail}
+                <svg
+                  className={`${
+                    showProfileDropdown ? "transform rotate-180" : ""
+                  } inline-block ml-1 h-4 w-4`}
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  ref={dropdownRef}
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
               </button>
+            )}
+            {isLoggedIn ? (
               <button
-                onClick={handlePostProduct}
-                className="text-orange-200 hover:text-gray-400 block px-4 py-2"
+                onClick={handleLogout}
+                className="text-orange-200 hover:text-gray-400 ml-4"
               >
-                Upload Products
+                Logout
               </button>
-              <button
-                onClick={() => navigate("/products")}
-                className="text-orange-200 hover:text-gray-400 block px-4 py-2"
+            ) : (
+              <Link
+                to="/signin"
+                className="text-orange-200 hover:text-gray-400 ml-4"
               >
-                Order Shipping
-              </button>
-              <button
-                onClick={() => navigate("/products")}
-                className="text-orange-200 hover:text-gray-400 block px-4 py-2"
-              >
-                Order Management
-              </button>
-            </div>
-          )}
-        </li>
-      </ul>
-
-      {showLoginForm && !isLoggedIn && (
-        <div className="container mx-auto px-8 mt-4">
-          <LoginForm onLogin={handleLogin} />
+                Login
+              </Link>
+            )}
+          </div>
+          <button
+            onClick={toggleMobileMenu}
+            className="sm:hidden text-orange-200 hover:text-gray-400 focus:outline-none"
+          >
+            <svg
+              className="h-6 w-6 fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M4 6.5H20V8.5H4V6.5ZM4 12.5H20V14.5H4V12.5ZM4 18.5H20V20.5H4V18.5Z"
+              />
+            </svg>
+          </button>
         </div>
-      )}
+        {showProfileDropdown && (
+          <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-400 rounded py-2 z-10">
+            <Link
+              to="/cart"
+              className="text-orange-200 hover:text-gray-400 block px-4 py-2"
+            >
+              Your Orders
+            </Link>
+            <Link
+              to="/create-product"
+              className="text-orange-200 hover:text-gray-400 block px-4 py-2"
+            >
+              Upload Products
+            </Link>
+          </div>
+        )}
+        {isMobileMenuOpen && (
+          <div className="sm:hidden bg-gray-900 py-2">
+            <Link
+              to="/"
+              className="block px-4 py-2 text-orange-200 hover:text-gray-400"
+            >
+              Home
+            </Link>
+            <Link
+              to="/products"
+              className="block px-4 py-2 text-orange-200 hover:text-gray-400"
+            >
+              Products
+            </Link>
+            <select
+              onChange={(e) => handleSelectCountry(e.target.value)}
+              className="text-orange-200 bg-gray-900 border border-gray-400 rounded py-1 px-4 mt-2 ml-4 mr-2"
+            >
+              <option value="">Select Country</option>
+              {countries.map((country) => (
+                <option key={country.code} value={country.name}>
+                  {country.name}
+                </option>
+              ))}
+            </select>
+            {selectedCountry && (
+              <ReactCountryFlag
+                countryCode={selectedCountry}
+                svg
+                className="ml-2 w-8 h-8"
+              />
+            )}
+            <Link
+              className="block px-4 py-2 text-orange-200 hover:text-gray-400 mt-2"
+              to="/cart"
+            >
+              <ShoppingCart />
+            </Link>
+            {isLoggedIn ? (
+              <button
+                onClick={handleLogout}
+                className="block px-4 py-2 text-orange-200 hover:text-gray-400 mt-2"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link
+                to="/signin"
+                className="block px-4 py-2 text-orange-200 hover:text-gray-400 mt-2"
+              >
+                Login
+              </Link>
+            )}
+          </div>
+        )}
+        {showLoginForm && !isLoggedIn && (
+          <div className="container mx-auto px-8 mt-4">
+            <LoginForm onLogin={handleLogin} />
+          </div>
+        )}
+      </div>
     </nav>
   );
 };

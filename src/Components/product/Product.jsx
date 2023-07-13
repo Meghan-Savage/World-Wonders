@@ -13,7 +13,7 @@ import {
 import "./Product.css";
 
 function Product({ product }) {
-  const { id, images, description, title, price, video } = product;
+  const { id, images, title, price } = product;
 
   const { addToCart } = useContext(CartContext);
 
@@ -21,17 +21,23 @@ function Product({ product }) {
     <Card className="w-64 flex flex-col shadow-2xl">
       <CardHeader shadow={false} floated={false} className="h-48">
         <Link to={`/product/${id}`}>
-          <img src={images} className="w-full h-full" />
+          <div className="flex items-center justify-center h-full">
+            <img
+              src={images}
+              alt={title}
+              className="w-full h-full object-cover"
+            />
+          </div>
         </Link>
       </CardHeader>
       <CardBody className="flex-grow">
         <div className="flex flex-col justify-between h-full">
           <div>
-            <Typography color="blue-gray" className="font-medium text-xs">
+            <Typography color="blue-gray" className="font-medium text-xs mt-4">
               <span className="max-lines">{title}</span>
             </Typography>
-            <Typography color="blue-gray" className="font-medium text-xs">
-              {price}
+            <Typography color="blue-gray" className="font-bold text-md mt-4">
+              ${price}
             </Typography>
           </div>
           <div className="mt-2">
@@ -39,7 +45,7 @@ function Product({ product }) {
               onClick={() => addToCart(product, product.id)}
               ripple={false}
               fullWidth={true}
-              className="bg-gray-900 text-orange-200 shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100 text-xs"
+              className="bg-gray-900 text-orange-200 shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100 text-xs mt-4"
             >
               Add to Cart
             </Button>

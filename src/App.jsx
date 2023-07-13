@@ -13,9 +13,8 @@ import HomePage from "./pages/HomePage";
 import BottomPage from "./components/BottomPage.jsx";
 import TopPage from "./Components/TopPage";
 import UserDropdown from "./Components/UserDropdown";
-import ContactPage from "./Components/ContactPage";
-import AboutUS from "./Components/AboutUs";
 import OrderSuccess from "./pages/orderSucess/OrderSucess";
+import Terms from "./Components/Terms";
 
 function App() {
   return (
@@ -34,9 +33,8 @@ function App() {
         <Route path="/footer" element={<BottomPage />} />
         <Route path="/navbar" element={<TopPage />} />
         <Route path="/user" element={<UserDropdown />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/about-us" element={<AboutUS />} />
         <Route path="/sucess" element={<OrderSuccess />} />
+        <Route path="/terms" element={<Terms />} />
       </Routes>
       <SideBar />
       <BottomPage />
