@@ -15,7 +15,7 @@ export default function BottomPage() {
         <div className="flex flex-col items-center sm:flex-row sm:items-center justify-between bg-gray-900 ">
           <div className="flex items-center bg-gray-900 ">
             <Link
-              to="/about"
+              to="/about-us"
               className={`text-orange-200 hover:text-gray-400 ml-10 mb-4 sm:mb-0 sm:ml-0 sm:mr-10 ${
                 isMobileMenuOpen ? "hidden sm:block" : "block"
               }`}
@@ -31,7 +31,7 @@ export default function BottomPage() {
               Terms of Use
             </Link>
             <Link
-              to="/designer"
+              to="/about-us"
               className={`text-orange-200 hover:text-gray-400 ml-10 sm:ml-0 sm:mr-10 ${
                 isMobileMenuOpen ? "hidden sm:block" : "block"
               }`}
