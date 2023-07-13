@@ -1,49 +1,82 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { RiLinkedinFill, RiPhoneFill, RiMailFill } from "react-icons/ri";
+import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
 
 export default function BottomPage() {
-  const linkedinProfileUrls = [
-    "https://www.linkedin.com/in/dominic-anyanga-2a5b3527b/",
-    "https://www.linkedin.com/in/profile2",
-    "https://www.linkedin.com/in/profile3"
-  ];
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!isMobileMenuOpen);
+  };
 
   return (
     <footer>
-      <div className="w-full bg-gray-900 text-gray-500 px-10">
-        <div className="max-w-7xl flex-col sm:flex-row py-4 mx-auto justify-between items-center">
-          <div className="text-center">
-            <div className="text-orange-200">© World-Wonders Inc. 2023</div>
-            <div className="flex items-center justify-center mt-2">
-            <Link to="/contact" className="ml-4">
-              <RiPhoneFill size={20} className="mr-1 text-orange-200 hover:text-orange-600" />
-              </Link>
-              <span>+1403-111-2222</span>
-              <Link to="/contact" className="ml-4">
-                <RiMailFill size={20} className="text-orange-200 hover:text-orange-600" />
-              </Link>
-              <span>w-wonders@gmail.com</span>
-            </div>
-            <div className="flex items-center justify-center mt-4">
-              <Link to={linkedinProfileUrls[0]} target="_blank" rel="noopener noreferrer">
-                <div className="rounded-full bg-orange-500 p-1 hover:bg-blue-700">
-                  <RiLinkedinFill size={20} className="text-white" />
-                </div>
-              </Link>
-              <Link to={linkedinProfileUrls[1]} target="_blank" rel="noopener noreferrer">
-                <div className="rounded-full bg-orange-500 p-1 mx-4 hover:bg-blue-700">
-                  <RiLinkedinFill size={20} className="text-white" />
-                </div>
-              </Link>
-              <Link to={linkedinProfileUrls[2]} target="_blank" rel="noopener noreferrer">
-                <div className="rounded-full bg-orange-500 p-1 hover:bg-blue-700">
-                  <RiLinkedinFill size={20} className="text-white" />
-                </div>
-              </Link>
-            </div>
+        <div className="w-full bg-gray-900 text-gray-500 px-10 py-8 mx-auto">
+        <div className="flex flex-col items-center sm:flex-row sm:items-center justify-between bg-gray-900 ">
+          <div className="flex items-center bg-gray-900 ">
+            <Link
+              to="/about"
+              className={`text-orange-200 hover:text-gray-400 ml-10 mb-4 sm:mb-0 sm:ml-0 sm:mr-10 ${
+                isMobileMenuOpen ? "hidden sm:block" : "block"
+              }`}
+            >
+              About Us
+            </Link>
+            <Link
+              to="/terms"
+              className={`text-orange-200 hover:text-gray-400 ml-10 mb-4 sm:mb-0 sm:ml-0 sm:mr-10 ${
+                isMobileMenuOpen ? "hidden sm:block" : "block"
+              }`}
+            >
+              Terms of Use
+            </Link>
+            <Link
+              to="/designer"
+              className={`text-orange-200 hover:text-gray-400 ml-10 sm:ml-0 sm:mr-10 ${
+                isMobileMenuOpen ? "hidden sm:block" : "block"
+              }`}
+            >
+              Design by
+            </Link>
+          </div>
+          <div className="flex items-center ">
+            <span className="mx-4 text-gray-600">
+          Copyright © 2023 World-Wonders Inc. All rights reserved. ® a registered trademark.
+            </span>
+            <button
+              onClick={toggleMobileMenu}
+              className="sm:hidden text-orange-200 hover:text-gray-400 focus:outline-none"
+            >
+              {isMobileMenuOpen ? (
+                <RiCloseLine size={20} />
+              ) : (
+                <RiMenu3Line size={20} />
+              )}
+            </button>
           </div>
         </div>
+        {isMobileMenuOpen && (
+          <div className="sm:hidden mt-4">
+            <Link
+              to="/about"
+              className="block text-orange-200 hover:text-gray-400 ml-10 mb-2"
+            >
+              About Us
+            </Link>
+            <Link
+              to="/terms"
+              className="block text-orange-200 hover:text-gray-400 ml-10 mb-2"
+            >
+              Terms of Use
+            </Link>
+            <Link
+              to="/designer"
+              className="block text-orange-200 hover:text-gray-400 ml-10"
+            >
+              Design by
+            </Link>
+          </div>
+        )}
       </div>
     </footer>
   );
