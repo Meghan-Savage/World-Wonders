@@ -60,8 +60,8 @@ app.post("/", async (req, res) => {
       customer: customer.id,
       mode: "payment",
       success_url:
-        "http://localhost:5173/sucess?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: "http://localhost:5173/products",
+        "https://world-wonders-inceptionu.web.app//sucess?session_id={CHECKOUT_SESSION_ID}",
+      cancel_url: "https://world-wonders-inceptionu.web.app//products",
     });
     console.log("session :", session);
     console.log("session.url", session.url);
