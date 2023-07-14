@@ -128,6 +128,13 @@ export default function LoginForm() {
                 Login
               </button>
             </div>
+            <div className="mt-3 text-center">
+              By continuing, you agree to world-wonders. Inc's{" "}
+              <Link to="/terms" className="text-blue-700 underline hover:text-orange-900">
+                Terms 0f Use
+              </Link>
+              .
+            </div>
           </div>
         </form>
         <div className="mt-3 grid grid-cols-3 items-center text-gray-800">
