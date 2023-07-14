@@ -15,6 +15,7 @@ import TopPage from "./Components/TopPage";
 import UserDropdown from "./Components/UserDropdown";
 import OrderSuccess from "./pages/orderSucess/OrderSucess";
 import Terms from "./Components/Terms";
+import AboutUs from "./Components/AboutUs.jsx";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path="/user" element={<UserDropdown />} />
         <Route path="/sucess" element={<OrderSuccess />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="/about-us" element={<AboutUs />} />
       </Routes>
       <SideBar />
       <BottomPage />
