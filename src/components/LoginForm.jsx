@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import icon from "../images/icon.png";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase/provider";
-import {
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from "firebase/auth";
+import {signInWithEmailAndPassword,signInWithPopup,GoogleAuthProvider,} from "firebase/auth";
 import { RiAlertFill } from "react-icons/ri";
 
 export default function LoginForm() {
