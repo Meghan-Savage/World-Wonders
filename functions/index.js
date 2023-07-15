@@ -135,6 +135,30 @@ app.get("/orders", async (req, res) => {
   }
 });
 
+app.get("/pending", async (req, res) => {
+  try {
+    const sellerId = req.query.sellerId;
+    const db = admin.firestore();
+    const snapshot = await db
+      .collection("orders")
+      .where("sellerId", "==", sellerId)
+      .where("sts", "==", "pending") // Add the condition to match "pending" in the "sts" field
+      .get();
+
+    if (snapshot.empty) {
+      res.status(404).json({ message: "No orders found" });
+    } else {
+      const orders = [];
+      snapshot.forEach((doc) => {
+        orders.push(doc.data());
+      });
+      res.json(orders);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 const createOrder = async (customer, intent, res) => {
   try {
     const orderId = Date.now();
@@ -153,7 +177,7 @@ const createOrder = async (customer, intent, res) => {
       items: items,
       total: customer.metadata.total,
       user: customer.metadata.user,
-      sts: "preparing",
+      sts: "pending",
       sellerId: sellerId, // Add the sellerId field
     };
 

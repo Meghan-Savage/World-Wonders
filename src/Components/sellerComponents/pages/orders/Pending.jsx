@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { AuthContext } from "../../../../firebase/authentication";
 
 function Pending() {
-  const [orderInfo, setOrderInfo] = useState(null);
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const sessionId = searchParams.get("session_id");
-  const navigate = useNavigate(); // import and use navigate
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [orderInfo, setOrderInfo] = useState([]);
+  const { user } = useContext(AuthContext);
 
   console.log("orderInfo", orderInfo);
 
@@ -16,26 +12,26 @@ function Pending() {
     const fetchOrderInfo = async () => {
       try {
         const response = await axios.get(
-          `https://us-central1-world-wonders-inceptionu.cloudfunctions.net/api/orders?intentId=${sessionId}`
+          `https://us-central1-world-wonders-inceptionu.cloudfunctions.net/api/pending?sellerId=${user.uid}`
         );
-        setOrderInfo(response.data);
-        console.log(response.data);
-        setIsModalOpen(true);
+        const orders = Object.values(response.data);
+        setOrderInfo(orders);
+        console.log(orders);
       } catch (error) {
         console.log("Error retrieving order information:", error);
       }
     };
 
-    if (sessionId) {
+    if (user && user.uid) {
       fetchOrderInfo();
     }
-  }, [sessionId]);
+  }, [user]);
 
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold text-gray-800">Pending Orders</h1>
       <div className="mt-4">
-        {orders.map((order) => (
+        {orderInfo.map((order) => (
           <div key={order.id} className="bg-white shadow rounded-lg p-4 mb-4">
             <div className="flex items-center justify-between">
               <div>
@@ -46,7 +42,7 @@ function Pending() {
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-600">Status</p>
-                <p className="text-sm text-yellow-500">{order.status}</p>
+                <p className="text-sm text-yellow-500">{order.sts}</p>
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-600">Total</p>
@@ -59,7 +55,7 @@ function Pending() {
               </h2>
               {order.items.map((item) => (
                 <div
-                  key={item.title}
+                  key={item.id} // Use item.id as the key
                   className="flex items-center justify-between mt-2"
                 >
                   <div className="flex items-center">
@@ -75,7 +71,7 @@ function Pending() {
                     <p className="text-sm font-medium text-gray-800">
                       Quantity
                     </p>
-                    <p className="text-sm text-gray-500">{item.quantity}</p>
+                    <p className="text-sm text-gray-500">{item.amount}</p>
                   </div>
                 </div>
               ))}
