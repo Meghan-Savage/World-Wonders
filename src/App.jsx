@@ -15,11 +15,13 @@ import TopPage from "./Components/TopPage";
 import UserDropdown from "./Components/UserDropdown";
 import OrderSuccess from "./pages/orderSucess/OrderSucess";
 import Terms from "./Components/Terms";
+import HomeSeller from "./pages/homeSeller/HomeSeller";
+import Orders from "./Components/sellerComponents/orders/Orders";
 
 function App() {
   return (
-    <>
-      <TopPage />
+    <div className="App">
+      {window.location.pathname !== "/seller" && <TopPage />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<Products />} />
@@ -30,15 +32,15 @@ function App() {
         <Route path="/signup" element={<RegistrationForm />} />
         <Route path="/admin-products" element={<AdminShowProducts />} />
         <Route path="/create-product" element={<CreateProductForm />} />
-        <Route path="/footer" element={<BottomPage />} />
-        <Route path="/navbar" element={<TopPage />} />
         <Route path="/user" element={<UserDropdown />} />
-        <Route path="/sucess" element={<OrderSuccess />} />
+        <Route path="/success" element={<OrderSuccess />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="/seller/*" element={<HomeSeller />} />
+        <Route path="/orders" element={<Orders />} />
       </Routes>
       <SideBar />
       <BottomPage />
-    </>
+    </div>
   );
 }
 

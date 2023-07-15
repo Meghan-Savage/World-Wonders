@@ -50,7 +50,7 @@ export default function ProceedCheckout() {
         window.location.href = res.data.url;
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response.data);
         alert("An error occurred during checkout. Please try again later.");
       });
   };

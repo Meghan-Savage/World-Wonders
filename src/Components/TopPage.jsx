@@ -18,7 +18,7 @@ const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
-  const userMenuRef = useRef(null)
+  const userMenuRef = useRef(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -71,7 +71,13 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !( dropdownRef.current.contains(event.target) || userMenuRef.current.contains(event.target))) {
+      if (
+        dropdownRef.current &&
+        !(
+          dropdownRef.current.contains(event.target) ||
+          userMenuRef.current.contains(event.target)
+        )
+      ) {
         setShowProfileDropdown(false);
       }
     };
@@ -185,7 +191,10 @@ const Navbar = () => {
           </button>
         </div>
         {showProfileDropdown && (
-          <div ref= {userMenuRef} className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-400 rounded py-2 z-10">
+          <div
+            ref={userMenuRef}
+            className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-400 rounded py-2 z-10"
+          >
             <Link
               to="/cart"
               className="text-orange-200 hover:text-gray-400 block px-4 py-2"
@@ -193,10 +202,10 @@ const Navbar = () => {
               Your Orders
             </Link>
             <Link
-              to="/create-product"
+              to="/seller"
               className="text-orange-200 hover:text-gray-400 block px-4 py-2"
             >
-              Upload Products
+              Your Store
             </Link>
           </div>
         )}
