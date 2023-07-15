@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Products from "./pages/allProducts/AllProducts.jsx";
 import ProductDetails from "./pages/productDetails/ProductDetails.jsx";
 import SideBar from "./Components/sideBar/SideBar.jsx";
@@ -16,12 +16,14 @@ import UserDropdown from "./Components/UserDropdown";
 import OrderSuccess from "./pages/orderSucess/OrderSucess";
 import Terms from "./Components/Terms";
 import HomeSeller from "./pages/homeSeller/HomeSeller";
-import Orders from "./Components/sellerComponents/orders/Orders";
 
 function App() {
+  const location = useLocation();
+  const isSellerPage = location.pathname.startsWith("/seller");
+
   return (
     <div className="App">
-      {window.location.pathname !== "/seller" && <TopPage />}
+      {!isSellerPage && <TopPage />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<Products />} />
@@ -36,7 +38,6 @@ function App() {
         <Route path="/success" element={<OrderSuccess />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/seller/*" element={<HomeSeller />} />
-        <Route path="/orders" element={<Orders />} />
       </Routes>
       <SideBar />
       <BottomPage />

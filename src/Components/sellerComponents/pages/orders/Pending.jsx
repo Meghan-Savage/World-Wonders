@@ -1,9 +1,33 @@
 import React from "react";
 
-function Orders() {
+function Pending() {
+  // Define some dummy data for the orders
+  const orders = [
+    {
+      id: "123456",
+      date: "2021-10-30",
+      status: "Pending",
+      total: "$120.00",
+      items: [
+        { title: "Handmade Necklace", price: "$40.00", quantity: 1 },
+        { title: "Wooden Clock", price: "$80.00", quantity: 1 },
+      ],
+      customer: {
+        name: "Alice Smith",
+        address: {
+          line1: "123 Main Street",
+          city: "New York",
+          state: "NY",
+          zip: "10001",
+          country: "USA",
+        },
+      },
+    },
+  ];
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-800">Orders</h1>
+      <h1 className="text-2xl font-bold text-gray-800">Pending Orders</h1>
       <div className="mt-4">
         {orders.map((order) => (
           <div key={order.id} className="bg-white shadow rounded-lg p-4 mb-4">
@@ -16,15 +40,7 @@ function Orders() {
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-600">Status</p>
-                <p
-                  className={`text-sm ${
-                    order.status === "Pending"
-                      ? "text-yellow-500"
-                      : "text-green-500"
-                  }`}
-                >
-                  {order.status}
-                </p>
+                <p className="text-sm text-yellow-500">{order.status}</p>
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-600">Total</p>
@@ -76,14 +92,11 @@ function Orders() {
                 {order.customer.address.country}
               </p>
             </div>
-            {/* Add a button to ship the order if it is pending */}
-            {order.status === "Pending" && (
-              <div className="mt-4 flex justify-end">
-                <button className="px-4 py-2 bg-gray-800 text-white font-semibold rounded-lg hover:bg-gray-700 focus:outline-none">
-                  Ship Order
-                </button>
-              </div>
-            )}
+            <div className="mt-4 flex justify-end">
+              <button className="px-4 py-2 bg-gray-800 text-white font-semibold rounded-lg hover:bg-gray-700 focus:outline-none">
+                Ship Order
+              </button>
+            </div>
           </div>
         ))}
       </div>
@@ -91,4 +104,4 @@ function Orders() {
   );
 }
 
-export default Orders;
+export default Pending;
