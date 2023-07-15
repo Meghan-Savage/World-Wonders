@@ -138,6 +138,9 @@ app.get("/orders", async (req, res) => {
 const createOrder = async (customer, intent, res) => {
   try {
     const orderId = Date.now();
+    const items = JSON.parse(customer.metadata.items); // Parse the items string
+    const sellerId = items[0].sellerId; // Assuming there's only one item in the array, you can access the sellerId like this
+
     const data = {
       intentId: intent.id,
       orderId: orderId,
@@ -147,11 +150,13 @@ const createOrder = async (customer, intent, res) => {
       status: intent.payment_status,
       customer: intent.customer_details,
       shipping_details: intent.shipping_details,
-      items: customer.metadata.items,
+      items: items,
       total: customer.metadata.total,
       user: customer.metadata.user,
       sts: "preparing",
+      sellerId: sellerId, // Add the sellerId field
     };
+
     const db = admin.firestore();
     await db.collection("orders").doc(`/${orderId}/`).set(data);
     console.log("Order created:", orderId);

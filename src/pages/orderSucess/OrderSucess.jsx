@@ -95,7 +95,7 @@ const OrderSuccess = () => {
             <h2 className="text-lg font-semibold text-gray-600">
               Ordered Items
             </h2>
-            {JSON.parse(orderInfo.items).map((item) => (
+            {orderInfo.items.map((item) => (
               <div
                 key={item.title}
                 className="flex items-center justify-between mt-4"
