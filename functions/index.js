@@ -59,8 +59,8 @@ app.post("/", async (req, res) => {
       customer: customer.id,
       mode: "payment",
       success_url:
-        "https://world-wonders-inceptionu.web.app//sucess?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: "https://world-wonders-inceptionu.web.app//products",
+        "https://world-wonders-inceptionu.web.app/success?session_id={CHECKOUT_SESSION_ID}",
+      cancel_url: "https://world-wonders-inceptionu.web.app/products",
     });
     console.log("session :", session);
     console.log("session.url", session.url);
@@ -111,7 +111,6 @@ app.post(
       }
     }
 
-    // Return a 200 response to acknowledge receipt of the event
     res.send().end();
   }
 );
@@ -139,9 +138,6 @@ app.get("/orders", async (req, res) => {
 const createOrder = async (customer, intent, res) => {
   try {
     const orderId = Date.now();
-    const items = customer.metadata.items;
-    const sellerId = items[0].sellerId;
-
     const data = {
       intentId: intent.id,
       orderId: orderId,
@@ -151,13 +147,11 @@ const createOrder = async (customer, intent, res) => {
       status: intent.payment_status,
       customer: intent.customer_details,
       shipping_details: intent.shipping_details,
-      items: items,
+      items: customer.metadata.items,
       total: customer.metadata.total,
       user: customer.metadata.user,
-      sts: "pending",
-      sellerId: sellerId,
+      sts: "preparing",
     };
-
     const db = admin.firestore();
     await db.collection("orders").doc(`/${orderId}/`).set(data);
     console.log("Order created:", orderId);

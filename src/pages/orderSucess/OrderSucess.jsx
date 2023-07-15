@@ -49,8 +49,8 @@ const OrderSuccess = () => {
       bottom: "auto",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
-      width: "80%", // reduce the width to 80% of the screen
-      height: "80%", // reduce the height to 80% of the screen
+      width: "70%", // reduce the width to 80% of the screen
+      height: "70%", // reduce the height to 80% of the screen
     },
   };
 
@@ -62,62 +62,61 @@ const OrderSuccess = () => {
           contentLabel="Order Success Modal"
           style={customStyles} // apply the custom styles
         >
-          <h1 className="text-xl font-bold text-center text-gray-800 mt-2">
+          <h1 className="text-2xl font-bold text-center text-gray-800 mt-4">
             Thank you for your order!
           </h1>
-          <div className="mt-4 border-t border-gray-200 pt-2">
-            <h2 className="text-sm font-semibold text-gray-600">Order Info</h2>
-            <p className="text-xs text-gray-500 mt-1">
+          <div className="mt-6 border-t border-gray-200 pt-4">
+            <h2 className="text-lg font-semibold text-gray-600">Order Info</h2>
+            <p className="text-sm text-gray-500 mt-2">
               Order Number: #{orderInfo.orderId}
             </p>
-            <p className="text-xs text-gray-500 mt-1">Order Date: {date}</p>
+            <p className="text-sm text-gray-500 mt-2">Order Date: {date}</p>
           </div>
-          <div className="mt-4 border-t border-gray-200 pt-2">
-            <h2 className="text-sm font-semibold text-gray-600">
+          <div className="mt-6 border-t border-gray-200 pt-4">
+            <h2 className="text-lg font-semibold text-gray-600">
               Shipping Address
             </h2>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-sm text-gray-500 mt-2">
               {orderInfo.customer.name}
             </p>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-sm text-gray-500 mt-2">
               {orderInfo.customer.address.line1}
             </p>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-sm text-gray-500 mt-2">
               {orderInfo.customer.address.city},{" "}
               {orderInfo.customer.address.state}{" "}
               {orderInfo.customer.address.postal_code}
             </p>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-sm text-gray-500 mt-2">
               {orderInfo.customer.address.country}
             </p>
           </div>
-          <div className="mt-4 border-t border-gray-200 pt-2">
-            <h2 className="text-sm font-semibold text-gray-600">
+          <div className="mt-6 border-t border-gray-200 pt-4">
+            <h2 className="text-lg font-semibold text-gray-600">
               Ordered Items
             </h2>
-            <div className="grid grid-cols-3 gap-x-4 gap-y-2 mt-2">
-              {orderInfo.items.map((item) => (
-                <React.Fragment key={item.title}>
-                  <div className="flex items-center col-span-2">
-                    <div className="bg-gray-200 h-12 w-12 rounded"></div>
-                    <div className="ml-2">
-                      <p className="text-xs font-medium text-gray-800 truncate">
-                        {item.title}
-                      </p>
-                      <p className="text-xs text-gray-500">{item.price}</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-end">
-                    <p className="text-xs font-medium text-gray-800">
-                      Quantity
+            {JSON.parse(orderInfo.items).map((item) => (
+              <div
+                key={item.title}
+                className="flex items-center justify-between mt-4"
+              >
+                <div className="flex items-center">
+                  <div className="bg-gray-200 h-16 w-16 rounded"></div>
+                  <div className="ml-4">
+                    <p className="text-sm font-medium text-gray-800">
+                      {item.title}
                     </p>
-                    <p className="text-xs text-gray-500"> {item.amount}</p>
+                    <p className="text-sm text-gray-500">{item.price}</p>
                   </div>
-                </React.Fragment>
-              ))}
-            </div>
+                </div>
+                <div className="flex flex-col items-end">
+                  <p className="text-sm font-medium text-gray-800">Quantity</p>
+                  <p className="text-sm text-gray-500"> {item.amount}</p>
+                </div>
+              </div>
+            ))}
           </div>
-          <div className="mt-4 flex justify-center">
+          <div className="mt-6 flex justify-center">
             <button
               onClick={closeModal}
               className="px-4 py-2 bg-gray-800 text-white font-semibold rounded-lg hover:bg-gray-700 focus:outline-none"
