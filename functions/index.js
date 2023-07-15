@@ -13,11 +13,11 @@ app.use(cors());
 app.use(express.json());
 app.post("/", async (req, res) => {
   try {
-    console.log(req.body.items);
     const customer = await stripe.customers.create({
       metadata: {
         items: JSON.stringify(req.body.items),
         total: req.body.total,
+        user: JSON.stringify(req.body.user),
       },
     });
     console.log("customer ", customer);
@@ -36,7 +36,6 @@ app.post("/", async (req, res) => {
         quantity: item.amount,
       };
     });
-    console.log("line_items ", line_items);
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       shipping_address_collection: { allowed_countries: ["CA"] },
@@ -68,7 +67,6 @@ app.post("/", async (req, res) => {
 
     res.send({ url: session.url });
   } catch (error) {
-    console.log("errooooooooor :", error.message);
     res.status(500).json({ error: error.message });
   }
 });
@@ -152,6 +150,7 @@ const createOrder = async (customer, intent, res) => {
       shipping_details: intent.shipping_details,
       items: customer.metadata.items,
       total: customer.metadata.total,
+      user: customer.metadata.user,
       sts: "preparing",
     };
     const db = admin.firestore();

@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-
 import {
   Card,
   CardBody,
@@ -13,24 +12,26 @@ import { AuthContext } from "../../firebase/authentication";
 
 export default function ProceedCheckout() {
   const { cart, total } = useContext(CartContext);
-  console.log("cart", cart);
   const { user } = useContext(AuthContext);
-
+  console.log("user", user);
   const roundedTotal = Number(total.toFixed(2));
-  console.log("roundedTotal", roundedTotal);
 
   const handleCheckout = () => {
-    const filteredCart = cart.map((item) => {
-      return {
-        id: item.id,
-        title: item.title,
-        price: item.price,
-        amount: item.amount,
-      };
-    });
+    const filteredCart = cart.map((item) => ({
+      id: item.id,
+      title: item.title,
+      price: item.price,
+      amount: item.amount,
+    }));
+
+    const filteredUser = {
+      displayName: user.displayName,
+      email: user.email,
+      uid: user.uid,
+    };
 
     const data = {
-      user: user,
+      user: filteredUser,
       items: filteredCart,
       total: roundedTotal,
     };
