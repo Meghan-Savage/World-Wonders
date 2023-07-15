@@ -36,7 +36,7 @@ function Pending() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">
-                  Order #{order.id}
+                  Order #{order.orderId}
                 </p>
                 <p className="text-sm text-gray-500">{order.date}</p>
               </div>
@@ -95,7 +95,7 @@ function Pending() {
               </p>
             </div>
             <div className="mt-4 flex justify-end">
-              <button className="px-4 py-2 bg-gray-800 text-white font-semibold rounded-lg hover:bg-gray-700 focus:outline-none">
+              <button className="px-4 py-2 bg-gray-900 text-orange-200 font-semibold rounded-lg hover:bg-gray-700 focus:outline-none">
                 Ship Order
               </button>
             </div>
