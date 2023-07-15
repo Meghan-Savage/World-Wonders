@@ -45,6 +45,7 @@ export default function ProceedCheckout() {
         }
       )
       .then((res) => {
+        console.log("res", res.data);
         window.location.href = res.data.url;
       })
       .catch((error) => {

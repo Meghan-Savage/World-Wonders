@@ -59,8 +59,9 @@ app.post("/", async (req, res) => {
       line_items,
       customer: customer.id,
       mode: "payment",
-      success_url: "https://world-wonders-inceptionu.web.app/sucess",
-      cancel_url: "https://world-wonders-inceptionu.web.app/products",
+      success_url:
+        "https://world-wonders-inceptionu.web.app//sucess?session_id={CHECKOUT_SESSION_ID}",
+      cancel_url: "https://world-wonders-inceptionu.web.app//products",
     });
     console.log("session :", session);
     console.log("session.url", session.url);
@@ -116,6 +117,26 @@ app.post(
     res.send().end();
   }
 );
+
+app.get("/orders", async (req, res) => {
+  try {
+    const intentId = req.query.intentId;
+    const db = admin.firestore();
+    const snapshot = await db
+      .collection("orders")
+      .where("intentId", "==", intentId)
+      .get();
+
+    if (snapshot.empty) {
+      res.status(404).json({ message: "Order not found" });
+    } else {
+      const order = snapshot.docs[0].data();
+      res.json(order);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 const createOrder = async (customer, intent, res) => {
   try {
