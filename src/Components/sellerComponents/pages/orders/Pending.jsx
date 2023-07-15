@@ -1,29 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Pending() {
-  // Define some dummy data for the orders
-  const orders = [
-    {
-      id: "123456",
-      date: "2021-10-30",
-      status: "Pending",
-      total: "$120.00",
-      items: [
-        { title: "Handmade Necklace", price: "$40.00", quantity: 1 },
-        { title: "Wooden Clock", price: "$80.00", quantity: 1 },
-      ],
-      customer: {
-        name: "Alice Smith",
-        address: {
-          line1: "123 Main Street",
-          city: "New York",
-          state: "NY",
-          zip: "10001",
-          country: "USA",
-        },
-      },
-    },
-  ];
+  const [orderInfo, setOrderInfo] = useState(null);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const sessionId = searchParams.get("session_id");
+  const navigate = useNavigate(); // import and use navigate
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  console.log("orderInfo", orderInfo);
+
+  useEffect(() => {
+    const fetchOrderInfo = async () => {
+      try {
+        const response = await axios.get(
+          `https://us-central1-world-wonders-inceptionu.cloudfunctions.net/api/orders?intentId=${sessionId}`
+        );
+        setOrderInfo(response.data);
+        console.log(response.data);
+        setIsModalOpen(true);
+      } catch (error) {
+        console.log("Error retrieving order information:", error);
+      }
+    };
+
+    if (sessionId) {
+      fetchOrderInfo();
+    }
+  }, [sessionId]);
 
   return (
     <div className="container mx-auto px-4 py-8">

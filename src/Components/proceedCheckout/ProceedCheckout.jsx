@@ -22,6 +22,7 @@ export default function ProceedCheckout() {
       title: item.title,
       price: item.price,
       amount: item.amount,
+      sellerId: item.sellerId,
     }));
 
     const filteredUser = {

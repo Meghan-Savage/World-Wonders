@@ -139,6 +139,9 @@ app.get("/orders", async (req, res) => {
 const createOrder = async (customer, intent, res) => {
   try {
     const orderId = Date.now();
+    const items = customer.metadata.items;
+    const sellerId = items[0].sellerId;
+
     const data = {
       intentId: intent.id,
       orderId: orderId,
@@ -148,11 +151,13 @@ const createOrder = async (customer, intent, res) => {
       status: intent.payment_status,
       customer: intent.customer_details,
       shipping_details: intent.shipping_details,
-      items: customer.metadata.items,
+      items: items,
       total: customer.metadata.total,
       user: customer.metadata.user,
-      sts: "preparing",
+      sts: "pending",
+      sellerId: sellerId,
     };
+
     const db = admin.firestore();
     await db.collection("orders").doc(`/${orderId}/`).set(data);
     console.log("Order created:", orderId);

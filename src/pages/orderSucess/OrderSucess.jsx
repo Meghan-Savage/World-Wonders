@@ -96,7 +96,7 @@ const OrderSuccess = () => {
               Ordered Items
             </h2>
             <div className="grid grid-cols-3 gap-x-4 gap-y-2 mt-2">
-              {JSON.parse(orderInfo.items).map((item) => (
+              {orderInfo.items.map((item) => (
                 <React.Fragment key={item.title}>
                   <div className="flex items-center col-span-2">
                     <div className="bg-gray-200 h-12 w-12 rounded"></div>
