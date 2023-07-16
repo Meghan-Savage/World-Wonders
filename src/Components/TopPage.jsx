@@ -196,7 +196,7 @@ const Navbar = () => {
             className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-400 rounded py-2 z-10"
           >
             <Link
-              to="/cart"
+              to="/profile"
               className="text-orange-200 hover:text-gray-400 block px-4 py-2"
             >
               Your Orders

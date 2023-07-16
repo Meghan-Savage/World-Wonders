@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import icon from "../images/icon.png";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase/provider";
-import {signInWithEmailAndPassword,signInWithPopup,GoogleAuthProvider,} from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
 import { RiAlertFill } from "react-icons/ri";
+import { AuthContext } from "../firebase/authentication";
 
 export default function LoginForm() {
+  const { setUser } = useContext(AuthContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -32,9 +39,9 @@ export default function LoginForm() {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        console.log(userCredential);
         setLoggedIn(true);
         setLoginError("");
+        setUser(userCredential.user);
         navigate("/products");
       })
       .catch((error) => {
@@ -130,7 +137,10 @@ export default function LoginForm() {
             </div>
             <div className="mt-3 text-center">
               By continuing, you agree to world-wonders. Inc's{" "}
-              <Link to="/terms" className="text-blue-700 underline hover:text-orange-900">
+              <Link
+                to="/terms"
+                className="text-blue-700 underline hover:text-orange-900"
+              >
                 Terms 0f Use
               </Link>
               .

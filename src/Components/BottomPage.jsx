@@ -11,7 +11,7 @@ export default function BottomPage() {
 
   return (
     <footer>
-        <div className="w-full bg-gray-900 text-gray-500 px-10 py-8 mx-auto">
+      <div className="w-full bg-gray-900 text-gray-500 mx-auto px-10 py-8">
         <div className="flex flex-col items-center sm:flex-row sm:items-center justify-between bg-gray-900 ">
           <div className="flex items-center bg-gray-900 ">
             <Link
@@ -41,7 +41,8 @@ export default function BottomPage() {
           </div>
           <div className="flex items-center ">
             <span className="mx-4 text-gray-600">
-          Copyright © 2023 World-Wonders Inc. All rights reserved. ® a registered trademark.
+              Copyright © 2023 World-Wonders Inc. All rights reserved. ® a
+              registered trademark.
             </span>
             <button
               onClick={toggleMobileMenu}

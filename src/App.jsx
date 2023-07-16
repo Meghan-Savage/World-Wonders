@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Products from "./pages/allProducts/AllProducts.jsx";
@@ -17,10 +17,17 @@ import OrderSuccess from "./pages/orderSucess/OrderSucess";
 import Terms from "./Components/Terms";
 import AboutUs from "./Components/AboutUs.jsx";
 import HomeSeller from "./pages/homeSeller/HomeSeller";
+import ProfilePage from "./pages/profilePage/ProfilePage";
 
 function App() {
   const location = useLocation();
   const isSellerPage = location.pathname.startsWith("/seller");
+  const [showModal, setShowModal] = useState(false);
+
+  const handleModalToggler = () => {
+    console.log("clicked");
+    setShowModal((prev) => !prev);
+  };
 
   return (
     <div className="App">
@@ -40,6 +47,15 @@ function App() {
         <Route path="/terms" element={<Terms />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/seller/*" element={<HomeSeller />} />
+        <Route
+          path="/profile"
+          element={
+            <ProfilePage
+              onToggleModal={handleModalToggler}
+              showModal={showModal}
+            />
+          }
+        />
       </Routes>
       <SideBar />
       <BottomPage />

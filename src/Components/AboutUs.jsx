@@ -4,7 +4,7 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "@fortawesome/fontawesome-free/css/all.css";
 
-import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub"; // Update the import statement
+import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub"; 
 import {
   Card,
   CardHeader,
@@ -22,7 +22,7 @@ export default function Example() {
   const [isDomHovered, setIsDomHovered] = useState(false);
   const [isDengHovered, setIsDengHovered] = useState(false);
 
-  // Rest of the code...
+
 
   const cardStyle = {
     transition: "transform 0.3s ease",

@@ -21,7 +21,7 @@ export default function ViewCart() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row justify-center items-start md:items-top gap-8">
+    <div className="flex flex-col md:flex-row justify-center items-start md:items-top gap-8 h-screen">
       <div className="container mx-auto">
         <div>{cartAmount} Items In your Shopping Bag</div>
         {cart.map((item) => (
