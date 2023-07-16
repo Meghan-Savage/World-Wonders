@@ -11,7 +11,7 @@ export const MissingProducts = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-[28.09rem] mx-auto w-screen">
+    <div className="flex flex-col items-center justify-center h-screen mx-auto w-screen ">
       <h2 className="text-2xl mb-4 font-bold">No Products Found</h2>
       <p className="mb-8 text-gray-600">Please add a product to sell</p>
       <button

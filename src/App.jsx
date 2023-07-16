@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "./App.css";
 import { Routes, Route, useLocation } from "react-router-dom";
+
 import Products from "./pages/allProducts/AllProducts";
 import ProductDetails from "./pages/productDetails/ProductDetails";
 import SideBar from "./Components/sideBar/SideBar";
