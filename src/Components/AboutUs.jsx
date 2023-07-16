@@ -4,7 +4,7 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "@fortawesome/fontawesome-free/css/all.css";
 
-import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub"; 
+import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub";
 import {
   Card,
   CardHeader,
@@ -15,14 +15,12 @@ import {
 } from "@material-tailwind/react";
 import Tilt from "react-parallax-tilt";
 
-export default function Example() {
+const AboutUs = () => {
   library.add(fab, faGithub);
 
   const [isMegHovered, setIsMegHovered] = useState(false);
   const [isDomHovered, setIsDomHovered] = useState(false);
   const [isDengHovered, setIsDengHovered] = useState(false);
-
-
 
   const cardStyle = {
     transition: "transform 0.3s ease",
@@ -236,4 +234,6 @@ export default function Example() {
       </Tilt>
     </div>
   );
-}
+};
+
+export default AboutUs;

@@ -10,7 +10,7 @@ import AdminShowProducts from "./Components/AdminShowProducts";
 import CreateProductForm from "./Components/CreateProductForm";
 import HomePage from "./pages/HomePage";
 import BottomPage from "./Components/BottomPage";
-import TopPage from "./Components/TopPage";
+import NavBar from "./Components/TopPage";
 import UserDropdown from "./Components/UserDropdown";
 import OrderSuccess from "./pages/orderSucess/OrderSucess";
 import Terms from "./Components/Terms";
@@ -31,7 +31,7 @@ function App() {
 
   return (
     <div className="App">
-      {!isSellerPage && <TopPage />}
+      {!isSellerPage && <NavBar />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<Products />} />

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
 
-export default function BottomPage() {
+const BottomPage = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
@@ -81,4 +81,6 @@ export default function BottomPage() {
       </div>
     </footer>
   );
-}
+};
+
+export default BottomPage;

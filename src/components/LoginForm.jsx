@@ -10,7 +10,7 @@ import {
 import { RiAlertFill } from "react-icons/ri";
 import { AuthContext } from "../firebase/authentication";
 
-export default function LoginForm() {
+const LoginForm = () => {
   const { setUser } = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
@@ -177,4 +177,6 @@ export default function LoginForm() {
       </div>
     </div>
   );
-}
+};
+
+export default LoginForm;
