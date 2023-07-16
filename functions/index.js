@@ -13,11 +13,11 @@ app.use(cors());
 app.use(express.json());
 app.post("/", async (req, res) => {
   try {
-    console.log(req.body.items);
     const customer = await stripe.customers.create({
       metadata: {
         items: JSON.stringify(req.body.items),
         total: req.body.total,
+        user: JSON.stringify(req.body.user),
       },
     });
     console.log("customer ", customer);
@@ -36,7 +36,6 @@ app.post("/", async (req, res) => {
         quantity: item.amount,
       };
     });
-    console.log("line_items ", line_items);
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       shipping_address_collection: { allowed_countries: ["CA"] },
@@ -59,7 +58,8 @@ app.post("/", async (req, res) => {
       line_items,
       customer: customer.id,
       mode: "payment",
-      success_url: "https://world-wonders-inceptionu.web.app/sucess",
+      success_url:
+        "https://world-wonders-inceptionu.web.app/success?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: "https://world-wonders-inceptionu.web.app/products",
     });
     console.log("session :", session);
@@ -67,7 +67,6 @@ app.post("/", async (req, res) => {
 
     res.send({ url: session.url });
   } catch (error) {
-    console.log("errooooooooor :", error.message);
     res.status(500).json({ error: error.message });
   }
 });
@@ -112,14 +111,60 @@ app.post(
       }
     }
 
-    // Return a 200 response to acknowledge receipt of the event
     res.send().end();
   }
 );
 
+app.get("/orders", async (req, res) => {
+  try {
+    const intentId = req.query.intentId;
+    const db = admin.firestore();
+    const snapshot = await db
+      .collection("orders")
+      .where("intentId", "==", intentId)
+      .get();
+
+    if (snapshot.empty) {
+      res.status(404).json({ message: "Order not found" });
+    } else {
+      const order = snapshot.docs[0].data();
+      res.json(order);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get("/pending", async (req, res) => {
+  try {
+    const sellerId = req.query.sellerId;
+    const db = admin.firestore();
+    const snapshot = await db
+      .collection("orders")
+      .where("sellerId", "==", sellerId)
+      .where("sts", "==", "pending") // Add the condition to match "pending" in the "sts" field
+      .get();
+
+    if (snapshot.empty) {
+      res.status(404).json({ message: "No orders found" });
+    } else {
+      const orders = [];
+      snapshot.forEach((doc) => {
+        orders.push(doc.data());
+      });
+      res.json(orders);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 const createOrder = async (customer, intent, res) => {
   try {
     const orderId = Date.now();
+    const items = JSON.parse(customer.metadata.items); // Parse the items string
+    const sellerId = items[0].sellerId; // Assuming there's only one item in the array, you can access the sellerId like this
+
     const data = {
       intentId: intent.id,
       orderId: orderId,
@@ -129,10 +174,13 @@ const createOrder = async (customer, intent, res) => {
       status: intent.payment_status,
       customer: intent.customer_details,
       shipping_details: intent.shipping_details,
-      items: customer.metadata.items,
+      items: items,
       total: customer.metadata.total,
-      sts: "preparing",
+      user: customer.metadata.user,
+      sts: "pending",
+      sellerId: sellerId, // Add the sellerId field
     };
+
     const db = admin.firestore();
     await db.collection("orders").doc(`/${orderId}/`).set(data);
     console.log("Order created:", orderId);

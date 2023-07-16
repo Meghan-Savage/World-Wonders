@@ -7,7 +7,6 @@ import {
   CardBody,
   Typography,
 } from "@material-tailwind/react";
-import { ArrowLongRightIcon } from "@heroicons/react/24/outline";
 import ProceedCheckout from "../../Components/proceedCheckout/ProceedCheckout.jsx";
 
 export default function ViewCart() {

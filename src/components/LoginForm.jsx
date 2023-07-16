@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import icon from "../images/icon.png";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase/provider";
-import {
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from "firebase/auth";
+import {signInWithEmailAndPassword,signInWithPopup,GoogleAuthProvider,} from "firebase/auth";
 import { RiAlertFill } from "react-icons/ri";
 
 export default function LoginForm() {
@@ -131,6 +127,13 @@ export default function LoginForm() {
               >
                 Login
               </button>
+            </div>
+            <div className="mt-3 text-center">
+              By continuing, you agree to world-wonders. Inc's{" "}
+              <Link to="/terms" className="text-blue-700 underline hover:text-orange-900">
+                Terms 0f Use
+              </Link>
+              .
             </div>
           </div>
         </form>

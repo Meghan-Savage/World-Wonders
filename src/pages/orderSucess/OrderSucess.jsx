@@ -1,87 +1,131 @@
-import React, { useContext } from "react";
-import { CartContext } from "../../context/CartContext/CartContext";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
+import Modal from "react-modal";
 
 const OrderSuccess = () => {
-  const { cart, total } = useContext(CartContext);
+  const [orderInfo, setOrderInfo] = useState(null);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const sessionId = searchParams.get("session_id");
+  const navigate = useNavigate(); // import and use navigate
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  console.log("orderInfo", orderInfo);
+
+  useEffect(() => {
+    const fetchOrderInfo = async () => {
+      try {
+        const response = await axios.get(
+          `https://us-central1-world-wonders-inceptionu.cloudfunctions.net/api/orders?intentId=${sessionId}`
+        );
+        setOrderInfo(response.data);
+        console.log(response.data);
+        setIsModalOpen(true);
+      } catch (error) {
+        console.log("Error retrieving order information:", error);
+      }
+    };
+
+    if (sessionId) {
+      fetchOrderInfo();
+    }
+  }, [sessionId]);
+
+  const date = new Date().toLocaleDateString();
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    navigate("/products"); // use navigate instead of history.push
+  };
+
+  // Define custom styles for the modal
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      width: "70%", // reduce the width to 80% of the screen
+      height: "70%", // reduce the height to 80% of the screen
+    },
+  };
 
   return (
-    <div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
-      <div className="flex justify-start item-start space-y-2 flex-col">
-        <h1 className="text-3xl dark:text-white lg:text-4xl font-semibold leading-7 lg:leading-9 text-gray-800">
-          Order #13432
-        </h1>
-        <p className="text-base dark:text-gray-300 font-medium leading-6 text-gray-600">
-          21st Mart 2021 at 10:34 PM
-        </p>
-      </div>
-      <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
-        <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
-          <div className="flex flex-col justify-start items-start dark:bg-gray-800 bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
-            <p className="text-lg md:text-xl dark:text-white font-semibold leading-6 xl:leading-5 text-gray-800">
-              Customers Cart
+    <div className="bg-gray-100 min-h-screen flex items-center justify-center">
+      {orderInfo && (
+        <Modal
+          isOpen={isModalOpen}
+          contentLabel="Order Success Modal"
+          style={customStyles} // apply the custom styles
+        >
+          <h1 className="text-2xl font-bold text-center text-gray-800 mt-4">
+            Thank you for your order!
+          </h1>
+          <div className="mt-6 border-t border-gray-200 pt-4">
+            <h2 className="text-lg font-semibold text-gray-600">Order Info</h2>
+            <p className="text-sm text-gray-500 mt-2">
+              Order Number: #{orderInfo.orderId}
             </p>
-            <div className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
-              {cart.map((item) => (
-                <div key={item.id} className="pb-4 md:pb-8 w-full md:w-40">
-                  <img
-                    className="w-full hidden md:block"
-                    src={item.images[0]} // Accessing the first image from the `images` array
-                    alt="dress"
-                  />
-                  <img
-                    className="w-full md:hidden"
-                    src={item.images[0]} // Accessing the first image from the `images` array
-                    alt="dress"
-                  />
-
-                  <div className="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start w-full pb-8 space-y-4 md:space-y-0">
-                    <div className="w-full flex flex-col justify-start items-start space-y-8">
-                      <h3 className="text-xl dark:text-white xl:text-2xl font-semibold leading-6 text-gray-800">
-                        {item.title}
-                      </h3>
-                    </div>
-                    <div className="flex justify-between space-x-8 items-start w-full">
-                      <p className="text-base dark:text-white xl:text-lg leading-6">
-                        {item.price}
-                        <span className="text-red-300 line-through">
-                          $45.00
-                        </span>
-                      </p>
-                      <p className="text-base dark:text-white xl:text-lg leading-6 text-gray-800">
-                        {item.amount}
-                      </p>
-                    </div>
+            <p className="text-sm text-gray-500 mt-2">Order Date: {date}</p>
+          </div>
+          <div className="mt-6 border-t border-gray-200 pt-4">
+            <h2 className="text-lg font-semibold text-gray-600">
+              Shipping Address
+            </h2>
+            <p className="text-sm text-gray-500 mt-2">
+              {orderInfo.customer.name}
+            </p>
+            <p className="text-sm text-gray-500 mt-2">
+              {orderInfo.customer.address.line1}
+            </p>
+            <p className="text-sm text-gray-500 mt-2">
+              {orderInfo.customer.address.city},{" "}
+              {orderInfo.customer.address.state}{" "}
+              {orderInfo.customer.address.postal_code}
+            </p>
+            <p className="text-sm text-gray-500 mt-2">
+              {orderInfo.customer.address.country}
+            </p>
+          </div>
+          <div className="mt-6 border-t border-gray-200 pt-4">
+            <h2 className="text-lg font-semibold text-gray-600">
+              Ordered Items
+            </h2>
+            {orderInfo.items.map((item) => (
+              <div
+                key={item.title}
+                className="flex items-center justify-between mt-4"
+              >
+                <div className="flex items-center">
+                  <div className="bg-gray-200 h-16 w-16 rounded"></div>
+                  <div className="ml-4">
+                    <p className="text-sm font-medium text-gray-800">
+                      {item.title}
+                    </p>
+                    <p className="text-sm text-gray-500">{item.price}</p>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex justify-center md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
-            <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
-              <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
-                Summary
-              </h3>
-              <div className="flex justify-between items-center w-full">
-                <p className="text-base dark:text-white font-semibold leading-4 text-gray-800">
-                  {total} {/* Displaying the total value from CartContext */}
-                </p>
+                <div className="flex flex-col items-end">
+                  <p className="text-sm font-medium text-gray-800">Quantity</p>
+                  <p className="text-sm text-gray-500"> {item.amount}</p>
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
-              <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">
-                Shopping
-              </h3>
-
-              <div className="w-full flex justify-center items-center">
-                <button className="hover:bg-black dark:bg-white dark:text-gray-800 dark:hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 py-5 w-96 md:w-full bg-gray-800 text-base font-medium leading-4 text-white">
-                  Continue Shopping
-                </button>
-              </div>
-            </div>
+            ))}
           </div>
-        </div>
-      </div>
+          <div className="mt-6 flex justify-center">
+            <button
+              onClick={closeModal}
+              className="px-4 py-2 bg-gray-800 text-white font-semibold rounded-lg hover:bg-gray-700 focus:outline-none"
+            >
+              Continue Shopping
+            </button>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };
