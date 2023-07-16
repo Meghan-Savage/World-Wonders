@@ -5,7 +5,6 @@ import Products from "./pages/allProducts/AllProducts";
 import ProductDetails from "./pages/productDetails/ProductDetails";
 import SideBar from "./Components/sideBar/SideBar";
 import ViewCart from "./pages/viewCart/ViewCart";
-import LoginForm from "./Components/LoginForm";
 import RegistrationForm from "./Components/RegistrationForm";
 import AdminShowProducts from "./Components/AdminShowProducts";
 import CreateProductForm from "./Components/CreateProductForm";
@@ -18,6 +17,7 @@ import Terms from "./Components/Terms";
 import AboutUs from "./Components/AboutUs";
 import HomeSeller from "./pages/homeSeller/HomeSeller";
 import ProfilePage from "./pages/profilePage/ProfilePage";
+import LoginForm from "./Components/LoginForm";
 
 function App() {
   const location = useLocation();

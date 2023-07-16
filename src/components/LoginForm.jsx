@@ -59,6 +59,7 @@ export default function LoginForm() {
         const user = result.user;
         setLoggedIn(true);
         setLoginError("");
+        setUser(user);
         navigate("/products");
       })
       .catch((error) => {
