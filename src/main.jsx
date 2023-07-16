@@ -11,20 +11,23 @@ import ReactDOM from "react-dom/client";
 
 import App from "./App.jsx";
 import "./index.css";
+import OrderProvider from "./context/OrderContext/OrderContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <FirebaseProvider>
       <AuthProvider>
-        <CartProvider>
-          <SideBarProvider>
-            <ProductProvider>
-              <BrowserRouter>
-                <App />
-              </BrowserRouter>
-            </ProductProvider>
-          </SideBarProvider>
-        </CartProvider>
+        <OrderProvider>
+          <CartProvider>
+            <SideBarProvider>
+              <ProductProvider>
+                <BrowserRouter>
+                  <App />
+                </BrowserRouter>
+              </ProductProvider>
+            </SideBarProvider>
+          </CartProvider>
+        </OrderProvider>
       </AuthProvider>
     </FirebaseProvider>
   </React.StrictMode>

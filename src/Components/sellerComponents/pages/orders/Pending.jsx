@@ -1,31 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
-import { AuthContext } from "../../../../firebase/authentication";
+import React, { useContext } from "react";
+
+import { OrderContext } from "../../../../context/OrderContext/OrderContext";
 
 function Pending() {
-  const [orderInfo, setOrderInfo] = useState([]);
-  const { user } = useContext(AuthContext);
-
-  console.log("orderInfo", orderInfo);
-
-  useEffect(() => {
-    const fetchOrderInfo = async () => {
-      try {
-        const response = await axios.get(
-          `https://us-central1-world-wonders-inceptionu.cloudfunctions.net/api/pending?sellerId=${user.uid}`
-        );
-        const orders = Object.values(response.data);
-        setOrderInfo(orders);
-        console.log(orders);
-      } catch (error) {
-        console.log("Error retrieving order information:", error);
-      }
-    };
-
-    if (user && user.uid) {
-      fetchOrderInfo();
-    }
-  }, [user]);
+  const { orderInfo } = useContext(OrderContext);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -39,14 +17,6 @@ function Pending() {
                   Order #{order.orderId}
                 </p>
                 <p className="text-sm text-gray-500">{order.date}</p>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-gray-600">Status</p>
-                <p className="text-sm text-yellow-500">{order.sts}</p>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total</p>
-                <p className="text-sm text-gray-800">{order.total}</p>
               </div>
             </div>
             <div className="mt-4 border-t border-gray-200 pt-4">
@@ -64,14 +34,10 @@ function Pending() {
                       <p className="text-sm font-medium text-gray-800">
                         {item.title}
                       </p>
-                      <p className="text-sm text-gray-500">{item.price}</p>
+                      <p className="text-sm text-gray-500">
+                        {item.price} | Qt: {item.amount}
+                      </p>
                     </div>
-                  </div>
-                  <div className="flex flex-col items-end">
-                    <p className="text-sm font-medium text-gray-800">
-                      Quantity
-                    </p>
-                    <p className="text-sm text-gray-500">{item.amount}</p>
                   </div>
                 </div>
               ))}

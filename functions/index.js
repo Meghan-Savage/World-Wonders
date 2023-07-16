@@ -5,6 +5,9 @@ const express = require("express");
 const stripe = require("stripe")(
   "sk_test_51NPs04ALbGdPmn1L7QQTY20l2iYxBxIoKnqt3AqginbOGzoV1nc4qDtnbfikYq9ZnUrv5vd9Fsu0ObAIGDjZMX3N00jaR4KX05"
 );
+const shippo = require("shippo")(
+  "shippo_test_e2b7b197d1d5de27679834ee70f0f94b58a2e908"
+);
 
 const app = express();
 admin.initializeApp();
@@ -135,6 +138,50 @@ app.get("/orders", async (req, res) => {
   }
 });
 
+app.post("/shippingFrom", async (req, res) => {
+  try {
+    const addressFrom = await shippo.address.create({
+      name: "Shawn Ippotle",
+      company: "Shippo",
+      street1: "215 Clayton St.",
+      city: "San Francisco",
+      province: "CA",
+      postalCode: "94117",
+      country: "CA",
+      phone: "+1 555 341 9393",
+      email: "shippotle@goshippo.com",
+    });
+    console.log(addressFrom);
+    res
+      .status(200)
+      .json({ message: "Address created successfully", address: addressFrom });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/shippingTo", async (req, res) => {
+  try {
+    const addressTo = await shippo.address.create({
+      name: "Mr Hippo",
+      company: "Zoo",
+      street1: "300 Park Ave",
+      city: "New York",
+      province: "MB",
+      postalCode: "10022",
+      country: "CA",
+      phone: "+1 555 789 1234",
+      email: "mrhippo@zoo.com",
+    });
+    console.log(addressTo);
+    res
+      .status(200)
+      .json({ message: "Address created successfully", address: addressTo });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.get("/pending", async (req, res) => {
   try {
     const sellerId = req.query.sellerId;
@@ -142,7 +189,7 @@ app.get("/pending", async (req, res) => {
     const snapshot = await db
       .collection("orders")
       .where("sellerId", "==", sellerId)
-      .where("sts", "==", "pending") // Add the condition to match "pending" in the "sts" field
+      .where("sts", "==", "pending")
       .get();
 
     if (snapshot.empty) {

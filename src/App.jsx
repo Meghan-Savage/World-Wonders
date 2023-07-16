@@ -16,6 +16,8 @@ import UserDropdown from "./Components/UserDropdown";
 import OrderSuccess from "./pages/orderSucess/OrderSucess";
 import Terms from "./Components/Terms";
 import HomeSeller from "./pages/homeSeller/HomeSeller";
+import AddressForm from "./Components/sellerComponents/pages/orders/Shippo";
+import ShippoContainer from "./Components/sellerComponents/pages/orders/Shippo";
 
 function App() {
   const location = useLocation();
@@ -37,6 +39,7 @@ function App() {
         <Route path="/user" element={<UserDropdown />} />
         <Route path="/success" element={<OrderSuccess />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="/shippo" element={<ShippoContainer />} />
         <Route path="/seller/*" element={<HomeSeller />} />
       </Routes>
       <SideBar />
