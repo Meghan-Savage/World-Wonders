@@ -1,9 +1,14 @@
 import React, { useContext } from "react";
-
+import { useNavigate } from "react-router-dom";
 import { OrderContext } from "../../../../context/OrderContext/OrderContext";
 
 function Pending() {
   const { orderInfo } = useContext(OrderContext);
+  const navigate = useNavigate();
+
+  const handleShipOrder = () => {
+    navigate("/seller/dashboard/orders/shipped");
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -61,7 +66,10 @@ function Pending() {
               </p>
             </div>
             <div className="mt-4 flex justify-end">
-              <button className="px-4 py-2 bg-gray-900 text-orange-200 font-semibold rounded-lg hover:bg-gray-700 focus:outline-none">
+              <button
+                onClick={handleShipOrder}
+                className="px-4 py-2 bg-gray-900 text-orange-200 font-semibold rounded-lg hover:bg-gray-700 focus:outline-none"
+              >
                 Ship Order
               </button>
             </div>

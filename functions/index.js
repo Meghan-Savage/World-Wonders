@@ -6,7 +6,7 @@ const stripe = require("stripe")(
   "sk_test_51NPs04ALbGdPmn1L7QQTY20l2iYxBxIoKnqt3AqginbOGzoV1nc4qDtnbfikYq9ZnUrv5vd9Fsu0ObAIGDjZMX3N00jaR4KX05"
 );
 const shippo = require("shippo")(
-  "shippo_test_e2b7b197d1d5de27679834ee70f0f94b58a2e908"
+  "shippo_test_26094a15d7b0ff7934685899692766ddb050d51a"
 );
 
 const app = express();
@@ -140,17 +140,30 @@ app.get("/orders", async (req, res) => {
 
 app.post("/shippingFrom", async (req, res) => {
   try {
+    const {
+      name,
+      company,
+      street1,
+      city,
+      province,
+      postalCode,
+      country,
+      phone,
+      email,
+    } = req.body;
+
     const addressFrom = await shippo.address.create({
-      name: "Shawn Ippotle",
-      company: "Shippo",
-      street1: "215 Clayton St.",
-      city: "San Francisco",
-      province: "CA",
-      postalCode: "94117",
-      country: "CA",
-      phone: "+1 555 341 9393",
-      email: "shippotle@goshippo.com",
+      name,
+      company,
+      street1,
+      city,
+      province,
+      postalCode,
+      country,
+      phone,
+      email,
     });
+
     console.log(addressFrom);
     res
       .status(200)
@@ -177,6 +190,27 @@ app.post("/shippingTo", async (req, res) => {
     res
       .status(200)
       .json({ message: "Address created successfully", address: addressTo });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/parcel", async (req, res) => {
+  try {
+    const { length, width, height, distance_unit, weight, mass_unit } =
+      req.body;
+    const parcel = shippo.parcel.create({
+      length,
+      width,
+      height,
+      distance_unit,
+      weight,
+      mass_unit,
+    });
+    console.log(parcel);
+    res
+      .status(200)
+      .json({ message: "parcel created successfully", parcel: parcel });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
