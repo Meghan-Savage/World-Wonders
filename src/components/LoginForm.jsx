@@ -131,7 +131,7 @@ const LoginForm = () => {
             <div className="mt-3">
               <button
                 type="submit"
-                className="border-2 border-gray-800 bg-gray-800 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-gray-800 font-semibold"
+                className="bg-black hover:bg-orange-300 text-orange-300 hover:text-black py-2 px-4 rounded-md shadow-md transition duration-300 font-bold"
               >
                 Login
               </button>
@@ -157,7 +157,7 @@ const LoginForm = () => {
         <div className="mt-3">
           <button
             type="submit"
-            className="border-2 border-gray-800 bg-gray-800 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-gray-800 font-semibold flex items-center justify-center px-0 gap-2"
+            className="border-2 bg-black text-orange-300 py-1 w-full rounded-md hover:bg-orange-300 hover:text-black font-semibold flex items-center justify-center px-0 gap-2"
             onClick={signInWithGoogle}
           >
             <img className="w-6 h-6 mt-0" src={icon} alt="images" />
@@ -169,7 +169,7 @@ const LoginForm = () => {
           <p className="font-semibold text-1xl">Don't have an account?</p>
           <Link
             to="/signup"
-            className=" text-center text-1xl font-semibold ml-2 border-2 border-gray-800 hover:text-gray-800 rounded-md hover:bg-transparent bg-gray-800 text-white w-24"
+            className="bg-black hover:bg-orange-300 text-orange-300 hover:text-black py-2 px-4 rounded-md shadow-md transition duration-300 font-bold"
           >
             Sign up
           </Link>

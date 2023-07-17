@@ -47,7 +47,7 @@ const AboutUs = () => {
         scale={1.02}
       >
         <Card
-          className="parallax-tilt bg-gradient-to-r from-orange-500 to-orange-10"
+          className="parallax-tilt bg-gradient-to-r from-orange-500 to-orange-100"
           style={isMegHovered ? cardStyle : noStyle}
           onMouseEnter={() => setIsMegHovered(true)}
           onMouseLeave={() => setIsMegHovered(false)}
@@ -85,7 +85,7 @@ const AboutUs = () => {
                 color="blue"
                 textGradient
               >
-                <i className="fab fa-linkedin text-4xl" />
+                <i className="fab fa-linkedin text-4xl " />
               </Typography>
             </Tooltip>
           </CardFooter>

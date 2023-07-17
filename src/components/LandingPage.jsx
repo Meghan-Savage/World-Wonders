@@ -374,23 +374,30 @@ const LandingPage = () => {
         <div className="flex flex-col justify-center px-8 pt-16 xl:pt-0 w-1/2 p-4">
           <div className="flex flex-col  items-center">
             <h1 className="text-black text-bold text-6xl mb-8 font-Crimson leading-none uppercase items-center mt-70">
-              World Wonders
+              <img src="/profile/worldbackground.png" alt="World Wonders" />
             </h1>
-            <p className=" text-center text-black mb-8 font-Lato-400 w-1/2">
+            <p className="text-center text-black mb-8 font-Lato-400 w-1/2">
               World Wonders presents a delightful fusion of exquisite products
               and immersive cultural experiences, inviting you to embark on a
               captivating voyage into the very essence of each civilization.
             </p>
             <div>
               <Link to="/products">
-                <button className="bg-black text-white px-8 py-4 rounded-md uppercase font-Lato-400 hover:bg-gray-900 hover:text-orange-300">
-                  Explore
-                </button>
-              </Link>
-              <Link to="/signIn">
-                <button className="bg-black text-white px-8 py-4 rounded-md uppercase font-Lato-400 ml-4 hover:bg-gray-900 hover:text-orange-300">
-                  Sign In
-                </button>
+                <div class="flex space-x-8">
+                  <div>
+                    <button className="bg-black hover:bg-orange-500 text-orange-500 hover:text-black py-2 px-4 rounded-md shadow-md transition duration-300 font-bold">
+                      Explore
+                    </button>
+                  </div>
+                  <div>
+                    {/* Add the Link for the "Sign In" button */}
+                    <Link to="/signin">
+                      <button className="bg-black hover:bg-orange-500 text-orange-500 hover:text-black py-2 px-4 rounded-md shadow-md transition duration-300 font-bold">
+                        Sign In
+                      </button>
+                    </Link>
+                  </div>
+                </div>
               </Link>
             </div>
           </div>

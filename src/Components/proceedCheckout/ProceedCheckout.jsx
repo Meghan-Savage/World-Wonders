@@ -64,7 +64,10 @@ export default function ProceedCheckout() {
         </Typography>
       </CardBody>
       <CardFooter className="pt-0">
-        <Button onClick={handleCheckout} className="bg-orange-300 rounded-none">
+        <Button
+          onClick={handleCheckout}
+          className="bg-black hover:bg-orange-300 text-orange-300 hover:text-black py-2 px-4 rounded-md shadow-md transition duration-300 font-bold"
+        >
           Proceed to Checkout
         </Button>
       </CardFooter>

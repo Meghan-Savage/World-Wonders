@@ -11,21 +11,16 @@ export const MissingProducts = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen w-screen" style={{ marginTop: '-20vh' }}S>
+    <div
+      className="flex flex-col items-center justify-center h-screen w-screen"
+      style={{ marginTop: "-20vh" }}
+      S
+    >
       <h2 className="text-2xl mb-4 font-bold">No Products Found</h2>
-      <p className="mb-8 text-gray-600">Please add a product to sell</p>
+      <p className="mb-8 text-gray-700">Please add a product to sell</p>
       <button
         className="
-      w-[20rem]
-      font-semibold
-      border-2
-      border-gray-800
-      hover:text-gray-800
-      rounded-md
-      hover:bg-orange-300
-      bg-gray-800
-      text-white
-      w-24"
+        bg-black hover:bg-orange-500 text-orange-500 hover:text-black py-2 px-4 rounded-md shadow-md transition duration-300 font-bold"
         onClick={navigateHandler}
       >
         ADD PRODUCT
@@ -45,7 +40,7 @@ const Products = () => {
     : products;
 
   return (
-    <div className="bg-gradient-to-t from-orange-400 to-orange-100">
+    <div className="bg-gradient-to-r from-orange-400 to-orange-100">
       <section className="py-16 flex">
         <div className="mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[6rem] max-w-sm mx-auto md:max-w-none md:mx-0">
