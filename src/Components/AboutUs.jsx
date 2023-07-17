@@ -85,18 +85,7 @@ const AboutUs = () => {
                 color="blue"
                 textGradient
               >
-                <i className="fab fa-linkedin" />
-              </Typography>
-            </Tooltip>
-            <Tooltip content="GitHub">
-              <Typography
-                as="a"
-                href="#github"
-                variant="lead"
-                color="black"
-                textGradient
-              >
-                <FontAwesomeIcon icon={faGithub} />
+                <i className="fab fa-linkedin text-4xl" />
               </Typography>
             </Tooltip>
           </CardFooter>
@@ -147,18 +136,7 @@ const AboutUs = () => {
                 color="blue"
                 textGradient
               >
-                <i className="fab fa-linkedin" />
-              </Typography>
-            </Tooltip>
-            <Tooltip content="GitHub">
-              <Typography
-                as="a"
-                href="#github"
-                variant="lead"
-                color="blue-gray"
-                textGradient
-              >
-                <FontAwesomeIcon icon="fa-brands fa-github" />
+                <i className="fab fa-linkedin text-4xl" />
               </Typography>
             </Tooltip>
           </CardFooter>
@@ -215,18 +193,7 @@ const AboutUs = () => {
                 color="blue"
                 textGradient
               >
-                <i className="fab fa-linkedin" />
-              </Typography>
-            </Tooltip>
-            <Tooltip content="GitHub">
-              <Typography
-                as="a"
-                href="#github"
-                variant="lead"
-                color="blue-gray"
-                textGradient
-              >
-                <FontAwesomeIcon icon={["fab", "github"]} />
+                <i className="fab fa-linkedin text-4xl" />
               </Typography>
             </Tooltip>
           </CardFooter>
