@@ -73,7 +73,7 @@ function ProductDetails() {
               ))}
             </div>
             <button
-              className="cart"
+              className="bg-black hover:bg-orange-500 text-orange-500 hover:text-black rounded-md shadow-md transition duration-300 font-bold"
               onClick={() => addToCart(product, product.id)}
             >
               Add To Cart

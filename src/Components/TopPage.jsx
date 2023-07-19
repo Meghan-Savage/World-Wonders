@@ -36,7 +36,9 @@ const Navbar = () => {
 
   const handleSelectCountry = (countryCode) => {
     navigate(`/products/${countryCode}`);
-    setSelectedCountry(countryCode);
+    setSelectedCountry(
+      countries.find((country) => country.name === countryCode)
+    );
   };
 
   const handleLogin = () => {
@@ -121,7 +123,7 @@ const Navbar = () => {
             </select>
             {selectedCountry && (
               <ReactCountryFlag
-                countryCode={selectedCountry}
+                countryCode={selectedCountry.code}
                 svg
                 className="ml-2 w-8 h-8"
               />

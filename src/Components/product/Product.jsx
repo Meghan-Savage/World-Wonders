@@ -33,7 +33,7 @@ function Product({ product }) {
       <CardBody className="flex-grow">
         <div className="flex flex-col justify-between h-full">
           <div>
-            <Typography color="blue-gray" className="font-medium text-xs mt-4">
+            <Typography color="blue-gray" className="font-medium text-s mt-4">
               <span className="max-lines">{title}</span>
             </Typography>
             <Typography color="blue-gray" className="font-bold text-md mt-4">

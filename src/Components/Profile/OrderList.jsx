@@ -15,7 +15,9 @@ const OrderList = ({ onToggleModal, orders, user, showModal }) => {
 
   return (
     <>
-      <h1 className="text-xl font-bold">Order History</h1>
+      <h1 className=" flex flex-col items-center text-xl font-bold bg-gradient-to-r from-orange-400 to-orange-100">
+        Order History
+      </h1>
       {userOrders.map((order) => (
         <div
           key={order.orderId}

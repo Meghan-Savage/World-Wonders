@@ -11,6 +11,7 @@ const CreateProductForm = (props) => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [additionalImageFields, setAdditionalImageFields] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [youtubeLinks, setYoutubeLinks] = useState([]); // State to hold YouTube links
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -29,6 +30,11 @@ const CreateProductForm = (props) => {
     const imageFile4 = form.elements?.image4?.files[0];
     const imageFile5 = form.elements?.image5?.files[0];
     const videoFile = form.elements?.video?.files[0];
+
+    // Get the YouTube links from the state
+    const youtubeLinks = form.elements.youtubeLinks.value
+      .split(",")
+      .map((link) => link.trim());
 
     try {
       setUploading(true);
@@ -65,6 +71,7 @@ const CreateProductForm = (props) => {
           Boolean
         ),
         video: videoUrl ? videoUrl : null,
+        youtubeLinks, // Add YouTube links to the product data
       };
 
       const productRef = await addDoc(collection(db, "products"), productData);
@@ -73,6 +80,7 @@ const CreateProductForm = (props) => {
       form.reset();
       setShowAdditionalImages(false);
       setAdditionalImageFields([]);
+      setYoutubeLinks([]); // Clear the YouTube links
       setUploading(false);
     } catch (error) {
       console.log("Error uploading files:", error);
@@ -199,8 +207,8 @@ const CreateProductForm = (props) => {
               <input
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
                 type="file"
-                name={"image" + (index + 2)}
-                id={"image" + (index + 2)}
+                name={field}
+                id={field}
                 accept="image/*"
               />
             </div>
@@ -215,6 +223,16 @@ const CreateProductForm = (props) => {
           Add Additional Images
         </button>
       )}
+      <div className="mb-4">
+        <label className="text-gray-700" htmlFor="youtubeLinks">
+          YouTube Links (Separate with commas)
+        </label>
+        <textarea
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+          id="youtubeLinks"
+          rows="4"
+        ></textarea>
+      </div>
       <div className="mb-4">
         <label className="text-gray-700" htmlFor="video">
           Video

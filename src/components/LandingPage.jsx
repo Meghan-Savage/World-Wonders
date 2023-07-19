@@ -390,7 +390,6 @@ const LandingPage = () => {
                     </button>
                   </div>
                   <div>
-                    {/* Add the Link for the "Sign In" button */}
                     <Link to="/signin">
                       <button className="bg-black hover:bg-orange-500 text-orange-500 hover:text-black py-2 px-4 rounded-md shadow-md transition duration-300 font-bold">
                         Sign In
