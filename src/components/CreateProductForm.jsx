@@ -11,7 +11,7 @@ const CreateProductForm = (props) => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [additionalImageFields, setAdditionalImageFields] = useState([]);
   const [uploading, setUploading] = useState(false);
-  const [youtubeLinks, setYoutubeLinks] = useState([]); // State to hold YouTube links
+  const [youtubeLinks, setYoutubeLinks] = useState([]);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -31,7 +31,6 @@ const CreateProductForm = (props) => {
     const imageFile5 = form.elements?.image5?.files[0];
     const videoFile = form.elements?.video?.files[0];
 
-    // Get the YouTube links from the state
     const youtubeLinks = form.elements.youtubeLinks.value
       .split(",")
       .map((link) => link.trim());
@@ -71,7 +70,7 @@ const CreateProductForm = (props) => {
           Boolean
         ),
         video: videoUrl ? videoUrl : null,
-        youtubeLinks, // Add YouTube links to the product data
+        youtubeLinks,
       };
 
       const productRef = await addDoc(collection(db, "products"), productData);
@@ -80,7 +79,7 @@ const CreateProductForm = (props) => {
       form.reset();
       setShowAdditionalImages(false);
       setAdditionalImageFields([]);
-      setYoutubeLinks([]); // Clear the YouTube links
+      setYoutubeLinks([]);
       setUploading(false);
     } catch (error) {
       console.log("Error uploading files:", error);
