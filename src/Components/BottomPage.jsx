@@ -30,14 +30,6 @@ const BottomPage = () => {
             >
               Terms of Use
             </Link>
-            <Link
-              to="/about-us"
-              className={`text-orange-200 hover:text-gray-400 ml-10 sm:ml-0 sm:mr-10 ${
-                isMobileMenuOpen ? "hidden sm:block" : "block"
-              }`}
-            >
-              Design by
-            </Link>
           </div>
           <div className="flex items-center ">
             <span className="mx-4 text-gray-600">
@@ -69,12 +61,6 @@ const BottomPage = () => {
               className="block text-orange-200 hover:text-gray-400 ml-10 mb-2"
             >
               Terms of Use
-            </Link>
-            <Link
-              to="/designer"
-              className="block text-orange-200 hover:text-gray-400 ml-10"
-            >
-              Design by
             </Link>
           </div>
         )}

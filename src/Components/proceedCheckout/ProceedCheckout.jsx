@@ -37,7 +37,6 @@ export default function ProceedCheckout() {
       total: roundedTotal,
     };
 
-    console.log("data", data);
     axios
       .post(
         "https://us-central1-world-wonders-inceptionu.cloudfunctions.net/api",
@@ -57,7 +56,7 @@ export default function ProceedCheckout() {
   };
 
   return (
-    <Card className="w-96 h-48 rounded-none justify-center flex">
+    <div className="min-w-[20rem]">
       <CardBody>
         <Typography variant="h5" color="blue-gray" className="mb-2">
           Subtotal: ${roundedTotal}
@@ -71,6 +70,6 @@ export default function ProceedCheckout() {
           Proceed to Checkout
         </Button>
       </CardFooter>
-    </Card>
+    </div>
   );
 }

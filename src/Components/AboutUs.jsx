@@ -38,9 +38,9 @@ const AboutUs = () => {
   };
 
   return (
-    <div className="flex justify-center gap-6  bg-gradient-to-t from-orange-500 to-orange-100">
+    <div className="flex flex-col md:flex-row items-center justify-center gap-6 bg-gradient-to-t from-orange-500 to-orange-100 p-4">
       <Tilt
-        className="w-96"
+        className="w-full md:w-96"
         tiltMaxAngleX={10}
         tiltMaxAngleY={10}
         perspective={1000}
@@ -92,7 +92,7 @@ const AboutUs = () => {
         </Card>
       </Tilt>
       <Tilt
-        className="w-96"
+        className="w-full md:w-96"
         tiltMaxAngleX={10}
         tiltMaxAngleY={10}
         perspective={1000}
@@ -105,7 +105,11 @@ const AboutUs = () => {
           onMouseLeave={() => setIsDomHovered(false)}
         >
           <CardHeader floated={false} className="h-80">
-            <img src="/profile/dom1.jpg" alt="profile-picture" />
+            <img
+              src="/profile/dom1.jpg"
+              alt="profile-picture"
+              style={{ objectFit: "cover", width: "100%", height: "100%" }}
+            />
           </CardHeader>
           <CardBody className="text-center">
             <Typography variant="h4" color="blue-gray" className="mb-2">
@@ -143,7 +147,7 @@ const AboutUs = () => {
         </Card>
       </Tilt>
       <Tilt
-        className="w-96"
+        className="w-full md:w-96"
         tiltMaxAngleX={10}
         tiltMaxAngleY={10}
         perspective={1000}
@@ -162,7 +166,6 @@ const AboutUs = () => {
               style={{ objectFit: "cover", width: "100%", height: "100%" }}
             />
           </CardHeader>
-
           <CardBody className="text-center">
             <Typography variant="h4" color="blue-gray" className="mb-2">
               Deng Benjamin
