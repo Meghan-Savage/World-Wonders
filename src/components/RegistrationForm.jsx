@@ -8,7 +8,7 @@ const RegistrationForm = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  // Sign up function/logic
+  
   const signUp = (e) => {
     e.preventDefault();
     createUserWithEmailAndPassword(auth, email, password)
