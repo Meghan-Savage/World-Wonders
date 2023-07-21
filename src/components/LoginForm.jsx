@@ -23,7 +23,7 @@ const LoginForm = () => {
     e.preventDefault();
     navigate("/");
 
-    // Simulating login logic
+    
     if (email === "yourEmail" && password === "yourPassword") {
       setLoggedIn(true);
       setLoginError("");
@@ -34,7 +34,7 @@ const LoginForm = () => {
     }
   };
 
-  // Sign in with Firebase logic
+  
   const login = (e) => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
@@ -51,7 +51,7 @@ const LoginForm = () => {
       });
   };
 
-  // Sign in with Google logic
+  
   const signInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
