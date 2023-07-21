@@ -359,7 +359,7 @@ const LandingPage = () => {
 
     window.addEventListener("resize", handleResize);
 
-    // Clean up
+    
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", handleMouseMove);

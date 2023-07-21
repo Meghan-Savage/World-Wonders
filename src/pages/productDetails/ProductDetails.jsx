@@ -40,7 +40,7 @@ function ProductDetails() {
   };
 
   return (
-    <div className="h-screen">
+    <div className=" h-full min-h-screen ">
       <div className="app">
         <div className="details" key={id}>
           <div className="big-img">

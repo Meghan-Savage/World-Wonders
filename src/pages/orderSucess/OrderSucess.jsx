@@ -55,7 +55,7 @@ const OrderSuccess = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div className="bg-gray-100 min-h-screen h-full flex items-center justify-center">
       {orderInfo && (
         <Modal
           isOpen={isModalOpen}

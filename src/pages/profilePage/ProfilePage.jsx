@@ -29,7 +29,7 @@ const ProfilePage = ({ onToggleModal, showModal }) => {
 
   console.log("orders", orders);
   return (
-    <div className="h-screen">
+    <div className="h-full min-h-screen ">
       <OrderList
         onToggleModal={onToggleModal}
         orders={orders}

@@ -12,7 +12,7 @@ export const MissingProducts = () => {
 
   return (
     <div
-      className="flex flex-col items-center justify-center h-screen w-screen"
+      className="flex flex-col items-center justify-center w-screen h-full min-h-screen "
       style={{ marginTop: "-20vh" }}
       S
     >

@@ -93,7 +93,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-gray-900 py-4">
-      <div className="container mx-auto px-4 sm:px-8 relative ">
+      <div className="container mx-auto px-4 sm:px-8 relative">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <Link
@@ -109,7 +109,7 @@ const Navbar = () => {
               Products
             </Link>
           </div>
-          <div className="flex items-center">
+          <div className="hidden sm:flex items-center">
             <select
               onChange={(e) => handleSelectCountry(e.target.value)}
               className="text-orange-200 bg-gray-900 border border-gray-400 rounded p-2 max-w-[30rem]"
