@@ -8,8 +8,6 @@ const OrderProvider = ({ children }) => {
   const [orderInfo, setOrderInfo] = useState([]);
   const { user } = useContext(AuthContext);
 
-  console.log("orderInfo", orderInfo);
-
   useEffect(() => {
     const fetchOrderInfo = async () => {
       try {
@@ -18,7 +16,6 @@ const OrderProvider = ({ children }) => {
         );
         const orders = Object.values(response.data);
         setOrderInfo(orders);
-        console.log(orders);
       } catch (error) {
         console.log("Error retrieving order information:", error);
       }

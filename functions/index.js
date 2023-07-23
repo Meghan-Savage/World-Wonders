@@ -5,9 +5,6 @@ const express = require("express");
 const stripe = require("stripe")(
   "sk_test_51NPs04ALbGdPmn1L7QQTY20l2iYxBxIoKnqt3AqginbOGzoV1nc4qDtnbfikYq9ZnUrv5vd9Fsu0ObAIGDjZMX3N00jaR4KX05"
 );
-const shippo = require("shippo")(
-  "shippo_test_26094a15d7b0ff7934685899692766ddb050d51a"
-);
 
 const app = express();
 admin.initializeApp();
@@ -138,79 +135,38 @@ app.get("/orders", async (req, res) => {
   }
 });
 
-app.post("/shippingFrom", async (req, res) => {
+app.get("/order/:orderId", async (req, res) => {
   try {
-    const {
-      name,
-      company,
-      street1,
-      city,
-      province,
-      postalCode,
-      country,
-      phone,
-      email,
-    } = req.body;
+    const orderId = req.params.orderId;
+    const db = admin.firestore();
+    const docRef = db.collection("orders").doc(orderId);
+    const docSnapshot = await docRef.get();
 
-    const addressFrom = await shippo.address.create({
-      name,
-      company,
-      street1,
-      city,
-      province,
-      postalCode,
-      country,
-      phone,
-      email,
-    });
-
-    console.log(addressFrom);
-    res
-      .status(200)
-      .json({ message: "Address created successfully", address: addressFrom });
+    if (!docSnapshot.exists) {
+      res.status(404).json({ message: "Order not found" });
+    } else {
+      const order = docSnapshot.data();
+      res.json(order);
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-app.post("/shippingTo", async (req, res) => {
+app.patch("/status/:orderId", async (req, res) => {
   try {
-    const addressTo = await shippo.address.create({
-      name: "Mr Hippo",
-      company: "Zoo",
-      street1: "300 Park Ave",
-      city: "New York",
-      province: "MB",
-      postalCode: "10022",
-      country: "CA",
-      phone: "+1 555 789 1234",
-      email: "mrhippo@zoo.com",
-    });
-    console.log(addressTo);
-    res
-      .status(200)
-      .json({ message: "Address created successfully", address: addressTo });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+    const orderId = req.params.orderId;
+    const newStatus = req.body.sts;
+    const db = admin.firestore();
+    const orderRef = db.collection("orders").doc(orderId);
 
-app.post("/parcel", async (req, res) => {
-  try {
-    const { length, width, height, distance_unit, weight, mass_unit } =
-      req.body;
-    const parcel = shippo.parcel.create({
-      length,
-      width,
-      height,
-      distance_unit,
-      weight,
-      mass_unit,
-    });
-    console.log(parcel);
-    res
-      .status(200)
-      .json({ message: "parcel created successfully", parcel: parcel });
+    const orderSnapshot = await orderRef.get();
+    if (!orderSnapshot.exists) {
+      res.status(404).json({ message: "Order not found" });
+      return;
+    }
+    await orderRef.update({ sts: newStatus });
+    res.json({ message: "Order status updated successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -243,8 +199,8 @@ app.get("/pending", async (req, res) => {
 const createOrder = async (customer, intent, res) => {
   try {
     const orderId = Date.now();
-    const items = JSON.parse(customer.metadata.items); // Parse the items string
-    const sellerId = items[0].sellerId; // Assuming there's only one item in the array, you can access the sellerId like this
+    const items = JSON.parse(customer.metadata.items);
+    const sellerId = items[0].sellerId;
 
     const data = {
       intentId: intent.id,
@@ -259,7 +215,7 @@ const createOrder = async (customer, intent, res) => {
       total: customer.metadata.total,
       user: customer.metadata.user,
       sts: "pending",
-      sellerId: sellerId, // Add the sellerId field
+      sellerId: sellerId,
     };
 
     const db = admin.firestore();

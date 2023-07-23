@@ -8,7 +8,7 @@ const OrderSuccess = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const sessionId = searchParams.get("session_id");
-  const navigate = useNavigate(); // import and use navigate
+  const navigate = useNavigate();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -37,10 +37,9 @@ const OrderSuccess = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    navigate("/products"); // use navigate instead of history.push
+    navigate("/products");
   };
 
-  // Define custom styles for the modal
   const customStyles = {
     content: {
       top: "50%",
@@ -49,8 +48,8 @@ const OrderSuccess = () => {
       bottom: "auto",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
-      width: "70%", // reduce the width to 80% of the screen
-      height: "70%", // reduce the height to 80% of the screen
+      width: "70%",
+      height: "70%",
     },
   };
 
@@ -60,7 +59,7 @@ const OrderSuccess = () => {
         <Modal
           isOpen={isModalOpen}
           contentLabel="Order Success Modal"
-          style={customStyles} // apply the custom styles
+          style={customStyles}
         >
           <h1 className="text-2xl font-bold text-center text-gray-800 mt-4">
             Thank you for your order!
