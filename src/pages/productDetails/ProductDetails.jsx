@@ -55,7 +55,7 @@ function ProductDetails() {
           <div className="big-img">
             <img src={images[activeIndex]} alt="" />
           </div>
-          <div className="absolute top-96 right-10">
+          <div className="absolute top-96 right-10 hidden lg:block">
             <YouTube
               videoId={youtubeLinks}
               opts={YTOpts}
