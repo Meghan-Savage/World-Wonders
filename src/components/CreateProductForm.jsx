@@ -30,10 +30,7 @@ const CreateProductForm = (props) => {
     const imageFile4 = form.elements?.image4?.files[0];
     const imageFile5 = form.elements?.image5?.files[0];
     const videoFile = form.elements?.video?.files[0];
-
-    const youtubeLinks = form.elements.youtubeLinks.value
-      .split(",")
-      .map((link) => link.trim());
+    const youtubeLinks = form.elements.youtubeLinks.value;
 
     try {
       setUploading(true);
@@ -226,11 +223,10 @@ const CreateProductForm = (props) => {
         <label className="text-gray-700" htmlFor="youtubeLinks">
           YouTube Links (Separate with commas)
         </label>
-        <textarea
+        <input
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
           id="youtubeLinks"
-          rows="4"
-        ></textarea>
+        ></input>
       </div>
       <div className="mb-4">
         <label className="text-gray-700" htmlFor="video">

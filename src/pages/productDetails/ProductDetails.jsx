@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import YouTube from "react-youtube";
 import { useParams } from "react-router-dom";
 import { CartContext } from "../../context/CartContext/CartContext.jsx";
 import { ProductContext } from "../../context/ProductContext/ProductContext.jsx";
@@ -8,6 +9,14 @@ function ProductDetails() {
   const { id } = useParams();
   const { products } = useContext(ProductContext);
   const { addToCart } = useContext(CartContext);
+
+  const YTOpts = {
+    height: "360",
+    width: "640",
+    playerVars: {
+      autoplay: 0,
+    },
+  };
 
   const product = products.find((item) => item.id === id);
 
@@ -19,7 +28,7 @@ function ProductDetails() {
     );
   }
 
-  const { title, price, description, images } = product;
+  const { title, price, description, images, youtubeLinks } = product;
   const [activeIndex, setActiveIndex] = useState(0);
   const [showFullDescription, setShowFullDescription] = useState(false);
 
@@ -40,13 +49,20 @@ function ProductDetails() {
   };
 
   return (
-    <div className=" h-full min-h-screen ">
+    <div className=" h-full min-h-screen bg-gradient-to-r from-orange-400 to-orange-100 ">
       <div className="app">
         <div className="details" key={id}>
           <div className="big-img">
             <img src={images[activeIndex]} alt="" />
           </div>
-
+          <div className="absolute top-96 right-10">
+            <YouTube
+              videoId={youtubeLinks}
+              opts={YTOpts}
+              // style the iframe here
+              iframeClassName="h-[20rem] w-[35rem]"
+            />
+          </div>
           <div className="box">
             <div className="row">
               <h2>{title}</h2>
