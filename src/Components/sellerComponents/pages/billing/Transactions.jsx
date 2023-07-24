@@ -26,6 +26,15 @@ const Transactions = () => {
     }
   };
 
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp * 1000);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -74,7 +83,7 @@ const Transactions = () => {
               <div className="p-4">
                 <h3 className="font-extrabold sm:hidden">Amount</h3>
                 <h3 className="font-extrabold hidden sm:block">Amount</h3>
-                <p className="text-sm leading-6 font-medium text-gray-400">
+                <p className="text-sm leading-6 font-medium text-[#85bb65]">
                   ${order.amount}
                 </p>
               </div>
@@ -82,7 +91,7 @@ const Transactions = () => {
                 <h3 className="font-extrabold sm:hidden">Date</h3>
                 <h3 className=" font-extrabold hidden sm:block">Date</h3>
                 <p className="text-sm leading-6 font-medium text-gray-400">
-                  {order.created}
+                  {formatDate(order.created)}
                 </p>
               </div>
             </>
