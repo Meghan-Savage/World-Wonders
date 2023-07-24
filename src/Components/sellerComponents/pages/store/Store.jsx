@@ -25,22 +25,26 @@ const Store = () => {
     productPrice
   ) => {
     try {
-      const mainImageRef =
-        mainImage && ref(storage, `images/${mainImage.name}`);
-      mainImage && (await uploadBytes(mainImageRef, mainImage));
-      const mainImageUrl = mainImage && (await getDownloadURL(mainImageRef));
+      const images = [];
 
-      const additionalImageUrls = [];
+      // Upload the main image
+      if (mainImage) {
+        const mainImageRef = ref(storage, `images/${mainImage.name}`);
+        await uploadBytes(mainImageRef, mainImage);
+        const mainImageUrl = await getDownloadURL(mainImageRef);
+        images.push(mainImageUrl);
+      }
+
+      // Upload the additional images
       for (const image of additionalImages) {
         const additionalImageRef = ref(storage, `images/${image.name}`);
         await uploadBytes(additionalImageRef, image);
         const additionalImageUrl = await getDownloadURL(additionalImageRef);
-        additionalImageUrls.push(additionalImageUrl);
+        images.push(additionalImageUrl);
       }
 
       const productData = {
-        mainImage: mainImageUrl || null,
-        additionalImages: additionalImageUrls,
+        images,
         ...productDetails,
         ...productPrice,
       };
