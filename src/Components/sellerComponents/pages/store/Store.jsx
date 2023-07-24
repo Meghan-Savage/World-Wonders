@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { FirebaseContext } from "../../../../firebase/provider";
+import { AuthContext } from "../../../../firebase/authentication";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { addDoc, collection } from "firebase/firestore";
 import countryList from "country-list";
@@ -10,12 +11,33 @@ import PriceCard from "./PriceCard";
 const Store = () => {
   const { storage, db } = useContext(FirebaseContext);
   const [mainImage, setMainImage] = useState(null);
+  console.log("mainImage", mainImage);
   const [additionalImages, setAdditionalImages] = useState([]);
+  console.log("additionalImages", additionalImages);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [country, setCountry] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
+  const { user } = useContext(AuthContext);
+
+  const uploadImagesToStorage = async (storage, images) => {
+    const imageDownloadUrls = [];
+
+    for (const image of images) {
+      const imageName = image.name;
+      const imageRef = ref(storage, `images/${imageName}`);
+      const metadata = {
+        contentType: image.type,
+      };
+
+      await uploadBytes(imageRef, image, metadata);
+      const imageUrl = await getDownloadURL(imageRef);
+      imageDownloadUrls.push(imageUrl);
+    }
+
+    return imageDownloadUrls;
+  };
 
   const handlePostProduct = async (
     db,
@@ -25,27 +47,39 @@ const Store = () => {
     productPrice
   ) => {
     try {
+      const sellerId = user.uid;
       const images = [];
 
       if (mainImage) {
-        const mainImageRef = ref(storage, `images/${mainImage.name}`);
-        await uploadBytes(mainImageRef, mainImage);
-        const mainImageUrl = await getDownloadURL(mainImageRef);
-        images.push(mainImageUrl);
+        const mainImageUrls = await uploadImagesToStorage(storage, [mainImage]);
+        images.push(...mainImageUrls);
       }
 
-      for (const image of additionalImages) {
-        const additionalImageRef = ref(storage, `images/${image.name}`);
-        await uploadBytes(additionalImageRef, image);
-        const additionalImageUrl = await getDownloadURL(additionalImageRef);
-        images.push(additionalImageUrl);
+      if (additionalImages.length > 0) {
+        const additionalImageFiles = additionalImages.map((image) => {
+          return fetch(image.url)
+            .then((response) => response.blob())
+            .then((blob) => {
+              const fileType = blob.type;
+              return new File([blob], image.name, { type: fileType });
+            });
+        });
+        const resolvedAdditionalImageFiles = await Promise.all(
+          additionalImageFiles
+        );
+        const additionalImageUrls = await uploadImagesToStorage(
+          storage,
+          resolvedAdditionalImageFiles
+        );
+        images.push(...additionalImageUrls);
       }
-
       const productData = {
         images,
+        sellerId,
         ...productDetails,
         ...productPrice,
       };
+      console.log("images", images);
 
       const productRef = await addDoc(collection(db, "products"), productData);
       console.log("Product added with ID: ", productRef.id);
@@ -67,8 +101,8 @@ const Store = () => {
         setTitle={setTitle}
         description={description}
         setDescription={setDescription}
-        country={country}
-        setCountry={setCountry}
+        selectedCountry={country}
+        setSelectedCountry={setCountry}
       />
       <PriceCard
         price={price}

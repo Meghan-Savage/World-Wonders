@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const PhotosCard = ({
   mainImage,
@@ -6,21 +7,25 @@ const PhotosCard = ({
   additionalImages,
   setAdditionalImages,
 }) => {
+  const [mainImagePreview, setMainImagePreview] = useState(null);
+  const [additionalImagePreviews, setAdditionalImagePreviews] = useState([]);
+
   const handleMainImageUpload = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.onloadend = () => {
-      setMainImage(reader.result);
+      setMainImage({ file, name: file.name, url: reader.result });
+      setMainImagePreview(reader.result);
     };
     reader.readAsDataURL(file);
   };
 
-  const handleAdditionalImagesUpload = async (e) => {
-    const files = e.target.files;
+  const handleAdditionalImagesUpload = (e) => {
+    const files = Array.from(e.target.files);
     const imagePreviews = [];
 
     const readFileAsync = (file) => {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         const reader = new FileReader();
         reader.onloadend = () => {
           resolve(reader.result);
@@ -30,12 +35,24 @@ const PhotosCard = ({
     };
 
     for (const file of files) {
-      const preview = await readFileAsync(file);
+      const preview = readFileAsync(file);
       imagePreviews.push(preview);
     }
 
-    setAdditionalImages((prevImages) => [...prevImages, ...imagePreviews]);
+    Promise.all(imagePreviews).then((imageUrls) => {
+      const newImages = files.map((file, index) => ({
+        file,
+        name: file.name,
+        url: imageUrls[index],
+      }));
+      setAdditionalImages((prevImages) => [...prevImages, ...newImages]);
+      setAdditionalImagePreviews((prevPreviews) => [
+        ...prevPreviews,
+        ...imageUrls,
+      ]);
+    });
   };
+
   return (
     <div>
       <div className="max-w-full mx-4 py-6 sm:mx-auto sm:px-6 lg:px-8 bg-gray-100">
@@ -49,10 +66,10 @@ const PhotosCard = ({
             <div className="mt-4">
               <label htmlFor="mainImageInput" className="cursor-pointer">
                 <div className="w-full h-48 bg-gray-200 border-2 border-dashed border-gray-400 flex items-center justify-center">
-                  {mainImage ? (
+                  {mainImagePreview ? (
                     <img
-                      src={mainImage}
-                      alt="Main"
+                      src={mainImagePreview}
+                      alt="Main Preview"
                       className="object-cover w-full h-full"
                     />
                   ) : (
@@ -88,14 +105,14 @@ const PhotosCard = ({
               </ul>
             </p>
             <div className="mt-4 grid gap-4 grid-cols-2">
-              {additionalImages.slice(0, 3).map((image, index) => (
+              {additionalImagePreviews.slice(0, 3).map((imageUrl, index) => (
                 <div
                   key={index}
                   className="w-full h-32 bg-gray-200 border-2 border-dashed border-gray-400 flex items-center justify-center"
                 >
                   <img
-                    src={image}
-                    alt={`Additional ${index + 1}`}
+                    src={imageUrl}
+                    alt={`Additional ${index + 1} Preview`}
                     className="object-cover w-full h-full"
                   />
                 </div>

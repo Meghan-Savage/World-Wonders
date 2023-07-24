@@ -6,10 +6,9 @@ const DetailsCard = ({
   setTitle,
   description,
   setDescription,
-  country,
-  setCountry,
+  selectedCountry,
+  setSelectedCountry,
 }) => {
-  const [selectedCountry, setSelectedCountry] = useState("");
   const countries = countryList.getNames();
 
   const handleCountryChange = (event) => {
