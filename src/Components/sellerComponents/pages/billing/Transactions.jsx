@@ -79,6 +79,7 @@ const Transactions = () => {
                 <p className="text-sm leading-6 font-medium text-gray-400">
                   {order.customer.email}
                 </p>
+                <hr className="my-4 border-gray-300" />
               </div>
               <div className="p-4">
                 <h3 className="font-extrabold sm:hidden">Amount</h3>
@@ -86,6 +87,7 @@ const Transactions = () => {
                 <p className="text-sm leading-6 font-medium text-[#85bb65]">
                   ${order.total}
                 </p>
+                <hr className="my-4 border-gray-300" />
               </div>
               <div className="p-4">
                 <h3 className="font-extrabold sm:hidden">Date</h3>
@@ -93,6 +95,7 @@ const Transactions = () => {
                 <p className="text-sm leading-6 font-medium text-gray-400">
                   {formatDate(order.created)}
                 </p>
+                <hr className="my-4 border-gray-300" />
               </div>
             </>
           ))}
