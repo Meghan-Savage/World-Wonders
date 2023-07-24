@@ -1,7 +1,12 @@
 import React from "react";
+import Sales from "./Sales";
 
 const Billing = () => {
-  return <div>Billing</div>;
+  return (
+    <div>
+      <Sales />
+    </div>
+  );
 };
 
 export default Billing;
