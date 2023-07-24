@@ -5,7 +5,7 @@ import {
   AiOutlineShopping,
   AiOutlineCreditCard,
   AiOutlineShop,
-  AiOutlineDashboard, // import an icon for dashboard
+  AiOutlineDashboard,
 } from "react-icons/ai";
 import Orders from "../pages/orders/Orders";
 import Billing from "../pages/billing/Billing";
