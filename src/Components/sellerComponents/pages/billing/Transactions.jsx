@@ -30,12 +30,10 @@ const Transactions = () => {
     const fetchOrders = async () => {
       try {
         if (!auth.currentUser) {
-          console.log("User not logged in.");
           return;
         }
 
         const sellerId = auth.currentUser.uid;
-        console.log("Current user ID:", sellerId);
 
         const q = query(ordersCollectionRef, where("sellerId", "==", sellerId));
         const querySnapshot = await getDocs(q);
@@ -48,7 +46,6 @@ const Transactions = () => {
         });
 
         setOrders(ordersData);
-        console.log("ordersData", ordersData);
       } catch (err) {
         console.error("Error fetching orders:", err);
       }
@@ -91,7 +88,7 @@ const Transactions = () => {
             </>
           ))}
         </div>
-        <div className="flex flex-col justify-between items-end mt-4">
+        <div className="flex flex-row justify-between items-end mt-4">
           <p className="text-gray-600">
             Showing {indexOfFirstItem + 1} to{" "}
             {Math.min(indexOfLastItem, orders.length)} of {orders.length}{" "}
@@ -100,13 +97,13 @@ const Transactions = () => {
           <nav className="flex space-x-2">
             <button
               onClick={handlePreviousClick}
-              className="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+              className="px-4 py-2 bg-gray-900 text-orange-200 font-semibold rounded-lg hover:bg-gray-700 focus:outline-none"
             >
               Previous
             </button>
             <button
               onClick={handleNextClick}
-              className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+              className="px-4 py-2 bg-gray-900 text-orange-200 font-semibold rounded-lg hover:bg-gray-700 focus:outline-none"
             >
               Next
             </button>
