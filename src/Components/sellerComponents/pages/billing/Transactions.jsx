@@ -84,7 +84,7 @@ const Transactions = () => {
                 <h3 className="font-extrabold sm:hidden">Amount</h3>
                 <h3 className="font-extrabold hidden sm:block">Amount</h3>
                 <p className="text-sm leading-6 font-medium text-[#85bb65]">
-                  ${order.amount}
+                  ${order.total}
                 </p>
               </div>
               <div className="p-4">
