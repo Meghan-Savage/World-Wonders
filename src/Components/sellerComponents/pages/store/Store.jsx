@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { FirebaseContext } from "../../../../firebase/provider";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { addDoc, collection } from "firebase/firestore";
@@ -8,6 +8,7 @@ import DetailsCard from "./DetailsCard";
 import PriceCard from "./PriceCard";
 
 const Store = () => {
+  const { storage, db } = useContext(FirebaseContext);
   const [mainImage, setMainImage] = useState(null);
   const [additionalImages, setAdditionalImages] = useState([]);
   const [title, setTitle] = useState("");
@@ -24,9 +25,22 @@ const Store = () => {
     productPrice
   ) => {
     try {
+      const mainImageRef =
+        mainImage && ref(storage, `images/${mainImage.name}`);
+      mainImage && (await uploadBytes(mainImageRef, mainImage));
+      const mainImageUrl = mainImage && (await getDownloadURL(mainImageRef));
+
+      const additionalImageUrls = [];
+      for (const image of additionalImages) {
+        const additionalImageRef = ref(storage, `images/${image.name}`);
+        await uploadBytes(additionalImageRef, image);
+        const additionalImageUrl = await getDownloadURL(additionalImageRef);
+        additionalImageUrls.push(additionalImageUrl);
+      }
+
       const productData = {
-        mainImage,
-        additionalImages,
+        mainImage: mainImageUrl || null,
+        additionalImages: additionalImageUrls,
         ...productDetails,
         ...productPrice,
       };
@@ -63,7 +77,22 @@ const Store = () => {
 
       <button
         className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-orange-300 hover:text-black"
-        onClick={handlePostProduct}
+        onClick={() =>
+          handlePostProduct(
+            db,
+            mainImage,
+            additionalImages,
+            {
+              title,
+              description,
+              country,
+            },
+            {
+              price,
+              quantity,
+            }
+          )
+        }
       >
         Post Product
       </button>
