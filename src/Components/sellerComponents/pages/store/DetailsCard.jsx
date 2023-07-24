@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import countryList from "country-list";
 
 const DetailsCard = ({
   title,
@@ -8,6 +9,13 @@ const DetailsCard = ({
   country,
   setCountry,
 }) => {
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const countries = countryList.getNames();
+
+  const handleCountryChange = (event) => {
+    setSelectedCountry(event.target.value);
+  };
+
   return (
     <div>
       <div className="max-w-full mx-4 py-6 sm:mx-auto sm:px-6 lg:px-8 bg-gray-100">
@@ -65,16 +73,16 @@ const DetailsCard = ({
               <select
                 id="country"
                 name="country"
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
+                value={selectedCountry}
+                onChange={handleCountryChange}
                 className="mt-2 block w-full rounded-md border border-gray-100 resize-none shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2"
               >
-                <option value="" disabled>
-                  Select a country
-                </option>
-                <option value="Canada">Canada</option>
-                <option value="United States">United States</option>
-                <option value="United Kingdom">United Kingdom</option>
+                <option value="">Select Country</option>
+                {countries.map((country) => (
+                  <option key={country} value={country}>
+                    {country}
+                  </option>
+                ))}
               </select>
             </div>
           </div>

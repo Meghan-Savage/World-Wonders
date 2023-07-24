@@ -20,7 +20,7 @@ const PriceCard = ({ price, setPrice, quantity, setQuantity }) => {
                 id="price"
                 name="price"
                 value={price}
-                onChange={(e) => setPrice(e.target.value)}
+                onChange={(e) => setPrice(parseFloat(e.target.value))}
                 placeholder="Enter price"
                 className="mt-2 block w-full rounded-md border border-gray-100 resize-none shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2"
               />
@@ -38,7 +38,7 @@ const PriceCard = ({ price, setPrice, quantity, setQuantity }) => {
                 id="quantity"
                 name="quantity"
                 value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
+                onChange={(e) => setQuantity(parseInt(e.target.value))}
                 placeholder="Enter quantity"
                 className="mt-2 block w-full rounded-md border border-gray-100 resize-none shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2"
               />

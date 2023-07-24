@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase/provider";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
@@ -8,7 +8,6 @@ export default function RegistrationForm() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  // Sign up function/logic
   const signUp = (e) => {
     e.preventDefault();
     createUserWithEmailAndPassword(auth, email, password)
@@ -69,7 +68,10 @@ export default function RegistrationForm() {
             </div>
             <div className="mt-3 text-center">
               By continuing, you agree to world-wonders. Inc's{" "}
-              <Link to="/terms" className="text-blue-700 underline hover:text-orange-900">
+              <Link
+                to="/terms"
+                className="text-blue-700 underline hover:text-orange-900"
+              >
                 Terms 0f Use
               </Link>
               .
@@ -90,6 +92,3 @@ export default function RegistrationForm() {
     </div>
   );
 }
-
-
-

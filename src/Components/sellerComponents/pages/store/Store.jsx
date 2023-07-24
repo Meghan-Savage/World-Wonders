@@ -27,7 +27,6 @@ const Store = () => {
     try {
       const images = [];
 
-      // Upload the main image
       if (mainImage) {
         const mainImageRef = ref(storage, `images/${mainImage.name}`);
         await uploadBytes(mainImageRef, mainImage);
@@ -35,7 +34,6 @@ const Store = () => {
         images.push(mainImageUrl);
       }
 
-      // Upload the additional images
       for (const image of additionalImages) {
         const additionalImageRef = ref(storage, `images/${image.name}`);
         await uploadBytes(additionalImageRef, image);
