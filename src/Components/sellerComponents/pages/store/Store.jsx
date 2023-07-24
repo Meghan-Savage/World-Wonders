@@ -89,7 +89,7 @@ const Store = () => {
   };
 
   return (
-    <div>
+    <div className="max-w-full mx-4 py-6 sm:mx-auto sm:px-6 lg:px-8 bg-gray-100">
       <PhotosCard
         mainImage={mainImage}
         setMainImage={setMainImage}
@@ -110,28 +110,29 @@ const Store = () => {
         quantity={quantity}
         setQuantity={setQuantity}
       />
-
-      <button
-        className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-orange-300 hover:text-black"
-        onClick={() =>
-          handlePostProduct(
-            db,
-            mainImage,
-            additionalImages,
-            {
-              title,
-              description,
-              country,
-            },
-            {
-              price,
-              quantity,
-            }
-          )
-        }
-      >
-        Post Product
-      </button>
+      <div className="mr-8 flex justify-end text-2xl">
+        <button
+          className="px-8 py-2 bg-gray-900 text-orange-200 font-semibold rounded-lg hover:bg-gray-700 focus:outline-none"
+          onClick={() =>
+            handlePostProduct(
+              db,
+              mainImage,
+              additionalImages,
+              {
+                title,
+                description,
+                country,
+              },
+              {
+                price,
+                quantity,
+              }
+            )
+          }
+        >
+          Post Product
+        </button>
+      </div>
     </div>
   );
 };
