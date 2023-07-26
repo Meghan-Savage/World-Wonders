@@ -49,10 +49,6 @@ function Dashboard() {
 
   const filteredMenuItems = menuItems.filter((item) => item.name !== "Edit");
 
-  useEffect(() => {
-    navigate("/seller/dashboard/orders");
-  }, [navigate]);
-
   return (
     <div className="h-screen flex">
       <div
@@ -115,6 +111,8 @@ function Dashboard() {
       </div>
       <div className="flex-1 bg-gray-100 p-4 overflow-auto">
         <Routes>
+          <Route path="/" element={<Orders />} />
+
           <Route path="dashboard/edit-listing/:id" element={<EditListing />} />
           <Route path="/dashboard/orders" element={<Orders />} />
           <Route path="/dashboard/billing" element={<Billing />} />
