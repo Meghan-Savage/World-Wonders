@@ -37,7 +37,6 @@ function App() {
         <Route path="/user" element={<UserDropdown />} />
         <Route path="/success" element={<OrderSuccess />} />
         <Route path="/terms" element={<Terms />} />
-
         <Route path="/seller/*" element={<HomeSeller />} />
       </Routes>
       <SideBar />

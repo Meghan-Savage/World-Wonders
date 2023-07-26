@@ -1,8 +1,13 @@
-import React, { useState } from "react";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import React, { useState, useEffect } from "react";
 
-const PhotosCard = ({ additionalImages, setAdditionalImages }) => {
+const UpdatePhotos = ({ additionalImages, setAdditionalImages }) => {
   const [additionalImagePreviews, setAdditionalImagePreviews] = useState([]);
+
+  useEffect(() => {
+    if (additionalImages.length > 0) {
+      setAdditionalImagePreviews(additionalImages.map((image) => image.url));
+    }
+  }, [additionalImages]);
 
   const handleAdditionalImagesUpload = (e) => {
     const files = Array.from(e.target.files);
@@ -39,6 +44,15 @@ const PhotosCard = ({ additionalImages, setAdditionalImages }) => {
     });
   };
 
+  const handleRemoveAdditionalImage = (index) => {
+    const updatedImages = additionalImages.filter((_, i) => i !== index);
+    const updatedPreviews = additionalImagePreviews.filter(
+      (_, i) => i !== index
+    );
+    setAdditionalImages(updatedImages);
+    setAdditionalImagePreviews(updatedPreviews);
+  };
+
   return (
     <div>
       <div className="max-w-full mx-4 py-6 sm:mx-auto sm:px-6 lg:px-8 bg-gray-100">
@@ -49,38 +63,22 @@ const PhotosCard = ({ additionalImages, setAdditionalImages }) => {
             <p className="text-gray-600">
               Add as many as you can so buyers can see every detail.
             </p>
-          </div>
-
-          <div>
-            <div className="mb-4 py-2">
-              <h3 className="text-md font-bold">Photos</h3>
-              <p className="text-gray-500 text-sm">
-                Use up to 4 photos to show your item's most important qualities.
-              </p>
-            </div>
-            <p className="text-gray-500 text-sm mt-1">
-              Tips:
-              <ul className="list-disc list-inside">
-                <li>Use natural light and no flash.</li>
-                <li>Include a common object for scale.</li>
-                <li>Show the item being held, worn, or used.</li>
-                <li>Shoot against a clean, simple background.</li>
-              </ul>
-            </p>
             <div className="mt-4 grid gap-4 grid-cols-2">
               {additionalImagePreviews.slice(0, 4).map((imageUrl, index) => (
-                <div
-                  key={index}
-                  className="w-full h-32 bg-gray-200 border-2 border-dashed border-gray-400 flex items-center justify-center"
-                >
+                <div key={index} className="relative">
                   <img
                     src={imageUrl}
                     alt={`Additional ${index + 1} Preview`}
-                    className="object-cover w-full h-full"
+                    className="object-cover w-full h-32"
                   />
+                  <button
+                    className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1"
+                    onClick={() => handleRemoveAdditionalImage(index)}
+                  >
+                    X
+                  </button>
                 </div>
               ))}
-
               <label htmlFor="additionalImagesInput" className="cursor-pointer">
                 <div className="w-full h-32 bg-gray-200 border-2 border-dashed border-gray-400 flex items-center justify-center">
                   <span className="text-gray-400">
@@ -103,4 +101,4 @@ const PhotosCard = ({ additionalImages, setAdditionalImages }) => {
   );
 };
 
-export default PhotosCard;
+export default UpdatePhotos;

@@ -3,17 +3,13 @@ import { FirebaseContext } from "../../../../firebase/provider";
 import { AuthContext } from "../../../../firebase/authentication";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { addDoc, collection } from "firebase/firestore";
-import countryList from "country-list";
 import PhotosCard from "./PhotosCard";
 import DetailsCard from "./DetailsCard";
 import PriceCard from "./PriceCard";
 
-const Store = () => {
+const PostListing = () => {
   const { storage, db } = useContext(FirebaseContext);
-  const [mainImage, setMainImage] = useState(null);
-  console.log("mainImage", mainImage);
   const [additionalImages, setAdditionalImages] = useState([]);
-  console.log("additionalImages", additionalImages);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [country, setCountry] = useState("");
@@ -41,7 +37,6 @@ const Store = () => {
 
   const handlePostProduct = async (
     db,
-    mainImage,
     additionalImages,
     productDetails,
     productPrice
@@ -49,11 +44,6 @@ const Store = () => {
     try {
       const sellerId = user.uid;
       const images = [];
-
-      if (mainImage) {
-        const mainImageUrls = await uploadImagesToStorage(storage, [mainImage]);
-        images.push(...mainImageUrls);
-      }
 
       if (additionalImages.length > 0) {
         const additionalImageFiles = additionalImages.map((image) => {
@@ -90,20 +80,17 @@ const Store = () => {
 
   const isFormValid = () => {
     return (
-      mainImage !== null &&
       title.trim() !== "" &&
       description.trim() !== "" &&
       country.trim() !== "" &&
-      price.trim() !== "" &&
-      quantity.trim() !== ""
+      price > 0 &&
+      quantity > 0
     );
   };
 
   return (
     <div className="max-w-full mx-4 py-6 sm:mx-auto sm:px-6 lg:px-8 bg-gray-100">
       <PhotosCard
-        mainImage={mainImage}
-        setMainImage={setMainImage}
         additionalImages={additionalImages}
         setAdditionalImages={setAdditionalImages}
       />
@@ -128,7 +115,6 @@ const Store = () => {
             if (isFormValid()) {
               handlePostProduct(
                 db,
-                mainImage,
                 additionalImages,
                 {
                   title,
@@ -152,4 +138,4 @@ const Store = () => {
   );
 };
 
-export default Store;
+export default PostListing;

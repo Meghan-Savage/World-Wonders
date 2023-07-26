@@ -109,13 +109,13 @@ const Transactions = () => {
           <nav className="flex space-x-2">
             <button
               onClick={handlePreviousClick}
-              className="px-4 py-2 bg-gray-900 text-orange-200 font-semibold rounded-lg hover:bg-gray-700 focus:outline-none"
+              className="px-2 py-2 bg-gray-900 text-orange-200 font-semibold rounded-lg hover:bg-gray-700 focus:outline-none"
             >
               Previous
             </button>
             <button
               onClick={handleNextClick}
-              className="px-4 py-2 bg-gray-900 text-orange-200 font-semibold rounded-lg hover:bg-gray-700 focus:outline-none"
+              className="px-2 py-2 bg-gray-900 text-orange-200 font-semibold rounded-lg hover:bg-gray-700 focus:outline-none"
             >
               Next
             </button>

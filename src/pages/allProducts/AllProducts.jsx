@@ -24,8 +24,7 @@ export const MissingProducts = () => {
       rounded-md
       hover:bg-orange-300
       bg-gray-800
-      text-white
-      w-24"
+      text-white"
         onClick={navigateHandler}
       >
         ADD PRODUCT
