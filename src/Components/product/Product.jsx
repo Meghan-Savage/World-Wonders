@@ -33,7 +33,7 @@ function Product({ product }) {
       <CardBody className="flex-grow">
         <div className="flex flex-col justify-between h-full">
           <div>
-            <Typography color="blue-gray" className="font-medium text-xs mt-4">
+            <Typography color="blue-gray" className="font-medium text-s mt-4">
               <span className="max-lines">{title}</span>
             </Typography>
             <Typography color="blue-gray" className="font-bold text-md mt-4">
@@ -45,7 +45,7 @@ function Product({ product }) {
               onClick={() => addToCart(product, product.id)}
               ripple={false}
               fullWidth={true}
-              className="bg-gray-900 text-orange-200 shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100 text-xs mt-4"
+              className="bg-gray-900 text-orange-300 shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100 text-xs mt-4"
             >
               Add to Cart
             </Button>

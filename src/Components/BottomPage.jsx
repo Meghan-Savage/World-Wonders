@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
 
-export default function BottomPage() {
+const BottomPage = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
@@ -11,7 +11,7 @@ export default function BottomPage() {
 
   return (
     <footer>
-        <div className="w-full bg-gray-900 text-gray-500 px-10 py-8 mx-auto">
+      <div className="w-full bg-gray-900 text-gray-500 mx-auto px-10 py-8">
         <div className="flex flex-col items-center sm:flex-row sm:items-center justify-between bg-gray-900 ">
           <div className="flex items-center bg-gray-900 ">
             <Link
@@ -30,18 +30,11 @@ export default function BottomPage() {
             >
               Terms of Use
             </Link>
-            <Link
-              to="/about-us"
-              className={`text-orange-200 hover:text-gray-400 ml-10 sm:ml-0 sm:mr-10 ${
-                isMobileMenuOpen ? "hidden sm:block" : "block"
-              }`}
-            >
-              Design by
-            </Link>
           </div>
           <div className="flex items-center ">
             <span className="mx-4 text-gray-600">
-          Copyright © 2023 World-Wonders Inc. All rights reserved. ® a registered trademark.
+              Copyright © 2023 World-Wonders Inc. All rights reserved. ® a
+              registered trademark.
             </span>
             <button
               onClick={toggleMobileMenu}
@@ -69,15 +62,11 @@ export default function BottomPage() {
             >
               Terms of Use
             </Link>
-            <Link
-              to="/designer"
-              className="block text-orange-200 hover:text-gray-400 ml-10"
-            >
-              Design by
-            </Link>
           </div>
         )}
       </div>
     </footer>
   );
-}
+};
+
+export default BottomPage;

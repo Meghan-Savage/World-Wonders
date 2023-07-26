@@ -3,11 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase/provider";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
-export default function RegistrationForm() {
+const RegistrationForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  
   const signUp = (e) => {
     e.preventDefault();
     createUserWithEmailAndPassword(auth, email, password)
@@ -21,7 +22,7 @@ export default function RegistrationForm() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-orange-100">
+    <div className="flex justify-center items-center h-screen bg-gradient-to-r from-orange-400 to-orange-100">
       <div className="w-96 p-6 shadow-lg bg-white rounded-md">
         <form onSubmit={signUp}>
           <div>
@@ -61,7 +62,7 @@ export default function RegistrationForm() {
             <div className="mt-3">
               <button
                 type="submit"
-                className="border-2 border-gray-800 bg-gray-800 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-gray-800 font-semibold"
+                className="bg-black hover:bg-orange-300 text-orange-300 hover:text-black py-2 px-4 rounded-md shadow-md transition duration-300 font-bold"
               >
                 Sign up
               </button>
@@ -83,7 +84,7 @@ export default function RegistrationForm() {
           <p className="font-semibold text-1xl">Already have an account?</p>
           <Link
             to="/signin"
-            className=" text-center text-1xl font-semibold ml-2 border-2 border-gray-800 hover:text-gray-800 rounded-md hover:bg-transparent bg-gray-800 text-white w-24"
+            className="bg-black hover:bg-orange-300 text-orange-300 hover:text-black py-2 px-4 rounded-md shadow-md transition duration-300 font-bold"
           >
             Sign In
           </Link>
@@ -91,4 +92,6 @@ export default function RegistrationForm() {
       </div>
     </div>
   );
-}
+};
+
+export default RegistrationForm;

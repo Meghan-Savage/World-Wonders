@@ -43,8 +43,7 @@ export const AuthProvider = (props) => {
     setUser(null); // Clear the user state when logged out
   };
 
-  const authContextValue = { user, login, logout };
-
+  const authContextValue = { user, login, logout, setUser };
   return (
     <AuthContext.Provider value={authContextValue}>
       {props.children}

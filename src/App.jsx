@@ -1,29 +1,37 @@
-import React from "react";
-import "./App.css";
+import React, { useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import Products from "./pages/allProducts/AllProducts.jsx";
-import ProductDetails from "./pages/productDetails/ProductDetails.jsx";
-import SideBar from "./Components/sideBar/SideBar.jsx";
-import ViewCart from "./pages/viewCart/ViewCart.jsx";
-import LoginForm from "./Components/LoginForm.jsx";
-import RegistrationForm from "./Components/RegistrationForm.jsx";
-import AdminShowProducts from "./components/AdminShowProducts";
-import CreateProductForm from "./components/CreateProductForm";
+
+import Products from "./pages/allProducts/AllProducts";
+import ProductDetails from "./pages/productDetails/ProductDetails";
+import SideBar from "./Components/sideBar/SideBar";
+import ViewCart from "./pages/viewCart/ViewCart";
+import RegistrationForm from "./Components/RegistrationForm";
+import AdminShowProducts from "./Components/AdminShowProducts";
+import CreateProductForm from "./Components/CreateProductForm";
 import HomePage from "./pages/HomePage";
-import BottomPage from "./components/BottomPage.jsx";
-import TopPage from "./Components/TopPage";
+import BottomPage from "./Components/BottomPage";
+import NavBar from "./Components/TopPage";
 import UserDropdown from "./Components/UserDropdown";
 import OrderSuccess from "./pages/orderSucess/OrderSucess";
 import Terms from "./Components/Terms";
+import AboutUs from "./Components/AboutUs";
 import HomeSeller from "./pages/homeSeller/HomeSeller";
+import ProfilePage from "./pages/profilePage/ProfilePage";
+import LoginForm from "./Components/LoginForm";
 
 function App() {
   const location = useLocation();
   const isSellerPage = location.pathname.startsWith("/seller");
+  const [showModal, setShowModal] = useState(false);
+
+  const handleModalToggler = () => {
+    console.log("clicked");
+    setShowModal((prev) => !prev);
+  };
 
   return (
     <div className="App">
-      {!isSellerPage && <TopPage />}
+      {!isSellerPage && <NavBar />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<Products />} />
@@ -37,7 +45,17 @@ function App() {
         <Route path="/user" element={<UserDropdown />} />
         <Route path="/success" element={<OrderSuccess />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="/about-us" element={<AboutUs />} />
         <Route path="/seller/*" element={<HomeSeller />} />
+        <Route
+          path="/profile"
+          element={
+            <ProfilePage
+              onToggleModal={handleModalToggler}
+              showModal={showModal}
+            />
+          }
+        />
       </Routes>
       <SideBar />
       <BottomPage />

@@ -11,9 +11,13 @@ export const MissingProducts = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-[28.09rem] mx-auto w-screen">
+    <div
+      className="flex flex-col items-center justify-center w-screen h-full min-h-screen "
+      style={{ marginTop: "-20vh" }}
+      S
+    >
       <h2 className="text-2xl mb-4 font-bold">No Products Found</h2>
-      <p className="mb-8 text-gray-600">Please add a product to sell</p>
+      <p className="mb-8 text-gray-700">Please add a product to sell</p>
       <button
         className="
       w-[20rem]
@@ -44,7 +48,7 @@ const Products = () => {
     : products;
 
   return (
-    <div className="bg-gradient-to-t from-orange-400 to-orange-100">
+    <div className="bg-gradient-to-r from-orange-400 to-orange-100">
       <section className="py-16 flex">
         <div className="mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[6rem] max-w-sm mx-auto md:max-w-none md:mx-0">

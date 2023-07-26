@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import icon from "../images/icon.png";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase/provider";
-import {signInWithEmailAndPassword,signInWithPopup,GoogleAuthProvider,} from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
 import { RiAlertFill } from "react-icons/ri";
+import { AuthContext } from "../firebase/authentication";
 
-export default function LoginForm() {
+const LoginForm = () => {
+  const { setUser } = useContext(AuthContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -16,7 +23,7 @@ export default function LoginForm() {
     e.preventDefault();
     navigate("/");
 
-    // Simulating login logic
+    
     if (email === "yourEmail" && password === "yourPassword") {
       setLoggedIn(true);
       setLoginError("");
@@ -27,14 +34,14 @@ export default function LoginForm() {
     }
   };
 
-  // Sign in with Firebase logic
+  
   const login = (e) => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        console.log(userCredential);
         setLoggedIn(true);
         setLoginError("");
+        setUser(userCredential.user);
         navigate("/products");
       })
       .catch((error) => {
@@ -44,7 +51,7 @@ export default function LoginForm() {
       });
   };
 
-  // Sign in with Google logic
+  
   const signInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
@@ -52,6 +59,7 @@ export default function LoginForm() {
         const user = result.user;
         setLoggedIn(true);
         setLoginError("");
+        setUser(user);
         navigate("/products");
       })
       .catch((error) => {
@@ -123,14 +131,17 @@ export default function LoginForm() {
             <div className="mt-3">
               <button
                 type="submit"
-                className="border-2 border-gray-800 bg-gray-800 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-gray-800 font-semibold"
+                className="bg-black hover:bg-orange-300 text-orange-300 hover:text-black py-2 px-4 rounded-md shadow-md transition duration-300 font-bold"
               >
                 Login
               </button>
             </div>
             <div className="mt-3 text-center">
               By continuing, you agree to world-wonders. Inc's{" "}
-              <Link to="/terms" className="text-blue-700 underline hover:text-orange-900">
+              <Link
+                to="/terms"
+                className="text-blue-700 underline hover:text-orange-900"
+              >
                 Terms 0f Use
               </Link>
               .
@@ -146,7 +157,7 @@ export default function LoginForm() {
         <div className="mt-3">
           <button
             type="submit"
-            className="border-2 border-gray-800 bg-gray-800 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-gray-800 font-semibold flex items-center justify-center px-0 gap-2"
+            className="border-2 bg-black text-orange-300 py-1 w-full rounded-md hover:bg-orange-300 hover:text-black font-semibold flex items-center justify-center px-0 gap-2"
             onClick={signInWithGoogle}
           >
             <img className="w-6 h-6 mt-0" src={icon} alt="images" />
@@ -158,7 +169,7 @@ export default function LoginForm() {
           <p className="font-semibold text-1xl">Don't have an account?</p>
           <Link
             to="/signup"
-            className=" text-center text-1xl font-semibold ml-2 border-2 border-gray-800 hover:text-gray-800 rounded-md hover:bg-transparent bg-gray-800 text-white w-24"
+            className="bg-black hover:bg-orange-300 text-orange-300 hover:text-black py-2 px-4 rounded-md shadow-md transition duration-300 font-bold"
           >
             Sign up
           </Link>
@@ -166,4 +177,6 @@ export default function LoginForm() {
       </div>
     </div>
   );
-}
+};
+
+export default LoginForm;
