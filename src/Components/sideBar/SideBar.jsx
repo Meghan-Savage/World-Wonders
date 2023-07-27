@@ -20,7 +20,6 @@ function SideBar() {
       <div className="uppercase text-sm font-semibold">
         Shopping Bag ({itemAmount})
       </div>
-      {/* Icon */}
       <div
         onClick={handleClose}
         className="cursor-pointer w-6 h-6 flex justify-center items-center"
@@ -34,11 +33,10 @@ function SideBar() {
       </div>
       <div className="flex flex-col gap-y-2 py-2 mt-2">
         <div className="flex w-full justify-between items-center">
-          {/* Total */}
           <div className="uppercase font-semibold text-xs">
             <span>Total:</span> $ {parseFloat(total).toFixed(2)}
           </div>
-          {/* Clear cart icon */}
+
           <div
             onClick={clearCart}
             className="cursor-pointer py-2 text-red w-8 h-8 flex justify-center items-center text-sm"

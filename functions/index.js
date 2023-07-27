@@ -135,6 +135,43 @@ app.get("/orders", async (req, res) => {
   }
 });
 
+app.get("/order/:orderId", async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+    const db = admin.firestore();
+    const docRef = db.collection("orders").doc(orderId);
+    const docSnapshot = await docRef.get();
+
+    if (!docSnapshot.exists) {
+      res.status(404).json({ message: "Order not found" });
+    } else {
+      const order = docSnapshot.data();
+      res.json(order);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.patch("/status/:orderId", async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+    const newStatus = req.body.sts;
+    const db = admin.firestore();
+    const orderRef = db.collection("orders").doc(orderId);
+
+    const orderSnapshot = await orderRef.get();
+    if (!orderSnapshot.exists) {
+      res.status(404).json({ message: "Order not found" });
+      return;
+    }
+    await orderRef.update({ sts: newStatus });
+    res.json({ message: "Order status updated successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.get("/pending", async (req, res) => {
   try {
     const sellerId = req.query.sellerId;
@@ -142,7 +179,7 @@ app.get("/pending", async (req, res) => {
     const snapshot = await db
       .collection("orders")
       .where("sellerId", "==", sellerId)
-      .where("sts", "==", "pending") // Add the condition to match "pending" in the "sts" field
+      .where("sts", "==", "pending")
       .get();
 
     if (snapshot.empty) {
@@ -162,8 +199,8 @@ app.get("/pending", async (req, res) => {
 const createOrder = async (customer, intent, res) => {
   try {
     const orderId = Date.now();
-    const items = JSON.parse(customer.metadata.items); // Parse the items string
-    const sellerId = items[0].sellerId; // Assuming there's only one item in the array, you can access the sellerId like this
+    const items = JSON.parse(customer.metadata.items);
+    const sellerId = items[0].sellerId;
 
     const data = {
       intentId: intent.id,
@@ -178,7 +215,7 @@ const createOrder = async (customer, intent, res) => {
       total: customer.metadata.total,
       user: customer.metadata.user,
       sts: "pending",
-      sellerId: sellerId, // Add the sellerId field
+      sellerId: sellerId,
     };
 
     const db = admin.firestore();

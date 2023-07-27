@@ -1,75 +1,49 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { OrderContext } from "../../../../context/OrderContext/OrderContext";
+import Modal from "react-modal";
+import axios from "axios";
 
 function Orders() {
-  // Define some dummy data for the orders
-  const orders = [
-    {
-      id: "123456",
-      date: "2021-10-30",
-      status: "Pending",
-      total: "$120.00",
-      items: [
-        { title: "Handmade Necklace", price: "$40.00", quantity: 1 },
-        { title: "Wooden Clock", price: "$80.00", quantity: 1 },
-      ],
-      customer: {
-        name: "Alice Smith",
-        address: {
-          line1: "123 Main Street",
-          city: "New York",
-          state: "NY",
-          zip: "10001",
-          country: "USA",
-        },
-      },
-    },
-    {
-      id: "654321",
-      date: "2021-10-29",
-      status: "Shipped",
-      total: "$50.00",
-      items: [{ title: "Leather Wallet", price: "$50.00", quantity: 1 }],
-      customer: {
-        name: "Bob Jones",
-        address: {
-          line1: "456 Elm Avenue",
-          city: "Los Angeles",
-          state: "CA",
-          zip: "90001",
-          country: "USA",
-        },
-      },
-    },
-  ];
+  const { orderInfo } = useContext(OrderContext);
+  const [open, setOpen] = useState(false);
+  const [singleOrder, setSingleOrder] = useState(null);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleShipOrder = (orderId) => {
+    const selectedOrder = orderInfo.find((order) => order.orderId === orderId);
+    setSingleOrder(selectedOrder);
+    handleOpen();
+  };
+
+  const onCancel = () => {
+    handleClose();
+  };
+
+  const onConfirm = async (orderId) => {
+    try {
+      await axios.patch(
+        `https://us-central1-world-wonders-inceptionu.cloudfunctions.net/api/status/${orderId}`,
+        { sts: "shipped" }
+      );
+    } catch (error) {
+      console.log("Error updating order status:", error);
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-800">Orders</h1>
+      <h1 className="text-2xl font-bold text-gray-800">Pending Orders</h1>
       <div className="mt-4">
-        {orders.map((order) => (
+        {orderInfo.map((order) => (
           <div key={order.id} className="bg-white shadow rounded-lg p-4 mb-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">
-                  Order #{order.id}
+                  Order #{order.orderId}
                 </p>
                 <p className="text-sm text-gray-500">{order.date}</p>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-gray-600">Status</p>
-                <p
-                  className={`text-sm ${
-                    order.status === "Pending"
-                      ? "text-yellow-500"
-                      : "text-green-500"
-                  }`}
-                >
-                  {order.status}
-                </p>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total</p>
-                <p className="text-sm text-gray-800">{order.total}</p>
               </div>
             </div>
             <div className="mt-4 border-t border-gray-200 pt-4">
@@ -78,7 +52,7 @@ function Orders() {
               </h2>
               {order.items.map((item) => (
                 <div
-                  key={item.title}
+                  key={item.id}
                   className="flex items-center justify-between mt-2"
                 >
                   <div className="flex items-center">
@@ -87,14 +61,10 @@ function Orders() {
                       <p className="text-sm font-medium text-gray-800">
                         {item.title}
                       </p>
-                      <p className="text-sm text-gray-500">{item.price}</p>
+                      <p className="text-sm text-gray-500">
+                        {item.price} | Qt: {item.amount}
+                      </p>
                     </div>
-                  </div>
-                  <div className="flex flex-col items-end">
-                    <p className="text-sm font-medium text-gray-800">
-                      Quantity
-                    </p>
-                    <p className="text-sm text-gray-500">{item.quantity}</p>
                   </div>
                 </div>
               ))}
@@ -117,14 +87,94 @@ function Orders() {
                 {order.customer.address.country}
               </p>
             </div>
-            {/* Add a button to ship the order if it is pending */}
-            {order.status === "Pending" && (
-              <div className="mt-4 flex justify-end">
-                <button className="px-4 py-2 bg-gray-800 text-white font-semibold rounded-lg hover:bg-gray-700 focus:outline-none">
-                  Ship Order
-                </button>
-              </div>
-            )}
+            <div className="mt-4 flex justify-end">
+              <button
+                onClick={() => handleShipOrder(order.orderId)}
+                className="px-4 py-2 bg-gray-900 text-orange-200 font-semibold rounded-lg hover:bg-gray-700 focus:outline-none"
+              >
+                Ship Order
+              </button>
+            </div>
+            <Modal
+              isOpen={open}
+              onRequestClose={handleClose}
+              contentLabel="Confirm Shipping"
+              style={{
+                overlay: {
+                  backgroundColor: "rgba(0, 0, 0, 0.75)",
+                },
+                content: {
+                  maxWidth: "600px",
+                  maxHeight: "500px",
+                  margin: "auto",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+
+                  borderRadius: "8px",
+                  padding: "20px",
+                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                  background: "#fff",
+                },
+              }}
+            >
+              {singleOrder ? (
+                <>
+                  <h1 className="text-2xl font-bold text-gray-800">
+                    Confirm Shipping
+                  </h1>
+                  <p className="text-gray-600 mt-4">
+                    You are about to ship the following item/order:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-700 mt-2">
+                    <li>
+                      Item name: <strong>{singleOrder.items[0].title}</strong>
+                    </li>
+                    <li>
+                      Order ID: <strong>{singleOrder.orderId}</strong>
+                    </li>
+                    <li>
+                      Buyer name: <strong>{singleOrder.customer.name}</strong>
+                    </li>
+                    <li>
+                      Shipping address:{" "}
+                      <strong>
+                        {singleOrder.customer.address.line1},{" "}
+                        {singleOrder.customer.address.city},{" "}
+                        {singleOrder.customer.address.state}{" "}
+                        {singleOrder.customer.address.zip}
+                      </strong>
+                    </li>
+                    <li>
+                      Shipping method: <strong>Standard Delivery</strong>
+                    </li>
+                  </ul>
+                  <p className="text-gray-600 mt-4">
+                    Please confirm that the information is correct and click the
+                    "Ship" button to proceed.
+                  </p>
+                  <div className="buttons flex justify-end space-x-4 mt-6">
+                    <button
+                      onClick={onCancel}
+                      className="px-4 py-2 bg-gray-900 text-orange-200 font-semibold rounded-lg hover:bg-gray-700 focus:outline-none"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={() => {
+                        onConfirm(singleOrder.orderId);
+                        handleClose();
+                      }}
+                      className="px-4 py-2 bg-gray-900 text-orange-200 font-semibold rounded-lg hover:bg-gray-700 focus:outline-none"
+                    >
+                      Ship
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <p>Loading...</p>
+              )}
+            </Modal>
           </div>
         ))}
       </div>

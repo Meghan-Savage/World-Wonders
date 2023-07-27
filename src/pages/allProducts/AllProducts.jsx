@@ -20,7 +20,15 @@ export const MissingProducts = () => {
       <p className="mb-8 text-gray-700">Please add a product to sell</p>
       <button
         className="
-        bg-black hover:bg-orange-500 text-orange-500 hover:text-black py-2 px-4 rounded-md shadow-md transition duration-300 font-bold"
+      w-[20rem]
+      font-semibold
+      border-2
+      border-gray-800
+      hover:text-gray-800
+      rounded-md
+      hover:bg-orange-300
+      bg-gray-800
+      text-white"
         onClick={navigateHandler}
       >
         ADD PRODUCT
