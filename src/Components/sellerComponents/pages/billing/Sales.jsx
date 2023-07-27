@@ -53,7 +53,7 @@ function Sales() {
           <div className="bg-white p-5">
             <div className="sm:flex sm:items-start">
               <div className="text-center sm:mt-0 sm:ml-2 sm:text-left">
-                <h3 className="text-sm leading-6 font-medium text-gray-400">
+                <h3 className="text-sm leading-6 font-medium text-gray-700">
                   Total Revenue
                 </h3>
                 <p className="text-3xl font-bold text-black">
@@ -68,7 +68,7 @@ function Sales() {
           <div className="bg-white p-5">
             <div className="sm:flex sm:items-start">
               <div className="text-center sm:mt-0 sm:ml-2 sm:text-left">
-                <h3 className="text-sm leading-6 font-medium text-gray-400">
+                <h3 className="text-sm leading-6 font-medium text-gray-700">
                   Total Order Items
                 </h3>
                 <p className="text-3xl font-bold text-black">
@@ -82,7 +82,7 @@ function Sales() {
           <div className="bg-white p-5">
             <div className="sm:flex sm:items-start">
               <div className="text-center sm:mt-0 sm:ml-2 sm:text-left">
-                <h3 className="text-sm leading-6 font-medium text-gray-400">
+                <h3 className="text-sm leading-6 font-medium text-gray-700">
                   Avg. Order Value
                 </h3>
                 <p className="text-3xl font-bold text-black">

@@ -18,6 +18,7 @@ const LandingPage = () => {
     country: "",
     population: "",
   });
+
   const [tooltipPositionX, setTooltipPositionX] = useState(0);
   const [tooltipPositionY, setTooltipPositionY] = useState(0);
 
@@ -369,39 +370,36 @@ const LandingPage = () => {
 
   return (
     <div className="flex flex-row h-screen bg-gradient-to-r from-orange-400 to-orange-100">
-      <div className="flex mb-32">
-        <div className="flex flex-col justify-center px-8 pt-16 xl:pt-0 w-1/2 p-4">
-          <div className="flex flex-col  items-center">
+      <div className="flex mb-32 w-full">
+        <div className="flex flex-col justify-center px-8 pt-16 xl:pt-0 w-full md:w-1/2 p-4">
+          <div className="flex flex-col items-center">
             <h1 className="text-black text-bold text-6xl mb-8 font-Crimson leading-none uppercase items-center mt-70">
               <img src="/profile/worldbackground.png" alt="World Wonders" />
             </h1>
-            <p className="text-center text-black mb-8 font-Lato-400 w-1/2">
+            <p className="text-center text-black mb-8 font-Lato-400 w-full md:w-3/4 lg:w-2/3 xl:w-1/2">
               World Wonders presents a delightful fusion of exquisite products
               and immersive cultural experiences, inviting you to embark on a
               captivating voyage into the very essence of each civilization.
             </p>
-            <div>
+            <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
               <Link to="/products">
-                <div class="flex space-x-8">
-                  <div>
-                    <button className="bg-black hover:bg-orange-500 text-orange-500 hover:text-black py-2 px-4 rounded-md shadow-md transition duration-300 font-bold">
-                      Explore
-                    </button>
-                  </div>
-                  <div>
-                    <Link to="/signin">
-                      <button className="bg-black hover:bg-orange-500 text-orange-500 hover:text-black py-2 px-4 rounded-md shadow-md transition duration-300 font-bold">
-                        Sign Up
-                      </button>
-                    </Link>
-                  </div>
-                </div>
+                <button className="bg-black hover:bg-orange-500 text-orange-500 hover:text-black py-2 px-4 rounded-md shadow-md transition duration-300 font-bold w-full md:w-auto">
+                  Explore
+                </button>
+              </Link>
+              <Link to="/signin">
+                <button className="bg-black hover:bg-orange-500 text-orange-500 hover:text-black py-2 px-4 rounded-md shadow-md transition duration-300 font-bold w-full md:w-auto">
+                  Sign Up
+                </button>
               </Link>
             </div>
           </div>
         </div>
         <div className="h-full w-1/2">
-          <canvas className="h-full w-full" ref={canvasContainerRef}></canvas>
+          <canvas
+            className="h-full w-full hidden md:block"
+            ref={canvasContainerRef}
+          ></canvas>
           {tooltipVisible && (
             <Link to={`/products/${tooltipContent.country}`}>
               <div

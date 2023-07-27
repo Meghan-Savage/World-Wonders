@@ -40,14 +40,14 @@ function Orders() {
           <div key={order.id} className="bg-white shadow rounded-lg p-4 mb-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">
+                <p className="text-sm font-medium text-gray-700">
                   Order #{order.orderId}
                 </p>
-                <p className="text-sm text-gray-500">{order.date}</p>
+                <p className="text-sm text-gray-600">{order.date}</p>
               </div>
             </div>
             <div className="mt-4 border-t border-gray-200 pt-4">
-              <h2 className="text-sm font-semibold text-gray-600">
+              <h2 className="text-sm font-semibold text-gray-700">
                 Ordered Items
               </h2>
               {order.items.map((item) => (
@@ -61,7 +61,7 @@ function Orders() {
                       <p className="text-sm font-medium text-gray-800">
                         {item.title}
                       </p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-600">
                         {item.price} | Qt: {item.amount}
                       </p>
                     </div>
@@ -70,27 +70,27 @@ function Orders() {
               ))}
             </div>
             <div className="mt-4 border-t border-gray-200 pt-4">
-              <h2 className="text-sm font-semibold text-gray-600">
+              <h2 className="text-sm font-semibold text-gray-700">
                 Shipping Address
               </h2>
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-sm text-gray-600 mt-2">
                 {order.customer.name}
               </p>
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-sm text-gray-600 mt-2">
                 {order.customer.address.line1}
               </p>
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-sm text-gray-600 mt-2">
                 {order.customer.address.city}, {order.customer.address.state}{" "}
                 {order.customer.address.zip}
               </p>
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-sm text-gray-600 mt-2">
                 {order.customer.address.country}
               </p>
             </div>
             <div className="mt-4 flex justify-end">
               <button
                 onClick={() => handleShipOrder(order.orderId)}
-                className="px-4 py-2 bg-gray-900 text-orange-200 font-semibold rounded-lg hover:bg-gray-700 focus:outline-none"
+                className="px-2 py-3 bg-black hover:bg-orange-500 text-orange-500 hover:text-black rounded-md shadow-md transition duration-300 font-bold"
               >
                 Ship Order
               </button>

@@ -29,7 +29,7 @@ const Banner = () => {
   return (
     <div className="h-20 w-screen overflow-hidden">
       <Marquee velocity={20} direction="rtl" className="w-full h-full">
-        {pictures.map((picture, index) => (
+        {pictures.map((picture, index,) => (
           <div key={index} className="h-full flex items-center">
             <img
               src={picture}
