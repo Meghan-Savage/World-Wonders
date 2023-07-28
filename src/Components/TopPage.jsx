@@ -91,6 +91,11 @@ const Navbar = () => {
     };
   }, []);
 
+  // Function to close the mobile menu when a link is clicked
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+  };
+
   return (
     <nav className="bg-gray-900 py-4">
       <div className="container mx-auto px-4 sm:px-8 relative">
@@ -99,12 +104,14 @@ const Navbar = () => {
             <Link
               to="/"
               className="text-orange-200 hover:text-gray-400 block sm:inline-block mr-16"
+              onClick={closeMobileMenu}
             >
               Home
             </Link>
             <Link
               to="/products"
               className="text-orange-200 hover:text-gray-400 block sm:inline-block mr-4"
+              onClick={closeMobileMenu}
             >
               Products
             </Link>
@@ -133,6 +140,7 @@ const Navbar = () => {
             <Link
               className="text-orange-200 hover:text-gray-400 mr-8"
               to="/cart"
+              onClick={closeMobileMenu}
             >
               <ShoppingCart />
             </Link>
@@ -161,7 +169,10 @@ const Navbar = () => {
             )}
             {isLoggedIn ? (
               <button
-                onClick={handleLogout}
+                onClick={() => {
+                  handleLogout();
+                  closeMobileMenu();
+                }}
                 className="text-orange-200 hover:text-gray-400 ml-4"
               >
                 Logout
@@ -170,6 +181,7 @@ const Navbar = () => {
               <Link
                 to="/signin"
                 className="text-orange-200 hover:text-gray-400 ml-4"
+                onClick={closeMobileMenu}
               >
                 Login
               </Link>
@@ -200,12 +212,14 @@ const Navbar = () => {
             <Link
               to="/profile"
               className="text-orange-200 hover:text-gray-400 block px-4 py-2"
+              onClick={closeMobileMenu}
             >
               Your Orders
             </Link>
             <Link
               to="/seller"
               className="text-orange-200 hover:text-gray-400 block px-4 py-2"
+              onClick={closeMobileMenu}
             >
               Your Store
             </Link>
@@ -216,17 +230,22 @@ const Navbar = () => {
             <Link
               to="/"
               className="block px-4 py-2 text-orange-200 hover:text-gray-400"
+              onClick={closeMobileMenu}
             >
               Home
             </Link>
             <Link
               to="/products"
               className="block px-4 py-2 text-orange-200 hover:text-gray-400"
+              onClick={closeMobileMenu}
             >
               Products
             </Link>
             <select
-              onChange={(e) => handleSelectCountry(e.target.value)}
+              onChange={(e) => {
+                handleSelectCountry(e.target.value);
+                closeMobileMenu();
+              }}
               className="text-orange-200 bg-gray-900 border border-gray-400 rounded py-1 px-4 mt-2 ml-4 mr-2"
             >
               <option value="">Select Country</option>
@@ -238,7 +257,7 @@ const Navbar = () => {
             </select>
             {selectedCountry && (
               <ReactCountryFlag
-                countryCode={selectedCountry}
+                countryCode={selectedCountry.code}
                 svg
                 className="ml-2 w-8 h-8"
               />
@@ -246,12 +265,16 @@ const Navbar = () => {
             <Link
               className="block px-4 py-2 text-orange-200 hover:text-gray-400 mt-2"
               to="/cart"
+              onClick={closeMobileMenu}
             >
               <ShoppingCart />
             </Link>
             {isLoggedIn ? (
               <button
-                onClick={handleLogout}
+                onClick={() => {
+                  handleLogout();
+                  closeMobileMenu();
+                }}
                 className="block px-4 py-2 text-orange-200 hover:text-gray-400 mt-2"
               >
                 Logout
@@ -260,6 +283,7 @@ const Navbar = () => {
               <Link
                 to="/signin"
                 className="block px-4 py-2 text-orange-200 hover:text-gray-400 mt-2"
+                onClick={closeMobileMenu}
               >
                 Login
               </Link>

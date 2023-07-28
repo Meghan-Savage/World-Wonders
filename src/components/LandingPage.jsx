@@ -395,7 +395,7 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
-        <div className="h-full w-1/2">
+        <div className="h-full w-1/2 hidden md:block">
           <canvas
             className="h-full w-full hidden md:block"
             ref={canvasContainerRef}

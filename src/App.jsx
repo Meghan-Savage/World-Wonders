@@ -33,7 +33,8 @@ function App() {
     <div className="App">
       {!isSellerPage && <NavBar />}
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        {/* Add the "md:hidden" class to hide the home page on mobile */}
+        <Route path="/" element={<HomePage className="md:hidden" />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:country" element={<Products />} />
         <Route path="/product/:id" element={<ProductDetails />} />
